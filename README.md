@@ -1,4 +1,4 @@
-# vue-node-mysql
+# Vue全家桶+elementUI+node+mysql完成一个订单管理系统（前端部分）
 
 > A Vue.js project
 
@@ -27,4 +27,17 @@ npm run e2e
 npm test
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+## 时间轴
+> 2017/12/5
+ - 立项
+
+---------
+
+> 2017/12/6
+ - 项目生成（包括引入elementUI、vuex、sass）
+ - 注册页、登录状态代码
+ - 本来想这个Repository直接包含前后端的，现在后端新起了一个Repository
+
+
+-------
+
