@@ -1,6 +1,30 @@
-# vue全家桶+node+mysql的一个订单管理系统
- > 为姐姐的创业做一个管理系统，同时作为练手项目提升自己的能力。
+# vue-node-mysql
 
-## 时间轴
- - 2017/12/5
- > 立项
+> A Vue.js project
+
+## Build Setup
+
+``` bash
+# install dependencies
+npm install
+
+# serve with hot reload at localhost:8080
+npm run dev
+
+# build for production with minification
+npm run build
+
+# build for production and view the bundle analyzer report
+npm run build --report
+
+# run unit tests
+npm run unit
+
+# run e2e tests
+npm run e2e
+
+# run all tests
+npm test
+```
+
+For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
