@@ -13,7 +13,7 @@ export default new Router({
       component: HelloWorld
     },
     {
-      path: '/',
+      path: '/hello',
       name: 'Hello',
       component(resolve) {
         require.ensure(['@/components/Hello.vue'], () => {
@@ -23,6 +23,15 @@ export default new Router({
       //设置meta字段，表示该字段需要验证
       meta: {
         requireAuth: true
+      }
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component(resolve) {
+        require.ensure(['@/components/login/login.vue'], () => {
+          resolve(require('@/components/login/login.vue'))
+        })
       }
     },
     {
