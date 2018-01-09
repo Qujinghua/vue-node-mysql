@@ -13,7 +13,7 @@ export default new Router({
       component: HelloWorld
     },
     {
-      path: '/',
+      path: '/hello',
       name: 'Hello',
       component(resolve) {
         require.ensure(['@/components/Hello.vue'], () => {
@@ -31,6 +31,15 @@ export default new Router({
       component(resolve) {
         require.ensure(['@/components/login/register.vue'], () => {
           resolve(require('@/components/login/register.vue'))
+        })
+      }
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component(resolve) {
+        require.ensure(['@/components/login/login.vue'], () => {
+          resolve(require('@/components/login/login.vue'))
         })
       }
     }
