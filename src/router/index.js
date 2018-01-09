@@ -26,6 +26,15 @@ export default new Router({
       }
     },
     {
+      path: '/login',
+      name: 'login',
+      component(resolve) {
+        require.ensure(['@/components/login/login.vue'], () => {
+          resolve(require('@/components/login/login.vue'))
+        })
+      }
+    },
+    {
       path: '/register',
       name: 'register',
       component(resolve) {
