@@ -51,6 +51,15 @@ export default new Router({
           resolve(require('@/components/login/login.vue'))
         })
       }
+    },
+    {
+      path: '/home-page',
+      name: 'home',
+      component(resolve) {
+        require.ensure(['@/components/homepage/index.vue'], () => {
+          resolve(require('@/components/homepage/index.vue'))
+        })
+      }
     }
 
   ]

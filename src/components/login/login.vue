@@ -7,6 +7,10 @@
       <el-form-item label="密码" prop="pwd" :rules="rules.pwd">
         <el-input type="password" v-model="form.pwd" placeholder="密码"></el-input>
       </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="submitForm('form')">登录</el-button>
+        <el-button @click="resetForm('form')">重置</el-button>
+      </el-form-item>
     </el-form>
   </div>
 
