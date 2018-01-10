@@ -42,6 +42,7 @@ export default {
           api.userLogin(this.form)
           .then(data => {
             console.log(data)
+
           })
         } else {
           console.log('error submit!!');
