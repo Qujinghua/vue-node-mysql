@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import * as types from '../../store/types'
+import api from '../../axios'
 export default {
   data () {
     return {
@@ -28,6 +30,33 @@ export default {
         username: '',
         pwd: ''
       }
+    }
+  },
+  created() {
+    this.test()
+  },
+  methods: {
+    submitForm (form) {
+      this.$refs[form].validate((valid) => {
+        if (valid) {
+          api.userLogin(this.form)
+          .then(data => {
+            console.log(data)
+          })
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    },
+    resetForm (form) {
+      this.$refs[form].resetFields();
+    },
+    test () {
+      api.getUser()
+      .then (data => {
+        console.log(data)
+      })
     }
   }
 }
