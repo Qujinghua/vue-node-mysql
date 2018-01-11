@@ -33,7 +33,7 @@ export default {
     }
   },
   created() {
-    this.test()
+    // this.test()
   },
   methods: {
     submitForm (form) {
@@ -42,13 +42,19 @@ export default {
           api.userLogin(this.form)
           .then(data => {
             console.log(data)
-            if (data && data.status == 200) {
+            if (data && data.status == 200 && data.data.status == 200) {
               this.$message({
                 message: '恭喜你，登录成功！',
                 type: 'success'
               });
               this.$router.push('./home-page')
+            } else {
+              this.$message({
+                message: data.data.message,
+                type: 'error'
+              });
             }
+
           })
         } else {
           console.log('error submit!!');
