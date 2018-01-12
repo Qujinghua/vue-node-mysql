@@ -38,11 +38,11 @@ export default {
   },
   //用户登录
   userLogin(data) {
-    return instance.post('/api/userLogin', data)
+    return instance.post('/userLogin', data)
   },
   //获取用户
   getUser() {
-    return instance.get('/api/getUser')
+    return instance.get('/getUser')
   },
   //删除用户
   delUser(data) {

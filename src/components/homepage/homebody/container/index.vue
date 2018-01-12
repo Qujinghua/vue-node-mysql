@@ -1,14 +1,20 @@
 <template>
-  <div>这是侧边栏</div>
+  <div class="container">
+    内容
+  </div>
 </template>
 <script>
 export default {
   data () {
     return {
-      
+
     }
   }
 }
 </script>
+<style lang="sass" scoped>
+
+</style>
+
 
 

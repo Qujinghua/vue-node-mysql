@@ -1,13 +1,12 @@
 <template>
   <div>
     <home-header></home-header>
-    <sidebar></sidebar>
-    这是首页
-  </div>  
+    <home-body></home-body>
+  </div>
 </template>
 <script>
 import homeHeader from "./homeheader/index.vue"
-import sidebar from "./sidebar/index.vue"
+import homeBody from "./homebody/index.vue"
 export default {
   name: 'home',
   data () {
@@ -17,7 +16,7 @@ export default {
   },
   components: {
     homeHeader,
-    sidebar
+    homeBody
   },
   methods: {
 

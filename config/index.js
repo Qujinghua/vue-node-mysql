@@ -11,10 +11,10 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api': {
+      '/': {
         target: 'http://localhost/laravel-manage/public',
         pathRewrite: {
-          '^/api': '/api'
+          '^/': '/'
         }
       }
     },
