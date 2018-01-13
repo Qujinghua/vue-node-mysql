@@ -59,6 +59,9 @@ export default new Router({
         require.ensure(['@/components/homepage/index.vue'], () => {
           resolve(require('@/components/homepage/index.vue'))
         })
+      },
+      meta: {
+        requireAuth: true
       }
     }
 

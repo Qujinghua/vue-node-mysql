@@ -12,6 +12,9 @@ axios.defaults.headers.post['Content-Type'] = 'application/json'
 var instance = axios.create();
 instance.defaults.headers.post['Content-Type'] = 'application/json'
 
+function getSession() {
+  return instance.get('/api/isUser')
+}
 //添加一个请求拦截器
 axios.interceptors.request.use = instance.interceptors.request.use
 instance.interceptors.request.use(config => {
