@@ -1,18 +1,22 @@
 <template>
-  <div>欢迎{{ username }}</div>
+  <div>员工管理</div>
 </template>
 <script>
 export default {
   data () {
     return {
-      
+
     }
   },
   computed: {
-    username () {
-      return this.$store.state.username
-    }
+  },
+  methods: {
+    
   }
 }
 </script>
+<style lang="scss" scoped>
+
+</style>
+
 

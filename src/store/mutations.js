@@ -12,7 +12,12 @@ const mutations = {
   },
   [types.USERNAME]: (state, data) => {
     localStorage.setItem('username', data)
-    state,username = data
+    state.username = data
+  },
+
+
+  [types.nowMenu]: (state, data) => {
+    state.nowMenu = data.nowMenu
   }
 }
 export default mutations

@@ -2,13 +2,15 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import mutations from './mutations'
 import actions from './action'
+// import sidebarchange from './sidebarchange/change'
 
 Vue.use(Vuex);
 
 const state = {
   token: null,
   activeName: 'first',
-  username: ''
+  username: '',
+  nowMenu: '1-1'
 }
 
 export default new Vuex.Store({
@@ -16,3 +18,9 @@ export default new Vuex.Store({
   mutations,
   actions
 })
+
+// export default new Vuex.Store({
+//   modules:{
+//     sidebarchange
+//   }
+//  });

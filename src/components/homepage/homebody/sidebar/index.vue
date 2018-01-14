@@ -1,9 +1,62 @@
 <template>
-  <div class="sidebar">
-    <ul>
-      <li>员工管理</li>
-    </ul>
-  </div>
+<div class="sidebar">
+  <el-col :span="8">
+    <el-menu
+      default-active="2"
+      class="el-menu-vertical-demo"
+      @open="handleOpen"
+      @close="handleClose"
+      @select="selectMenu"
+      background-color="#545c64"
+      text-color="#fff"
+      active-text-color="#ffd04b">
+      <el-submenu index="1">
+        <template slot="title">
+          <i class="el-icon-edit"></i>
+          <span>工作计划管理</span>
+        </template>
+        <el-menu-item index="1-1">新添工作计划</el-menu-item>
+        <el-menu-item index="1-2">未完成工作计划</el-menu-item>
+        <el-menu-item index="1-3">需要我协同计划</el-menu-item>
+        <el-menu-item index="1-4">已完成工作计划</el-menu-item>
+      </el-submenu>
+      <el-submenu index="2">
+        <template slot="title">
+          <i class="el-icon-location"></i>
+          <span>客户管理</span>
+        </template>
+        <el-menu-item index="2-1">新增客户信息</el-menu-item>
+        <el-menu-item index="2-2">我的客户列表</el-menu-item>
+      </el-submenu>
+      <el-submenu index="3">
+        <template slot="title">
+          <i class="el-icon-tickets"></i>
+          <span>销售订单管理</span>
+        </template>
+        <el-menu-item index="3-1">进行中报价单</el-menu-item>
+        <el-menu-item index="3-2">已签销售订单</el-menu-item>
+        <el-menu-item index="3-3">已归档销售订单</el-menu-item>
+      </el-submenu>
+      <el-submenu index="4">
+        <template slot="title">
+          <i class="el-icon-view"></i>
+          <span>财务管理/报表</span>
+        </template>
+        <el-menu-item index="4-1">业绩报表</el-menu-item>
+        <el-menu-item index="4-2">客户来源分析</el-menu-item>
+      </el-submenu>
+      <el-submenu index="5">
+        <template slot="title">
+          <i class="el-icon-setting"></i>
+          <span>系统管理</span>
+        </template>
+        <el-menu-item index="5-1">员工管理</el-menu-item>
+        <el-menu-item index="5-2">部门管理</el-menu-item>
+        <el-menu-item index="5-3">选项3</el-menu-item>
+      </el-submenu>
+    </el-menu>
+  </el-col>
+</div>
 </template>
 <script>
 export default {
@@ -11,12 +64,33 @@ export default {
     return {
 
     }
+  },
+  methods: {
+    handleOpen(key, keyPath) {
+      console.log(key, keyPath);
+    },
+    handleClose(key, keyPath) {
+      console.log(key, keyPath);
+    },
+    selectMenu(key, keyPath) {
+      // console.log(keyPath);
+      this.$store.dispatch({type:'nowMenu', nowMenu: keyPath[1]})
+    }
   }
 }
 </script>
 <style lang="scss" scoped>
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+  width: 200px;
+  text-align: left;
+  // min-height: 400px;
+}
 .sidebar {
-  width: 100px;
+  float: left;
+  height: -moz-calc(100% - 30px);
+  height: -webkit-calc(100% - 30px);
+  height: calc(100%-30px);
+  overflow: auto;
 }
 </style>
 

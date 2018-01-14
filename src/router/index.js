@@ -5,7 +5,7 @@ import store from '../store/index.js'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -67,3 +67,22 @@ export default new Router({
 
   ]
 })
+
+// 验证 token，存在才跳转
+router.beforeEach((to, from, next) => {
+	let username = localStorage.getItem('username')
+	if(to.meta.requireAuth) {
+		if(username) {
+			next()
+		} else {
+			next({
+				path: '/login',
+				query: { redirect: to.fullPath }
+			})
+		}
+	} else {
+		next()
+	}
+})
+
+export default router

@@ -11,6 +11,10 @@ export default {
     commit(types.LOGOUT)
   },
   UserName({commit}, data) {
-    commit(types.USERNAME, data)
+    commit(types.USERNAME, data.username)
+  },
+  nowMenu({commit}, data) {
+    commit(types.nowMenu, data)
   }
+  
 }
