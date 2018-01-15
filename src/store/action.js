@@ -15,6 +15,12 @@ export default {
   },
   nowMenu({commit}, data) {
     commit(types.nowMenu, data)
+  },
+  breadCrumbOne({commit}, data) {
+    commit(types.breadCrumbOne, data)
+  },
+  breadCrumbTwo({commit}, data) {
+    commit(types.breadCrumbTwo, data)
   }
   
 }

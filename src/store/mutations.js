@@ -15,9 +15,14 @@ const mutations = {
     state.username = data
   },
 
-
   [types.nowMenu]: (state, data) => {
     state.nowMenu = data.nowMenu
+  },
+  [types.breadCrumbOne]: (state, data) => {
+    state.breadCrumbOne = data.breadCrumbOne
+  },
+  [types.breadCrumbTwo]: (state, data) => {
+    state.breadCrumbTwo = data.breadCrumbTwo
   }
 }
 export default mutations

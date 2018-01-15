@@ -1,8 +1,12 @@
 <template>
   <div class="container">
+    <div class="container-crumb">
+      <span>{{ breadCrumbOne }}</span>
+      <i class="el-icon-arrow-right"></i>
+      <span>{{ breadCrumbTwo }}</span>
+    </div>
     <user-manage v-if="nowMenu=='5-1'"></user-manage>
     <department-manage v-else-if="nowMenu=='5-2'"></department-manage>
-    <div>{{nowMenu}}</div>
   </div>
 </template>
 <script>
@@ -17,7 +21,13 @@ export default {
   computed: {
     nowMenu () {
       return this.$store.state.nowMenu
-    }
+    },
+    breadCrumbOne () {
+      return this.$store.state.breadCrumbOne
+    },
+    breadCrumbTwo () {
+      return this.$store.state.breadCrumbTwo
+    },
   },
   components: {
     userManage,
@@ -25,8 +35,14 @@ export default {
   }
 }
 </script>
-<style lang="sass" scoped>
-
+<style lang="scss" scoped>
+.container {
+  float: left;
+  padding: 20px;
+  &-crumb{
+    margin-bottom:  10px;
+  }
+}
 </style>
 
 

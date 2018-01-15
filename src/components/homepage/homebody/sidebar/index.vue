@@ -73,8 +73,24 @@ export default {
       console.log(key, keyPath);
     },
     selectMenu(key, keyPath) {
-      // console.log(keyPath);
       this.$store.dispatch({type:'nowMenu', nowMenu: keyPath[1]})
+      let menuObj = {
+        classA: ['工作计划管理','客户管理','销售订单管理','财务管理/报表','系统管理'],
+        classB: [
+          ['新添工作计划','未完成工作计划','需要我协同计划','已完成工作计划'],
+          ['新增客户信息','我的客户列表'],
+          ['进行中的报价','已签销售订单','已归档销售订单'],
+          ['业绩报表','客户来源分析'],
+          ['员工管理','部门管理']
+        ]
+      }
+      let menuArr = keyPath[1].split('-')
+      menuArr.forEach(function(data,index,arr){  
+        menuArr.push(+data);  
+      }); 
+      this.$store.dispatch({type:'breadCrumbOne', breadCrumbOne: menuObj.classA[menuArr[0]-1]})
+      this.$store.dispatch({type:'breadCrumbTwo', breadCrumbTwo: menuObj.classB[menuArr[0]-1][menuArr[1]-1]})
+      
     }
   }
 }
