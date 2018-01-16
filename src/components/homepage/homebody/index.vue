@@ -1,10 +1,5 @@
 <template>
-  <div>
-    <div class="container-crumb">
-      <span>{{ breadCrumbOne }}</span>
-      <i class="el-icon-arrow-right"></i>
-      <span>{{ breadCrumbTwo }}</span>
-    </div>
+  <div class="container-right">
     <router-view/>
   </div>
 </template>
@@ -38,4 +33,12 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.container-right {
+  margin-left: 200px;
+  padding: 20px;
+}
+
+</style>
+
 

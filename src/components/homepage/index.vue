@@ -1,8 +1,10 @@
 <template>
   <div>
     <home-header></home-header>
-    <sidebar></sidebar>
-    <home-body></home-body>
+    <div class="container">
+      <sidebar></sidebar>
+      <home-body></home-body>
+    </div>
   </div>
 </template>
 <script>
@@ -27,4 +29,10 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.container{
+  overflow: hidden;
+}
+</style>
+
 

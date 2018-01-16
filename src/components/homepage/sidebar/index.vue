@@ -1,5 +1,5 @@
 <template>
-<div class="sidebar">
+<div class="container-sidebar">
   <el-col :span="8">
     <el-menu
       default-active="2"
@@ -101,11 +101,11 @@ export default {
   text-align: left;
   // min-height: 400px;
 }
-.sidebar {
+.container-sidebar {
   float: left;
-  height: -moz-calc(100% - 30px);
-  height: -webkit-calc(100% - 30px);
-  height: calc(100%-30px);
+  // height: -moz-calc(100% - 30px);
+  // height: -webkit-calc(100% - 30px);
+  // height: calc(100%-30px);
   overflow: auto;
 }
 </style>
