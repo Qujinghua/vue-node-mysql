@@ -1,21 +1,37 @@
 <template>
   <div>
-    <side-bar></side-bar>
-    <container></container>
+    <div class="container-crumb">
+      <span>{{ breadCrumbOne }}</span>
+      <i class="el-icon-arrow-right"></i>
+      <span>{{ breadCrumbTwo }}</span>
+    </div>
+    <router-view/>
   </div>
 </template>
 <script>
-import sideBar from "./sidebar/index.vue"
-import container from "./container/index.vue"
+// import sideBar from "./sidebar/index.vue"
+// import container from "./container/index.vue"
 export default {
   data () {
     return {
-
+      breadCrumbA: '',
+      breadCrumbB: '',
     }
   },
   components: {
-    sideBar,
-    container
+    // sideBar,
+    // container
+  },
+  watch: {
+
+  },
+  computed: {
+    breadCrumbOne () {
+      return this.$store.state.breadCrumbOne
+    },
+    breadCrumbTwo () {
+      return this.$store.state.breadCrumbTwo
+    }
   },
   methods: {
 

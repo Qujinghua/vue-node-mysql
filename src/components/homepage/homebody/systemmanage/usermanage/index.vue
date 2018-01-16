@@ -7,16 +7,7 @@ export default {
     return {
 
     }
-  },
-  computed: {
-  },
-  methods: {
-    
   }
 }
 </script>
-<style lang="scss" scoped>
-
-</style>
-
 

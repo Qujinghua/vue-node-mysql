@@ -11,7 +11,7 @@ const mutations = {
     state.token = null
   },
   [types.USERNAME]: (state, data) => {
-    localStorage.setItem('username', data)
+    sessionStorage.setItem('username', data)
     state.username = data
   },
 

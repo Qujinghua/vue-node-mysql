@@ -40,11 +40,10 @@ export default {
     submitForm (form) {
       this.$refs[form].validate((valid) => {
         if (valid) {
-          debugger
           api.userLogin(this.form)
           .then(data => {
             console.log(data)
-            
+
             if (data && data.status == 200 && data.data.status == 200) {
               this.$message({
                 message: '恭喜你，登录成功！',

@@ -35,11 +35,11 @@ const router = new Router({
       }
     },
     {
-      path: '/register',
-      name: 'register',
+      path: '/404',
+      name: '404',
       component(resolve) {
-        require.ensure(['@/components/login/register.vue'], () => {
-          resolve(require('@/components/login/register.vue'))
+        require.ensure(['@/components/404/404.vue'], () => {
+          resolve(require('@/components/404/404.vue'))
         })
       }
     },
@@ -60,6 +60,30 @@ const router = new Router({
           resolve(require('@/components/homepage/index.vue'))
         })
       },
+      children: [
+        {
+          path: 'usermanage',
+          component(resolve) {
+            require.ensure(['@/components/homepage/homebody/systemmanage/usermanage/index.vue'], () => {
+              resolve(require('@/components/homepage/homebody/systemmanage/usermanage/index.vue'))
+            })
+          },
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: 'departmentmanage',
+          component(resolve) {
+            require.ensure(['@/components/homepage/homebody/systemmanage/departmentmanage/index.vue'], () => {
+              resolve(require('@/components/homepage/homebody/systemmanage/departmentmanage/index.vue'))
+            })
+          },
+          meta: {
+            requireAuth: true
+          }
+        },
+      ],
       meta: {
         requireAuth: true
       }
@@ -70,19 +94,58 @@ const router = new Router({
 
 // 验证 token，存在才跳转
 router.beforeEach((to, from, next) => {
-	let username = localStorage.getItem('username')
-	if(to.meta.requireAuth) {
-		if(username) {
-			next()
-		} else {
-			next({
-				path: '/login',
-				query: { redirect: to.fullPath }
-			})
-		}
-	} else {
-		next()
-	}
+
+  if(to.matched.length === 0) {
+    next({
+      path: '/404',
+    })
+  }else {
+
+    let username = localStorage.getItem('username')
+    if(to.meta.requireAuth) {
+      if(username) {
+        next()
+      } else {
+        next({
+          path: '/login',
+          query: { redirect: to.fullPath }
+        })
+      }
+    } else {
+      next()
+    }
+
+  }
 })
+// router.afterEach((to, from) => {
+//   let hash = location.hash
+//   let hasdArr = hash.split('/').reverse()
+//   let hashChange = ''
+//   switch(hasdArr[0]) {
+//     case 'usermanage': hashChange = '5-1'; break;
+//     case 'departmentmanage': hashChange = '5-2'; break;
+//     default: hashChange = ''; break;
+//   }
+
+//   if(hashChange!=''){
+//     let menuObj = {
+//       classA: ['工作计划管理','客户管理','销售订单管理','财务管理/报表','系统管理'],
+//       classB: [
+//         ['新添工作计划','未完成工作计划','需要我协同计划','已完成工作计划'],
+//         ['新增客户信息','我的客户列表'],
+//         ['进行中的报价','已签销售订单','已归档销售订单'],
+//         ['业绩报表','客户来源分析'],
+//         ['员工管理','部门管理']
+//       ]
+//     }
+//     let menuArr = hashChange.split('-')
+//     menuArr.forEach(function(data,index,arr){
+//       menuArr.push(+data);
+//     });
+//     sessionStorage.setItem('breadCrumbOne', menuObj.classA[menuArr[0]-1])
+//     sessionStorage.setItem('breadCrumbTwo', menuObj.classB[menuArr[0]-1][menuArr[1]-1])
+//   }
+
+// })
 
 export default router

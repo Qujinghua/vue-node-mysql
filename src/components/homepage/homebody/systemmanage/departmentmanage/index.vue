@@ -1,5 +1,5 @@
 <template>
-  <div class="department" :span="16">
+  <div class="department">
     <el-card class="box-card">
       <div slot="header" class="clearfix">
         <span>人员管理</span>
@@ -18,7 +18,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .department{
-  width: 100%;
+  float: left;
 }
 .box-card {
   width: 100%;

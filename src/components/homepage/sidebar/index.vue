@@ -50,8 +50,8 @@
           <i class="el-icon-setting"></i>
           <span>系统管理</span>
         </template>
-        <el-menu-item index="5-1">员工管理</el-menu-item>
-        <el-menu-item index="5-2">部门管理</el-menu-item>
+        <el-menu-item index="/home-page/usermanage">员工管理</el-menu-item>
+        <el-menu-item index="/home-page/departmentmanage">部门管理</el-menu-item>
         <el-menu-item index="5-3">选项3</el-menu-item>
       </el-submenu>
     </el-menu>
@@ -73,7 +73,7 @@ export default {
       console.log(key, keyPath);
     },
     selectMenu(key, keyPath) {
-      this.$store.dispatch({type:'nowMenu', nowMenu: keyPath[1]})
+      this.$router.push(keyPath[1])
       let menuObj = {
         classA: ['工作计划管理','客户管理','销售订单管理','财务管理/报表','系统管理'],
         classB: [
@@ -85,12 +85,12 @@ export default {
         ]
       }
       let menuArr = keyPath[1].split('-')
-      menuArr.forEach(function(data,index,arr){  
-        menuArr.push(+data);  
-      }); 
+      menuArr.forEach(function(data,index,arr){
+        menuArr.push(+data);
+      });
       this.$store.dispatch({type:'breadCrumbOne', breadCrumbOne: menuObj.classA[menuArr[0]-1]})
       this.$store.dispatch({type:'breadCrumbTwo', breadCrumbTwo: menuObj.classB[menuArr[0]-1][menuArr[1]-1]})
-      
+
     }
   }
 }
