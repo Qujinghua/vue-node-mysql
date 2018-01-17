@@ -15,12 +15,16 @@
             <el-button type="primary" plain size="mini" icon="el-icon-plus">新增用户</el-button>
             <el-button type="primary" plain size="mini" icon="el-icon-delete">批量删除</el-button>
           </div>
-          
+
           <template>
             <el-table
               :data="tableData"
               size="mini"
               style="width: 100%">
+              <el-table-column
+                type="selection"
+                width="55">
+              </el-table-column>
               <el-table-column
                 fixed
                 prop="date"
