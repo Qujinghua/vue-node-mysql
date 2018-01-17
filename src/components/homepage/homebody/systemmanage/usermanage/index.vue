@@ -6,7 +6,7 @@
       <span>用户管理</span>
     </div>
     <div class="content-detail">
-      <el-card class="box-card">
+      <el-card class="box-card" :body-style="{padding:'15px'}">
         <div slot="header" class="clearfix">
           <span>用户管理</span>
         </div>
@@ -112,7 +112,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .breadcrumb{
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 .content-detail {
   &-body{

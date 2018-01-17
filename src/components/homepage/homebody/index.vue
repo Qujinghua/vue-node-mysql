@@ -36,7 +36,7 @@ export default {
 <style lang="scss" scoped>
 .container-right {
   margin-left: 200px;
-  padding: 20px;
+  padding: 15px;
 }
 
 </style>
