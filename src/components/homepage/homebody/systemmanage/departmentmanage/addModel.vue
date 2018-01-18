@@ -63,6 +63,7 @@ export default {
       this.form = {...defaultForm}
     },
     submitForm (form) {
+      this.form.action = this.action
       this.$refs[form].validate((valid) => {
         if(valid) {
           axios.post('/updateDepartment',this.form)

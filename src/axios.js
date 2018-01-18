@@ -36,7 +36,7 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(function(response){
   if(response.data.status == 401) {
     Message.error({
-      message: '登录失效！'
+      message: '登录失效！请重新登录'
     })
     router.replace({
       path: '/login',
