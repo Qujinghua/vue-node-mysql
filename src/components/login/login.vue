@@ -18,7 +18,7 @@
 
 <script>
 import * as types from '../../store/types'
-import api from '../../axios'
+import axios from '../../axios'
 import setSession from '../common/sessionStorage'
 export default {
   data () {
@@ -40,7 +40,7 @@ export default {
     submitForm (form) {
       this.$refs[form].validate((valid) => {
         if (valid) {
-          api.userLogin(this.form)
+          axios.post('./userLogin',this.form)
           .then(data => {
             console.log(data)
 

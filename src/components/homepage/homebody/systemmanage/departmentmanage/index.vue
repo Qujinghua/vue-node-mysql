@@ -18,7 +18,9 @@
 
           <template>
             <el-table
+              v-loading="loading"
               :data="tableData"
+              stripe
               size="mini"
               style="width: 100%">
               <el-table-column
@@ -40,7 +42,7 @@
                 label="操作"
                 width="150">
                 <template slot-scope="scope">
-                  <el-button type="text" size="small" @click="addEdit('edit')">编辑</el-button>
+                  <el-button type="text" size="small" @click="addEdit('edit',scope.row)">编辑</el-button>
                   <el-button @click="handleClick(scope.row)" type="text" size="small">删除</el-button>
                 </template>
               </el-table-column>
@@ -49,18 +51,22 @@
         </div>
       </el-card>
     </div>
-    <add-model></add-model>
+    <add-model :visible.sync="formModel.visible" :action="formModel.action" :receiveForm="formModel.receiveForm" @getList="getList"></add-model>
   </div>
 </template>
 <script>
-import axios from 'axios'
+import axios from '../../../../../axios'
 import addModel from './addModel'
 export default {
   data () {
     return {
+      loading: true,
       tableData: [],
-      show: false,
-      form: {}
+      formModel: {
+        visible: false,
+        receiveForm: {},
+        action: 'add'
+      }
     }
   },
   components: {
@@ -70,19 +76,28 @@ export default {
     handleClick(row) {
       console.log(row);
     },
-    addEdit (str) {
-      if(str == 'add') {
-        this.show = true
+    addEdit (action, params) {
+      this.formModel.action = action
+      this.formModel.receiveForm = {}
+      if(action == 'edit') {
+        this.formModel.receiveForm = params
       }
+      this.formModel.visible = true
     },
     getDepartment () {
-      axios.get('/getDepartment')
+      axios.get('./getDepartment')
       .then(data => {
+
         this.tableData = data.data
+        this.loading = false
       })
       .catch(error => {
         console.log(error)
       })
+    },
+    getList (action) {
+      console.log(action)
+      this.getDepartment()
     }
   },
   mounted () {
