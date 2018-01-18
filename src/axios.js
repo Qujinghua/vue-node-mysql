@@ -18,10 +18,14 @@ instance.defaults.headers.post['Content-Type'] = 'application/json'
 //添加一个请求拦截器
 axios.interceptors.request.use = instance.interceptors.request.use
 instance.interceptors.request.use(config => {
-  if(localStorage.getItem('token')) {
-    config.headers.Authorization = `token ${localStorage.getItem('token')}`
-    .replace(/(^\")|(\"$)/g, '')
-  }
+  axios.get('/islogin')
+  .then(data => {
+    console.log(data)
+  })
+  // if(localStorage.getItem('token')) {
+  //   config.headers.Authorization = `token ${localStorage.getItem('token')}`
+  //   .replace(/(^\")|(\"$)/g, '')
+  // }
   return config
 },err => {
   return Promise.reject(err)

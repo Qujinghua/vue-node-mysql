@@ -12,7 +12,7 @@
         </div>
         <div class="content-detail-body">
           <div class="content-detail-body-btn">
-            <el-button type="primary" plain size="mini" icon="el-icon-plus">新增部门</el-button>
+            <el-button type="primary" plain size="mini" icon="el-icon-plus" @click="addEdit('add')">新增部门</el-button>
             <el-button type="primary" plain size="mini" icon="el-icon-delete">批量删除</el-button>
           </div>
 
@@ -40,7 +40,7 @@
                 label="操作"
                 width="150">
                 <template slot-scope="scope">
-                  <el-button type="text" size="small">编辑</el-button>
+                  <el-button type="text" size="small" @click="addEdit('edit')">编辑</el-button>
                   <el-button @click="handleClick(scope.row)" type="text" size="small">删除</el-button>
                 </template>
               </el-table-column>
@@ -49,19 +49,31 @@
         </div>
       </el-card>
     </div>
+    <add-model></add-model>
   </div>
 </template>
 <script>
 import axios from 'axios'
+import addModel from './addModel'
 export default {
   data () {
     return {
-      tableData: []
+      tableData: [],
+      show: false,
+      form: {}
     }
+  },
+  components: {
+    addModel
   },
   methods: {
     handleClick(row) {
       console.log(row);
+    },
+    addEdit (str) {
+      if(str == 'add') {
+        this.show = true
+      }
     },
     getDepartment () {
       axios.get('/getDepartment')
