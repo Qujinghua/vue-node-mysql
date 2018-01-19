@@ -3,23 +3,26 @@
     <div class="breadcrumb">
       <span>系统管理</span>
       <i class="el-icon-arrow-right"></i>
-      <span>用户管理</span>
+      <span>员工管理</span>
     </div>
     <div class="content-detail">
       <el-card class="box-card" :body-style="{padding:'15px'}">
         <div slot="header" class="clearfix">
-          <span>用户管理</span>
+          <span>员工管理</span>
         </div>
         <div class="content-detail-body">
           <div class="content-detail-body-btn">
-            <el-button type="primary" plain size="mini" icon="el-icon-plus">新增用户</el-button>
-            <el-button type="primary" plain size="mini" icon="el-icon-delete">批量删除</el-button>
+            <el-button type="primary" plain size="mini" icon="el-icon-plus" @click="addEdit('add')">新增员工</el-button>
+            <el-button type="primary" plain size="mini" icon="el-icon-delete" @click="deleteList">批量删除</el-button>
           </div>
 
           <template>
             <el-table
+              v-loading="loading"
               :data="tableData"
+              stripe
               size="mini"
+              @selection-change="selectList"
               style="width: 100%">
               <el-table-column
                 type="selection"
@@ -27,42 +30,32 @@
               </el-table-column>
               <el-table-column
                 fixed
-                prop="date"
-                label="日期"
-                width="150">
-              </el-table-column>
-              <el-table-column
                 prop="name"
-                label="姓名"
-                width="120">
+                label="姓名">
               </el-table-column>
               <el-table-column
-                prop="province"
-                label="省份"
-                width="120">
+                prop="phone"
+                label="手机号">
               </el-table-column>
               <el-table-column
-                prop="city"
-                label="市区"
-                width="120">
+                prop="email"
+                label="邮箱">
               </el-table-column>
               <el-table-column
-                prop="address"
-                label="地址"
-                width="300">
+                prop="department"
+                label="所属部门">
               </el-table-column>
               <el-table-column
-                prop="zip"
-                label="邮编"
-                width="120">
+                prop="isSuperAdmin"
+                label="职能">
               </el-table-column>
               <el-table-column
                 fixed="right"
                 label="操作"
-                width="100">
+                width="150">
                 <template slot-scope="scope">
-                  <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-                  <el-button type="text" size="small">编辑</el-button>
+                  <el-button type="text" size="small" @click="addEdit('edit',scope.row)">编辑</el-button>
+                  <el-button @click="deleteOne(scope.row)" type="text" size="small">删除</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -70,47 +63,124 @@
         </div>
       </el-card>
     </div>
+    <add-model :visible.sync="formModel.visible" :action="formModel.action" :receiveForm="formModel.receiveForm" @getList="getList"></add-model>
   </div>
 </template>
 <script>
+import axios from '../../../../../axios'
+import addModel from './addModel'
 export default {
   data () {
     return {
-      tableData: [{
-        date: '2016-05-03',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-02',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }]
+      loading: true,
+      tableData: [],
+      selectArr: [],
+      formModel: {
+        visible: false,
+        receiveForm: {},
+        action: 'add'
+      }
     }
+  },
+  components: {
+    addModel
   },
   methods: {
     handleClick(row) {
       console.log(row);
+    },
+    addEdit (action, params) {
+      this.formModel.action = action
+      this.formModel.receiveForm = {}
+      if(action == 'edit') {
+        this.formModel.receiveForm = params
+      }
+      this.formModel.visible = true
+    },
+    getUser () {
+      axios.get('./getUser')
+      .then(data => {
+        console.log(data)
+        if(data.status==200){
+          this.tableData = data.data
+        }
+        this.loading = false
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    },
+    getList (action) {
+      // console.log(action)
+      this.getUser()
+    },
+    selectList (val) {
+      this.selectArr = []
+      val.forEach(el => {
+        this.selectArr.push(el.id)
+      })
+    },
+    deleteOp (delId) {
+      axios.post('/delDepartment',{id:delId})
+      .then(data => {
+        if(data.data == 200){
+          return '111'
+        } else {
+          return '222'
+        }
+      })
+    },
+    deleteOne(row) {
+      let delId = row.id
+      this.$confirm('此操作将永久删除该部门信息, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.deleteOp(delId)
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        });
+        this.getUser()
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });          
+      });
+      
+    },
+    deleteList() {
+      if(this.selectArr.length<1) {
+        this.$message({
+          message: '请至少选择列表中的一个'
+        })
+      } else {
+        this.$confirm('此操作将永久删除已选中的部门信息, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.selectArr.forEach(el => {
+            this.deleteOp(el)
+          })
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          });
+          this.getUser()
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
+      }
     }
+  },
+  mounted () {
+    this.getUser()
   }
 }
 </script>
