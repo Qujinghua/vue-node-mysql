@@ -7,12 +7,12 @@ const mutations = {
     state.token = data
   },
   [types.LOGOUT]: (state) => {
-    localStorage.removeItem('token');
-    state.token = null
+    sessionStorage.removeItem('username');
+    sessionStorage.removeItem('isSuperAdmin');
   },
-  [types.USERNAME]: (state, data) => {
-    sessionStorage.setItem('username', data)
-    state.username = data
+  [types.USERSESSION]: (state, data) => {
+    sessionStorage.setItem('username', data.userSession.username)
+    sessionStorage.setItem('isSuperAdmin', data.userSession.isSuperAdmin)
   },
 
   [types.nowMenu]: (state, data) => {

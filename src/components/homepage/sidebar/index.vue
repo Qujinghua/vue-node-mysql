@@ -46,7 +46,7 @@
         <el-menu-item index="4-1">业绩报表</el-menu-item>
         <el-menu-item index="4-2">客户来源分析</el-menu-item>
       </el-submenu>
-      <el-submenu index="5">
+      <el-submenu index="5" v-if="superAdmin">
         <template slot="title">
           <i class="el-icon-setting"></i>
           <span>系统管理</span>
@@ -63,10 +63,22 @@
 export default {
   data () {
     return {
-
+      superAdmin: false
     }
   },
+  mounted () {
+    this.getIsSuperAdmin()
+  },
   methods: {
+    getIsSuperAdmin () {
+      let sessionIsSuperAdmin = sessionStorage.getItem('isSuperAdmin')
+      console.log(sessionIsSuperAdmin)
+      if(sessionIsSuperAdmin!=0) {
+        this.superAdmin = true
+      } else {
+        this.superAdmin = false
+      }
+    },
     handleOpen(key, keyPath) {
       // console.log(key, keyPath);
     },

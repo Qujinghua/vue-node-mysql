@@ -3,14 +3,13 @@
     <router-view/>
   </div>
 </template>
+
 <script>
-// import sideBar from "./sidebar/index.vue"
-// import container from "./container/index.vue"
 export default {
   data () {
     return {
-      breadCrumbA: '',
-      breadCrumbB: '',
+      // breadCrumbA: '',
+      // breadCrumbB: '',
     }
   },
   components: {
@@ -21,15 +20,27 @@ export default {
 
   },
   computed: {
-    breadCrumbOne () {
-      return this.$store.state.breadCrumbOne
-    },
-    breadCrumbTwo () {
-      return this.$store.state.breadCrumbTwo
-    }
+    // breadCrumbOne () {
+    //   return this.$store.state.breadCrumbOne
+    // },
+    // breadCrumbTwo () {
+    //   return this.$store.state.breadCrumbTwo
+    // }
+  },
+  mounted () {
+    this.checkSession()
   },
   methods: {
-
+    checkSession () {
+      let sessionUser = sessionStorage.getItem('username')
+      if(sessionUser == null || sessionUser == '') {
+        this.$message({
+          message: '登录已失效，请重新登录！',
+          type: 'info'
+        })
+        this.$router.push('/login')
+      }
+    }
   }
 }
 </script>
@@ -37,6 +48,10 @@ export default {
 .container-right {
   margin-left: 200px;
   padding: 15px;
+  &-welcome {
+    font-size: 20px;
+    text-align: center;
+  }
 }
 
 </style>

@@ -35,7 +35,7 @@ axios.interceptors.request.use(config => {
 //axios响应拦截器
 axios.interceptors.response.use(function(response){
   if(response.data.status == 401) {
-    Message.error({
+    Message.info({
       message: '登录失效！请重新登录'
     })
     router.replace({
@@ -45,7 +45,15 @@ axios.interceptors.response.use(function(response){
   }
   return response
 }, err => {
-  return Promise.reject(err)
+  Message.error({
+    message: '页面出错，请联系管理员解决'
+  })
+  router.replace({
+    path: '/login',
+    query: {redirect: router.currentRoute.fullPath}
+  })
+  // return Promise.reject(err)
+  return err
 })
 export default axios
 // export default {
