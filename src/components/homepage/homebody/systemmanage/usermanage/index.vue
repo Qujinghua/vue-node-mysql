@@ -14,12 +14,16 @@
           <div class="content-detail-body-btn">
             <el-button type="primary" plain size="mini" icon="el-icon-plus" @click="addEdit('add')">新增员工</el-button>
             <el-button type="primary" plain size="mini" icon="el-icon-delete" @click="deleteList">批量删除</el-button>
+            <div class="content-detail-body-btn-search">
+              <el-input placeholder="姓名/所属部门" v-model="searchInput" v-on:keyup.enter="search" size="mini" width="100px" class="content-detail-body-btn-search-input"></el-input>
+              <el-button slot="append" @click="search" size="mini" icon="el-icon-search" class="content-detail-body-btn-search-btn"></el-button>
+            </div>
           </div>
 
           <template>
             <el-table
               v-loading="loading"
-              :data="tableData"
+              :data="tableData.data"
               stripe
               size="mini"
               @selection-change="selectList"
@@ -59,6 +63,18 @@
                 </template>
               </el-table-column>
             </el-table>
+            <div class="pagination">
+              <el-pagination
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="getTerm.page"
+                :page-sizes="[5, 10, 20, 50]"
+                :page-size="100"
+                layout="total, sizes, prev, pager, next"
+                :total="tableData.total">
+              </el-pagination>
+            </div>
+            
           </template>
         </div>
       </el-card>
@@ -73,8 +89,14 @@ export default {
   data () {
     return {
       loading: true,
-      tableData: [],
+      tableData: {},
       selectArr: [],
+      searchInput: '',
+      getTerm: {
+        page: 1,
+        size: 5,
+        keyword: ''
+      },
       formModel: {
         visible: false,
         receiveForm: {},
@@ -98,7 +120,7 @@ export default {
       this.formModel.visible = true
     },
     getUser () {
-      axios.get('./getUser')
+      axios.get('./getUser?page=' + this.getTerm.page + '&size=' + this.getTerm.size+'&keyword=' + this.getTerm.keyword)
       .then(data => {
         console.log(data)
         if(data.status==200){
@@ -177,6 +199,21 @@ export default {
           });          
         });
       }
+    },
+    handleSizeChange(val) {
+      this.loading = true
+      this.getTerm.size = val
+      this.getUser()
+    },
+    handleCurrentChange(val) {
+      this.loading = true
+      this.getTerm.page = val
+      this.getUser()
+    },
+    search () {
+      this.loading = true
+      this.getTerm.keyword = this.searchInput
+      this.getUser()
     }
   },
   mounted () {
@@ -192,6 +229,24 @@ export default {
   &-body{
     &-btn{
       margin-bottom: 10px;
+      &-search {
+        display: inline-block;
+        float: right;
+        width: 260px;
+        &-input {
+          width: 210px;
+          float: left;
+        }
+        &-btn {
+          width: 50px;
+          text-align: center;
+          float: left;
+        }
+      }
+    }
+    .pagination {
+      padding: 10px 0 0 0;
+      text-align: right;
     }
   }
 }
