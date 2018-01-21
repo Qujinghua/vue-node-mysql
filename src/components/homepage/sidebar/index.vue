@@ -72,7 +72,6 @@ export default {
   methods: {
     getIsSuperAdmin () {
       let sessionIsSuperAdmin = sessionStorage.getItem('isSuperAdmin')
-      console.log(sessionIsSuperAdmin)
       if(sessionIsSuperAdmin!=0) {
         this.superAdmin = true
       } else {

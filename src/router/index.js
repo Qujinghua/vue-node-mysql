@@ -7,11 +7,11 @@ Vue.use(Router)
 
 const router = new Router({
   routes: [
-    {
-      path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
-    },
+    // {
+    //   path: '/',
+    //   name: 'HelloWorld',
+    //   component: HelloWorld
+    // },
     {
       path: '/hello',
       name: 'Hello',
@@ -26,7 +26,7 @@ const router = new Router({
       }
     },
     {
-      path: '/login',
+      path: '/',
       name: 'login',
       component(resolve) {
         require.ensure(['@/components/login/login.vue'], () => {

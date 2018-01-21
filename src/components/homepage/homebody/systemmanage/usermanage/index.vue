@@ -30,7 +30,8 @@
               style="width: 100%">
               <el-table-column
                 type="selection"
-                width="55">
+                width="55"
+                :selectable="disableCheckBox">
               </el-table-column>
               <el-table-column
                 fixed
@@ -57,7 +58,7 @@
                 fixed="right"
                 label="操作"
                 width="150">
-                <template slot-scope="scope">
+                <template slot-scope="scope" v-if="!scope.row.inoperable">
                   <el-button type="text" size="small" @click="addEdit('edit',scope.row)">编辑</el-button>
                   <el-button @click="deleteOne(scope.row)" type="text" size="small">删除</el-button>
                 </template>
@@ -111,6 +112,9 @@ export default {
     handleClick(row) {
       console.log(row);
     },
+    disableCheckBox (row, index) {
+      return index == 1
+    },
     addEdit (action, params) {
       this.formModel.action = action
       this.formModel.receiveForm = {}
@@ -129,6 +133,9 @@ export default {
               el.isSuperAdmin = '超级管理员'
             } else {
               el.isSuperAdmin = '普通管理员'
+            }
+            if(el.id == 1) {
+              el.inoperable = true
             }
           })
         }

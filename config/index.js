@@ -13,6 +13,7 @@ module.exports = {
     proxyTable: {
       '/': {
         target: 'http://localhost/laravel-manage/public',
+        changeOrigin: true,
         pathRewrite: {
           '^/': '/'
         }
