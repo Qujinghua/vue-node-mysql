@@ -122,9 +122,15 @@ export default {
     getUser () {
       axios.get('./getUser?page=' + this.getTerm.page + '&size=' + this.getTerm.size+'&keyword=' + this.getTerm.keyword)
       .then(data => {
-        console.log(data)
         if(data.status==200){
           this.tableData = data.data
+          this.tableData.data.forEach(el => {
+            if(el.isSuperAdmin) {
+              el.isSuperAdmin = '超级管理员'
+            } else {
+              el.isSuperAdmin = '普通管理员'
+            }
+          })
         }
         this.loading = false
       })
@@ -143,27 +149,29 @@ export default {
       })
     },
     deleteOp (delId) {
-      axios.post('/delDepartment',{id:delId})
-      .then(data => {
-        if(data.data == 200){
-          return '111'
-        } else {
-          return '222'
-        }
-      })
+      return axios.post('/delUser',{id:delId})
     },
     deleteOne(row) {
       let delId = row.id
-      this.$confirm('此操作将永久删除该部门信息, 是否继续?', '提示', {
+      this.$confirm('此操作将永久删除该用户信息, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         this.deleteOp(delId)
-        this.$message({
-          type: 'success',
-          message: '删除成功!'
-        });
+        .then(data => {
+          if(data.data.status == 200) {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
+          } else {
+            this.$message({
+              type: 'error',
+              message: '删除失败!'
+            })
+          }
+        })
         this.getUser()
       }).catch(() => {
         this.$message({
@@ -179,18 +187,29 @@ export default {
           message: '请至少选择列表中的一个'
         })
       } else {
-        this.$confirm('此操作将永久删除已选中的部门信息, 是否继续?', '提示', {
+        this.$confirm('此操作将永久删除已选中的用户信息, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           this.selectArr.forEach(el => {
             this.deleteOp(el)
+            .then(data => {
+              if(data.data.status == 200) {
+                this.$message({
+                  type: 'success',
+                  message: '删除成功!'
+                });
+               
+              } else {
+                this.$message({
+                  type: 'error',
+                  message: '删除失败!'
+                })
+              }
+            })
           })
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          });
+          
           this.getUser()
         }).catch(() => {
           this.$message({

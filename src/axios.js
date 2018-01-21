@@ -45,15 +45,15 @@ axios.interceptors.response.use(function(response){
   }
   return response
 }, err => {
-  Message.error({
-    message: '页面出错，请联系管理员解决'
-  })
-  router.replace({
-    path: '/login',
-    query: {redirect: router.currentRoute.fullPath}
-  })
-  // return Promise.reject(err)
-  return err
+  // Message.error({
+  //   message: '页面出错，请联系管理员解决'
+  // })
+  // router.replace({
+  //   path: '/login',
+  //   query: {redirect: router.currentRoute.fullPath}
+  // })
+  return Promise.reject(err)
+  // return err
 })
 export default axios
 // export default {

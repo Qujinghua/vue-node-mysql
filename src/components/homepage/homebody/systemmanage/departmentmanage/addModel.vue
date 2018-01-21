@@ -71,7 +71,7 @@ export default {
             if(data && data.data.status == 200 && data.status == 200){
               this.closeModel()
               this.$message({
-                message: '成功',
+                message: '成功！',
                 type: 'success'
               })
               this.$emit('getList', this.action)

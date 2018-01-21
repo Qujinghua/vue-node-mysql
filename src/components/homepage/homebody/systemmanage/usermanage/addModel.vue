@@ -8,7 +8,7 @@
         <el-input v-model="form.phone" size="mini"></el-input>
       </el-form-item>
       <el-form-item label="邮箱" prop="email" >
-        <el-input v-model="form.name" size="mini"></el-input>
+        <el-input v-model="form.email" size="mini"></el-input>
       </el-form-item>
       <el-form-item label="部门" prop="department" >
         <el-select v-model="form.department" size="mini" placeholder="请选择">
@@ -24,6 +24,9 @@
         <el-switch
           v-model="form.isSuperAdmin">
         </el-switch>
+        <el-tooltip class="item" effect="dark" content="打开开关，此员工将拥有超级管理员权限，请悉知" placement="right">
+          <i class="el-icon-question" style="font-size:18px;margin-left:10px;"></i>
+        </el-tooltip>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -48,6 +51,17 @@ export default {
     receiveForm: {}
   },
   data () {
+    var checkPhone = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('请输入手机号码'));
+      } else {
+        if (!(/^1[3|4|5|6|8|9][0-9]\d{8}$/.test(value))) {
+          return callback(new Error('请输入正确的手机号码'));
+        }
+        callback()
+      }
+      
+    };
     return {
       loading: true,
       form: {
@@ -55,15 +69,22 @@ export default {
         phone: '',
         email: '',
         department: '',
-        isSuperAdmin: false
+        isSuperAdmin: 0
       },
       selDepartment: [],
       rules2: {
         name: [
-          { required: true, message:'部门名称不能为空', trigger: 'blur' }
+          { required: true, message:'请输入姓名', trigger: 'blur' }
         ],
-        address: [
-          { required: true, message:'部门地址不能为空', trigger: 'blur' }
+        phone: [
+          { required: true, validator:checkPhone, trigger: 'blur' }
+        ],
+        email: [
+          { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+          { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }
+        ],
+        department: [
+          { required: true, message: '请选择部门', trigger: 'blur' }
         ]
       }
     }
@@ -72,6 +93,11 @@ export default {
     visible (now) {
       if(now && this.action === 'edit') {
         this.form = {...this.receiveForm}
+        if(this.form.isSuperAdmin) {
+          this.form.isSuperAdmin = true
+        } else {
+          this.form.isSuperAdmin = false
+        }
       }
     }
   },
@@ -108,14 +134,19 @@ export default {
     },
     submitForm (form) {
       this.form.action = this.action
+      if(this.form.isSuperAdmin) {
+        this.form.isSuperAdmin = 1
+      } else {
+        this.form.isSuperAdmin = 0
+      }
       this.$refs[form].validate((valid) => {
         if(valid) {
-          axios.post('/updateDepartment',this.form)
+          axios.post('/updateUser',this.form)
           .then(data => {
             if(data && data.data.status == 200 && data.status == 200){
               this.closeModel()
               this.$message({
-                message: '成功',
+                message: data.data.message,
                 type: 'success'
               })
               this.$emit('getList', this.action)
