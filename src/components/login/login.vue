@@ -46,7 +46,7 @@ export default {
     submitForm (form) {
       this.$refs[form].validate((valid) => {
         if (valid) {
-          axios.post('./userLogin',this.form)
+          axios.post('/userLogin',this.form)
           .then(data => {
             console.log(data)
             if (data && data.status == 200 && data.data.status == 200) {

@@ -113,18 +113,23 @@ export default {
       console.log(row);
     },
     disableCheckBox (row, index) {
-      return index == 1
+      return index !== 0
     },
     addEdit (action, params) {
       this.formModel.action = action
       this.formModel.receiveForm = {}
       if(action == 'edit') {
         this.formModel.receiveForm = params
+        if(this.formModel.receiveForm.isSuperAdmin == '普通管理员') {
+          this.formModel.receiveForm.isSuperAdmin = 0
+        } else {
+          this.formModel.receiveForm.isSuperAdmin = 1
+        }
       }
       this.formModel.visible = true
     },
     getUser () {
-      axios.get('./getUser?page=' + this.getTerm.page + '&size=' + this.getTerm.size+'&keyword=' + this.getTerm.keyword)
+      axios.get('/getUser?page=' + this.getTerm.page + '&size=' + this.getTerm.size+'&keyword=' + this.getTerm.keyword)
       .then(data => {
         if(data.status==200){
           this.tableData = data.data

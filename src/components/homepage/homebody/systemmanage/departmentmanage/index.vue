@@ -87,7 +87,7 @@ export default {
       this.formModel.visible = true
     },
     getDepartment () {
-      axios.get('./getDepartment')
+      axios.get('/getDepartment')
       .then(data => {
         if(data.status==200){
           this.tableData = data.data
