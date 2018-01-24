@@ -52,6 +52,7 @@ const router = new Router({
         })
       }
     },
+    
     {
       path: '/home-page',
       name: 'home',
@@ -61,6 +62,17 @@ const router = new Router({
         })
       },
       children: [
+        {
+          path: 'customer',
+          component(resolve) {
+            require.ensure(['@/components/homepage/homebody/customer/index.vue'], () => {
+              resolve(require('@/components/homepage/homebody/customer/index.vue'))
+            })
+          },
+          meta: {
+            requireAuth: true
+          }
+        },
         {
           path: 'usermanage',
           component(resolve) {

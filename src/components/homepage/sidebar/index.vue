@@ -26,8 +26,8 @@
           <i class="el-icon-location"></i>
           <span>客户管理</span>
         </template>
-        <el-menu-item index="2-1">新增客户信息</el-menu-item>
-        <el-menu-item index="2-2">我的客户列表</el-menu-item>
+        <!-- <el-menu-item index="2-1">新增客户信息</el-menu-item> -->
+        <el-menu-item index="/home-page/customer">我的客户列表</el-menu-item>
       </el-submenu>
       <el-submenu index="3">
         <template slot="title">
