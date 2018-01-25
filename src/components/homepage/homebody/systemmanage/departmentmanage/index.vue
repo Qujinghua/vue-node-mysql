@@ -87,7 +87,7 @@ export default {
       this.formModel.visible = true
     },
     getDepartment () {
-      axios.get('/getDepartment')
+      axios.get('/config/getDepartment')
       .then(data => {
         if(data.status==200){
           this.tableData = data.data
@@ -109,7 +109,7 @@ export default {
       })
     },
     deleteOp (delId) {
-      axios.post('/delDepartment',{id:delId})
+      axios.post('/config/delDepartment',{id:delId})
       .then(data => {
         if(data.data == 200){
           return '111'
@@ -135,9 +135,9 @@ export default {
         this.$message({
           type: 'info',
           message: '已取消删除'
-        });          
+        });
       });
-      
+
     },
     deleteList() {
       if(this.selectArr.length<1) {
@@ -162,7 +162,7 @@ export default {
           this.$message({
             type: 'info',
             message: '已取消删除'
-          });          
+          });
         });
       }
     }

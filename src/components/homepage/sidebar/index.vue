@@ -118,7 +118,7 @@ export default {
   // height: -moz-calc(100% - 30px);
   // height: -webkit-calc(100% - 30px);
   // height: calc(100%-30px);
-  overflow: auto;
+  // overflow: auto;
 }
 </style>
 

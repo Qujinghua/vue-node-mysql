@@ -60,7 +60,7 @@ export default {
         }
         callback()
       }
-      
+
     };
     return {
       loading: true,
@@ -118,7 +118,7 @@ export default {
       this.form = {...defaultForm}
     },
     getDepartment () {
-      axios.get('/getDepartment')
+      axios.get('/config/getDepartment')
       .then(data => {
         if(data.status==200){
           this.selDepartment = []
@@ -141,7 +141,7 @@ export default {
       }
       this.$refs[form].validate((valid) => {
         if(valid) {
-          axios.post('/updateUser',this.form)
+          axios.post('/config/updateUser',this.form)
           .then(data => {
             if(data && data.data.status == 200 && data.status == 200){
               this.closeModel()

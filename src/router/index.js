@@ -52,7 +52,7 @@ const router = new Router({
         })
       }
     },
-    
+
     {
       path: '/home-page',
       name: 'home',
@@ -104,7 +104,7 @@ const router = new Router({
   ]
 })
 
-// 验证 token，存在才跳转
+// 验证 session，存在才跳转
 router.beforeEach((to, from, next) => {
 
   if(to.matched.length === 0) {
@@ -113,7 +113,7 @@ router.beforeEach((to, from, next) => {
     })
   }else {
 
-    let username = localStorage.getItem('username')
+    let username = sessionStorage.getItem('username')
     if(to.meta.requireAuth) {
       if(username) {
         next()

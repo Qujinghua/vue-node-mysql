@@ -17,7 +17,7 @@
         </el-form-item>
       </el-form>
     </div>
-    
+
   </div>
 
 </template>
@@ -46,7 +46,7 @@ export default {
     submitForm (form) {
       this.$refs[form].validate((valid) => {
         if (valid) {
-          axios.post('/userLogin',this.form)
+          axios.post('/config/userLogin',this.form)
           .then(data => {
             console.log(data)
             if (data && data.status == 200 && data.data.status == 200) {
@@ -55,7 +55,7 @@ export default {
                 type: 'success'
               })
               this.$store.dispatch({type:'UserSession', userSession:data.data})
-              this.$router.push('./home-page')
+              this.$router.push('/home-page')
             } else {
               this.$message({
                 message: data.data.message,

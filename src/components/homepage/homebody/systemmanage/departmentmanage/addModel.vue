@@ -35,9 +35,6 @@ export default {
       rules2: {
         name: [
           { required: true, message:'部门名称不能为空', trigger: 'blur' }
-        ],
-        address: [
-          { required: true, message:'部门地址不能为空', trigger: 'blur' }
         ]
       }
     }
@@ -66,7 +63,7 @@ export default {
       this.form.action = this.action
       this.$refs[form].validate((valid) => {
         if(valid) {
-          axios.post('/updateDepartment',this.form)
+          axios.post('/config/updateDepartment',this.form)
           .then(data => {
             if(data && data.data.status == 200 && data.status == 200){
               this.closeModel()

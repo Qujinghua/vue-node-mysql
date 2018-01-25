@@ -75,7 +75,7 @@
                 :total="tableData.total">
               </el-pagination>
             </div>
-            
+
           </template>
         </div>
       </el-card>
@@ -129,7 +129,7 @@ export default {
       this.formModel.visible = true
     },
     getUser () {
-      axios.get('/getUser?page=' + this.getTerm.page + '&size=' + this.getTerm.size+'&keyword=' + this.getTerm.keyword)
+      axios.get('/config/getUser?page=' + this.getTerm.page + '&size=' + this.getTerm.size+'&keyword=' + this.getTerm.keyword)
       .then(data => {
         if(data.status==200){
           this.tableData = data.data
@@ -161,7 +161,7 @@ export default {
       })
     },
     deleteOp (delId) {
-      return axios.post('/delUser',{id:delId})
+      return axios.post('/config/delUser',{id:delId})
     },
     deleteOne(row) {
       let delId = row.id
@@ -189,9 +189,9 @@ export default {
         this.$message({
           type: 'info',
           message: '已取消删除'
-        });          
+        });
       });
-      
+
     },
     deleteList() {
       if(this.selectArr.length<1) {
@@ -212,7 +212,7 @@ export default {
                   type: 'success',
                   message: '删除成功!'
                 });
-               
+
               } else {
                 this.$message({
                   type: 'error',
@@ -221,13 +221,13 @@ export default {
               }
             })
           })
-          
+
           this.getUser()
         }).catch(() => {
           this.$message({
             type: 'info',
             message: '已取消删除'
-          });          
+          });
         });
       }
     },
