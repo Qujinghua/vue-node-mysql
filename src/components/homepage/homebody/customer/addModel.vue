@@ -175,6 +175,13 @@ export default {
             picker.$emit('pick', date);
           }
         }, {
+          text: '明天',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() + 3600 * 1000 * 24);
+            picker.$emit('pick', date);
+          }
+        },{
           text: '一周前',
           onClick(picker) {
             const date = new Date();
