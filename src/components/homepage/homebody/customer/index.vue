@@ -30,29 +30,32 @@
               style="width: 100%">
               <el-table-column
                 type="selection"
-                width="55"
-                :selectable="disableCheckBox">
+                width="55">
               </el-table-column>
               <el-table-column
                 fixed
-                prop="name"
-                label="姓名">
+                prop="customer_id"
+                label="编号">
               </el-table-column>
               <el-table-column
-                prop="phone"
-                label="手机号">
+                prop="customer_name"
+                label="客户名称">
               </el-table-column>
               <el-table-column
-                prop="email"
-                label="邮箱">
+                prop="customer_contacts"
+                label="联系人">
               </el-table-column>
               <el-table-column
-                prop="department"
+                prop="customer_phone"
                 label="所属部门">
               </el-table-column>
               <el-table-column
-                prop="isSuperAdmin"
-                label="职能">
+                prop="customer_inputperson"
+                label="门店/录入人员">
+              </el-table-column>
+              <el-table-column
+                prop="customer_inputdata"
+                label="录入日期">
               </el-table-column>
               <el-table-column
                 fixed="right"
@@ -89,8 +92,14 @@ import addModel from './addModel'
 export default {
   data () {
     return {
-      loading: true,
-      tableData: {},
+      loading: false,
+      tableData: {
+        data: [
+          {customer_id:1000, customer_name: '张三', customer_contacts: '张先生', customer_phone: '15000002332', customer_inputperson: '红星真北店 / 张三', customer_inputdata: '2018-1-26'},
+          {customer_id:1001, customer_name: '韩梅梅', customer_contacts: '韩女士', customer_phone: '15000002332', customer_inputperson: '红星真北店 / 李四', customer_inputdata: '2018-1-25'},
+        ],
+        total: 20
+      },
       selectArr: [],
       searchInput: '',
       getTerm: {
@@ -112,9 +121,9 @@ export default {
     handleClick(row) {
       console.log(row);
     },
-    disableCheckBox (row, index) {
-      return index !== 0
-    },
+    // disableCheckBox (row, index) {
+    //   return index !== 0
+    // },
     addEdit (action, params) {
       this.formModel.action = action
       this.formModel.receiveForm = {}
@@ -248,7 +257,7 @@ export default {
     }
   },
   mounted () {
-    this.getUser()
+    // this.getUser()
   }
 }
 </script>

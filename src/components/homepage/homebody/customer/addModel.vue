@@ -1,17 +1,16 @@
 <template>
-  <el-dialog :title="title" :visible="visible" @close="closeModel" width="500px">
-    <el-form :model="form" ref="form" :rules="rules2" label-width="90px" v-loading="loading">
-      <el-form-item label="姓名" prop="name" >
-        <el-input v-model="form.name" size="mini"></el-input>
-      </el-form-item>
-      <el-form-item label="电话" prop="phone" >
-        <el-input v-model="form.phone" size="mini"></el-input>
-      </el-form-item>
-      <el-form-item label="邮箱" prop="email" >
-        <el-input v-model="form.email" size="mini"></el-input>
-      </el-form-item>
-      <el-form-item label="部门" prop="department" >
-        <el-select v-model="form.department" size="mini" placeholder="请选择">
+  <el-dialog :title="title" :visible="visible" @close="closeModel" width="800px">
+    <el-form :model="form" ref="form" :inline="true" :rules="rules2" label-width="135px" v-loading="loading">
+      <el-form-item label="资源渠道" prop="name" >
+        <el-select v-model="form.department" size="mini" placeholder="请选择" style="width:108px">
+          <el-option
+            v-for="item in selDepartment"
+            :key="item"
+            :label="item"
+            :value="item">
+          </el-option>
+        </el-select>
+        <el-select v-model="form.department" size="mini" placeholder="请选择" style="width:108px">
           <el-option
             v-for="item in selDepartment"
             :key="item"
@@ -20,13 +19,85 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="超级管理员" prop="isSuperAdmin">
-        <el-switch
-          v-model="form.isSuperAdmin">
-        </el-switch>
-        <el-tooltip class="item" effect="dark" content="打开开关，此员工将拥有超级管理员权限，请悉知" placement="right">
-          <i class="el-icon-question" style="font-size:18px;margin-left:10px;"></i>
-        </el-tooltip>
+      <br v-if="true">
+      <el-form-item label="客户名称" prop="phone" >
+        <el-input v-model="form.phone" size="mini" style="width:220px"></el-input>
+      </el-form-item>
+      <el-form-item label="公司性质" prop="email" >
+        <el-input v-model="form.email" size="mini" style="width:220px"></el-input>
+      </el-form-item>
+      <el-form-item label="联系人" prop="phone" >
+        <el-input v-model="form.phone" size="mini" style="width:220px"></el-input>
+      </el-form-item>
+      <el-form-item label="场所性质" prop="email" >
+        <el-input v-model="form.email" size="mini" style="width:220px"></el-input>
+      </el-form-item>
+      <el-form-item label="联系方式" prop="phone" >
+        <el-input v-model="form.phone" size="mini" style="width:220px"></el-input>
+      </el-form-item>
+      <el-form-item label="场所面积（平米）" prop="email" >
+        <el-input v-model="form.email" size="mini" style="width:220px"></el-input>
+      </el-form-item>
+      <el-form-item label="公司网址" prop="phone" >
+        <el-input v-model="form.phone" size="mini" style="width:220px"></el-input>
+      </el-form-item>
+      <el-form-item label="email" prop="email" >
+        <el-input v-model="form.email" size="mini" style="width:220px"></el-input>
+      </el-form-item>
+      <el-form-item label="预计迁入日期" prop="phone" >
+        <el-date-picker
+          style="width:220px"
+          v-model="value1"
+          type="date"
+          size="mini"
+          placeholder="选择日期"
+          :picker-options="pickerOptions">
+        </el-date-picker>
+      </el-form-item>
+      <el-form-item label="公司税号" prop="email" >
+        <el-input v-model="form.email" size="mini" style="width:220px"></el-input>
+      </el-form-item>
+      <el-form-item label="公司开户银行" prop="email" >
+        <el-input v-model="form.email" size="mini" style="width:220px"></el-input>
+      </el-form-item>
+      <el-form-item label="公司开户账号" prop="email" >
+        <el-input v-model="form.email" size="mini" style="width:220px"></el-input>
+      </el-form-item>
+      <el-form-item label="公司地址" prop="email" >
+        <el-input v-model="form.email" size="mini" style="width:588px"></el-input>
+      </el-form-item>
+      <el-form-item label="接进人员或关键字" prop="email" >
+        <el-input v-model="form.email" size="mini" style="width:588px"></el-input>
+      </el-form-item>
+      <el-form-item label="项目负责人" prop="email" >
+        <el-input v-model="form.email" size="mini" style="width:220px"></el-input>
+      </el-form-item>
+      <el-form-item label="负责人电话" prop="email" >
+        <el-input v-model="form.email" size="mini" style="width:220px"></el-input>
+      </el-form-item>
+      <el-form-item label="负责人手机" prop="email" >
+        <el-input v-model="form.email" size="mini" style="width:220px"></el-input>
+      </el-form-item>
+      <el-form-item label="负责人email" prop="email" >
+        <el-input v-model="form.email" size="mini" style="width:220px"></el-input>
+      </el-form-item>
+      <el-form-item label="设计公司名称" prop="email" >
+        <el-input v-model="form.email" size="mini" style="width:220px"></el-input>
+      </el-form-item>
+      <el-form-item label="设计师" prop="email" >
+        <el-input v-model="form.email" size="mini" style="width:220px"></el-input>
+      </el-form-item>
+      <el-form-item label="设计师电话" prop="email" >
+        <el-input v-model="form.email" size="mini" style="width:220px"></el-input>
+      </el-form-item>
+      <el-form-item label="设计师email" prop="email" >
+        <el-input v-model="form.email" size="mini" style="width:220px"></el-input>
+      </el-form-item>
+      <el-form-item label="项目地址" prop="email" >
+        <el-input v-model="form.email" size="mini" style="width:588px"></el-input>
+      </el-form-item>
+      <el-form-item label="需求调研" prop="email" >
+        <el-input type="textarea" v-model="form.email" :rows="2" placeholder="请输入内容" style="width:588px"></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -63,7 +134,7 @@ export default {
 
     };
     return {
-      loading: true,
+      loading: false,
       form: {
         name: '',
         phone: '',
@@ -73,20 +144,46 @@ export default {
       },
       selDepartment: [],
       rules2: {
-        name: [
-          { required: true, message:'请输入姓名', trigger: 'blur' }
-        ],
-        phone: [
-          { required: true, validator:checkPhone, trigger: 'blur' }
-        ],
-        email: [
-          { required: true, message: '请输入邮箱地址', trigger: 'blur' },
-          { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }
-        ],
-        department: [
-          { required: true, message: '请选择部门', trigger: 'blur' }
-        ]
+        // name: [
+        //   { required: true, message:'请输入姓名', trigger: 'blur' }
+        // ],
+        // phone: [
+        //   { required: true, validator:checkPhone, trigger: 'blur' }
+        // ],
+        // email: [
+        //   { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+        //   { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }
+        // ],
+        // department: [
+        //   { required: true, message: '请选择部门', trigger: 'blur' }
+        // ]
+      },
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() > Date.now();
+        },
+        shortcuts: [{
+          text: '今天',
+          onClick(picker) {
+            picker.$emit('pick', new Date());
+          }
+        }, {
+          text: '昨天',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24);
+            picker.$emit('pick', date);
+          }
+        }, {
+          text: '一周前',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', date);
+          }
+        }]
       }
+
     }
   },
   watch: {
@@ -107,7 +204,7 @@ export default {
     },
   },
   mounted () {
-    this.getDepartment()
+    // this.getDepartment()
   },
   methods: {
     closeModel () {
@@ -164,6 +261,9 @@ export default {
 <style lang="scss" scoped>
 .dialog-footer {
   text-align: center;
+}
+.el-form-item {
+  margin-bottom: 0px;
 }
 </style>
 
