@@ -70,7 +70,7 @@
                 @current-change="handleCurrentChange"
                 :current-page="getTerm.page"
                 :page-sizes="[5, 10, 20, 50]"
-                :page-size="100"
+                :page-size="5"
                 layout="total, sizes, prev, pager, next"
                 :total="tableData.total">
               </el-pagination>

@@ -46,6 +46,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .container-right {
+  margin-top: 50px;
   margin-left: 200px;
   padding: 15px;
   &-welcome {

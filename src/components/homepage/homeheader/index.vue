@@ -1,7 +1,20 @@
 <template>
   <div class="header">
-    <div class="header-logo"></div>
-    <div class="header-user">
+    <div class="header-logo">欢迎{{ username }}</div>
+    <div class="header-topmenu">
+      <el-menu
+        :default-active="activeIndex2"
+        class="el-menu-demo"
+        mode="horizontal"
+        @select="handleSelect">
+        <el-menu-item index="1">处理中心</el-menu-item>
+        <el-menu-item index="2">处理中心</el-menu-item>
+        <!-- <el-menu-item index="3"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item> -->
+        <el-menu-item>退出登录</el-menu-item>
+      </el-menu>
+      
+    </div>
+    <div class="header-right">
       <el-dropdown @command="dropdown">
         <span class="el-dropdown-link">
           欢迎{{ username }}<i class="el-icon-arrow-down el-icon--right"></i>
@@ -45,20 +58,23 @@ export default {
 </script>
 <style lang="scss" scoped>
 .header {
+  position: fixed;
   overflow: hidden;
   width: 100%;
   height: 50px;
-  background: #434A50;
-  color: #fff;
   line-height: 50px;
+  border-bottom: 1px solid #e6e6e6;
   &-logo {
-    width: 85%;
+    width: 200px;
     height: 100%;
     float: left;
   }
-  &-user {
-    width: 15%;
+  &-topmenu {
     float: left;
+  }
+  &-right {
+    width: 120px;
+    float: right;
     .el-dropdown-link {
       display: inline-block;
       text-align: center;
@@ -69,7 +85,37 @@ export default {
       background: #fff;
     }
   }
+  .el-menu--horizontal .el-menu-item{
+    height: 50px;
+    line-height: 50px;
+  }
 }
+// .header {
+//   overflow: hidden;
+//   width: 100%;
+//   height: 50px;
+//   background: #434A50;
+//   color: #fff;
+//   line-height: 50px;
+//   &-logo {
+//     width: 85%;
+//     height: 100%;
+//     float: left;
+//   }
+//   &-user {
+//     width: 15%;
+//     float: left;
+//     .el-dropdown-link {
+//       display: inline-block;
+//       text-align: center;
+//       cursor: pointer;
+//       border-radius: 2px;
+//       width: 100px;
+//       height: 100%;
+//       background: #fff;
+//     }
+//   }
+// }
 </style>
 
 

@@ -7,10 +7,7 @@
       :router="true"
       @open="handleOpen"
       @close="handleClose"
-      @select="selectMenu"
-      background-color="#545c64"
-      text-color="#fff"
-      active-text-color="#ffd04b">
+      @select="selectMenu">
       <el-submenu index="1">
         <template slot="title">
           <i class="el-icon-edit"></i>
@@ -108,18 +105,31 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.container-sidebar{
+  float: left;
+  position: fixed;
+  top: 51px;
+  height: 100%;
+  overflow: auto;
+  &>div{
+    height: 100%;
+    &>ul{
+      height: 100%;
+    }
+  }
+}
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
   text-align: left;
   // min-height: 400px;
 }
-.container-sidebar {
-  float: left;
+// .container-sidebar {
+  // float: left;
   // height: -moz-calc(100% - 30px);
   // height: -webkit-calc(100% - 30px);
   // height: calc(100%-30px);
   // overflow: auto;
-}
+// }
 </style>
 
 

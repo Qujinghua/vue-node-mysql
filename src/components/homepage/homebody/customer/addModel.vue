@@ -2,102 +2,104 @@
   <el-dialog :title="title" :visible="visible" @close="closeModel" width="800px">
     <el-form :model="form" ref="form" :inline="true" :rules="rules2" label-width="135px" v-loading="loading">
       <el-form-item label="资源渠道" prop="name" >
-        <el-select v-model="form.department" size="mini" placeholder="请选择" style="width:108px">
+        <el-select v-model="form.customer_resources" size="mini" placeholder="请选择" style="width:220px">
           <el-option
-            v-for="item in selDepartment"
+            v-for="item in selResources"
+            :key="item.name"
+            :label="item.name"
+            :value="item.name">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <br v-if="action=='add'">
+      <el-form-item label="转移到" prop="user_name" v-if="action=='edit'">
+        <el-select v-model="form.user_name" size="mini" placeholder="请选择" style="width:220px">
+          <el-option
+            v-for="item in selUser"
             :key="item"
             :label="item"
             :value="item">
           </el-option>
         </el-select>
-        <el-select v-model="form.department" size="mini" placeholder="请选择" style="width:108px">
-          <el-option
-            v-for="item in selDepartment"
-            :key="item"
-            :label="item"
-            :value="item">
-          </el-option>
-        </el-select>
       </el-form-item>
-      <br v-if="true">
-      <el-form-item label="客户名称" prop="phone" >
-        <el-input v-model="form.phone" size="mini" style="width:220px"></el-input>
+      <el-form-item label="客户名称" prop="customer_name" >
+        <el-input v-model="form.customer_name" size="mini" style="width:220px"></el-input>
       </el-form-item>
-      <el-form-item label="公司性质" prop="email" >
-        <el-input v-model="form.email" size="mini" style="width:220px"></el-input>
+      <el-form-item label="公司性质" prop="customer_companynature" >
+        <el-input v-model="form.customer_companynature" size="mini" style="width:220px"></el-input>
       </el-form-item>
-      <el-form-item label="联系人" prop="phone" >
-        <el-input v-model="form.phone" size="mini" style="width:220px"></el-input>
+      <el-form-item label="联系人" prop="customer_contacts" >
+        <el-input v-model="form.customer_contacts" size="mini" style="width:220px"></el-input>
       </el-form-item>
-      <el-form-item label="场所性质" prop="email" >
-        <el-input v-model="form.email" size="mini" style="width:220px"></el-input>
+      <el-form-item label="场所性质" prop="customer_placenature" >
+        <el-input v-model="form.customer_placenature" size="mini" style="width:220px"></el-input>
       </el-form-item>
-      <el-form-item label="联系方式" prop="phone" >
-        <el-input v-model="form.phone" size="mini" style="width:220px"></el-input>
+      <el-form-item label="联系方式" prop="customer_phone" >
+        <el-input v-model="form.customer_phone" size="mini" style="width:220px"></el-input>
       </el-form-item>
-      <el-form-item label="场所面积（平米）" prop="email" >
-        <el-input v-model="form.email" size="mini" style="width:220px"></el-input>
+      <el-form-item label="场所面积（平米）" prop="customer_area" >
+        <el-input v-model="form.customer_area" size="mini" style="width:220px"></el-input>
       </el-form-item>
-      <el-form-item label="公司网址" prop="phone" >
-        <el-input v-model="form.phone" size="mini" style="width:220px"></el-input>
+      <el-form-item label="公司网址" prop="customer_website" >
+        <el-input v-model="form.customer_website" size="mini" style="width:220px"></el-input>
       </el-form-item>
-      <el-form-item label="email" prop="email" >
-        <el-input v-model="form.email" size="mini" style="width:220px"></el-input>
+      <el-form-item label="email" prop="customer_email" >
+        <el-input v-model="form.customer_email" size="mini" style="width:220px"></el-input>
       </el-form-item>
-      <el-form-item label="预计迁入日期" prop="phone" >
+      <el-form-item label="预计迁入日期" prop="moveDate" >
         <el-date-picker
           style="width:220px"
-          v-model="value1"
+          v-model="form.moveDate"
           type="date"
           size="mini"
           placeholder="选择日期"
+          format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd"
           :picker-options="pickerOptions">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="公司税号" prop="email" >
-        <el-input v-model="form.email" size="mini" style="width:220px"></el-input>
+      <el-form-item label="公司税号" prop="company_tax_num" >
+        <el-input v-model="form.company_tax_num" size="mini" style="width:220px"></el-input>
       </el-form-item>
-      <el-form-item label="公司开户银行" prop="email" >
-        <el-input v-model="form.email" size="mini" style="width:220px"></el-input>
+      <el-form-item label="公司开户银行" prop="company_open_bank" >
+        <el-input v-model="form.company_open_bank" size="mini" style="width:220px"></el-input>
       </el-form-item>
-      <el-form-item label="公司开户账号" prop="email" >
-        <el-input v-model="form.email" size="mini" style="width:220px"></el-input>
+      <el-form-item label="公司开户账号" prop="company_open_account" >
+        <el-input v-model="form.company_open_account" size="mini" style="width:220px"></el-input>
       </el-form-item>
-      <el-form-item label="公司地址" prop="email" >
-        <el-input v-model="form.email" size="mini" style="width:588px"></el-input>
+      <el-form-item label="公司地址" prop="company_address" >
+        <el-input v-model="form.company_address" size="mini" style="width:588px"></el-input>
       </el-form-item>
-      <el-form-item label="接进人员或关键字" prop="email" >
-        <el-input v-model="form.email" size="mini" style="width:588px"></el-input>
+      <el-form-item label="接进人员或关键字" prop="receive_people" >
+        <el-input v-model="form.receive_people" size="mini" style="width:588px"></el-input>
       </el-form-item>
-      <el-form-item label="项目负责人" prop="email" >
-        <el-input v-model="form.email" size="mini" style="width:220px"></el-input>
+      <el-form-item label="项目负责人" prop="project_leader" >
+        <el-input v-model="form.project_leader" size="mini" style="width:220px"></el-input>
       </el-form-item>
-      <el-form-item label="负责人电话" prop="email" >
-        <el-input v-model="form.email" size="mini" style="width:220px"></el-input>
+      <el-form-item label="负责人电话" prop="project_leader_phone" >
+        <el-input v-model="form.project_leader_phone" size="mini" style="width:220px"></el-input>
       </el-form-item>
-      <el-form-item label="负责人手机" prop="email" >
-        <el-input v-model="form.email" size="mini" style="width:220px"></el-input>
+      <el-form-item label="负责人email" prop="project_leader_email" >
+        <el-input v-model="form.project_leader_email" size="mini" style="width:220px"></el-input>
       </el-form-item>
-      <el-form-item label="负责人email" prop="email" >
-        <el-input v-model="form.email" size="mini" style="width:220px"></el-input>
+      <br>
+      <el-form-item label="设计公司名称" prop="design_company_name" >
+        <el-input v-model="form.design_company_name" size="mini" style="width:220px"></el-input>
       </el-form-item>
-      <el-form-item label="设计公司名称" prop="email" >
-        <el-input v-model="form.email" size="mini" style="width:220px"></el-input>
+      <el-form-item label="设计师" prop="design_people" >
+        <el-input v-model="form.design_people" size="mini" style="width:220px"></el-input>
       </el-form-item>
-      <el-form-item label="设计师" prop="email" >
-        <el-input v-model="form.email" size="mini" style="width:220px"></el-input>
+      <el-form-item label="设计师电话" prop="design_people_phone" >
+        <el-input v-model="form.design_people_phone" size="mini" style="width:220px"></el-input>
       </el-form-item>
-      <el-form-item label="设计师电话" prop="email" >
-        <el-input v-model="form.email" size="mini" style="width:220px"></el-input>
+      <el-form-item label="设计师email" prop="design_people_email" >
+        <el-input v-model="form.design_people_email" size="mini" style="width:220px"></el-input>
       </el-form-item>
-      <el-form-item label="设计师email" prop="email" >
-        <el-input v-model="form.email" size="mini" style="width:220px"></el-input>
+      <el-form-item label="项目地址" prop="project_address" >
+        <el-input v-model="form.project_address" size="mini" style="width:588px"></el-input>
       </el-form-item>
-      <el-form-item label="项目地址" prop="email" >
-        <el-input v-model="form.email" size="mini" style="width:588px"></el-input>
-      </el-form-item>
-      <el-form-item label="需求调研" prop="email" >
-        <el-input type="textarea" v-model="form.email" :rows="2" placeholder="请输入内容" style="width:588px"></el-input>
+      <el-form-item label="需求调研" prop="demand_survey" >
+        <el-input type="textarea" v-model="form.demand_survey" :rows="2" placeholder="请输入内容" style="width:588px"></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -109,11 +111,38 @@
 <script>
 import axios from '../../../../axios'
 const defaultForm = {
-  name: '',
-  phone: '',
-  email: '',
-  department: '',
-  isSuperAdmin: false
+  user_name: '',
+
+  customer_resources: '',
+  customer_name: '',
+  customer_companynature: '',
+  customer_contacts: '',
+
+  customer_placenature: '',
+  customer_phone: '',
+  customer_area: '',
+  customer_email: '',
+
+  moveDate: '',
+  company_tax_num: '',
+  company_open_bank: '',
+  company_open_account: '',
+  company_address: '',
+
+  receive_people: '',
+
+  project_leader: '',
+  project_leader_phone: '',
+  project_leader_email: '',
+
+  design_company_name: '',
+  design_people: '',
+  design_people_phone: '',
+  design_people_email: '',
+
+  project_address: '',
+  demand_survey: ''
+
 }
 export default {
   props: {
@@ -135,33 +164,30 @@ export default {
     };
     return {
       loading: false,
-      form: {
-        name: '',
-        phone: '',
-        email: '',
-        department: '',
-        isSuperAdmin: 0
-      },
-      selDepartment: [],
+      form: {...defaultForm},
+      selResources: [
+        {id: 1, name: '公司资源'},
+        {id: 2, name: '展厅资源'}
+      ],
+      selUser: [],
       rules2: {
-        // name: [
-        //   { required: true, message:'请输入姓名', trigger: 'blur' }
-        // ],
-        // phone: [
-        //   { required: true, validator:checkPhone, trigger: 'blur' }
-        // ],
-        // email: [
-        //   { required: true, message: '请输入邮箱地址', trigger: 'blur' },
-        //   { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }
-        // ],
-        // department: [
-        //   { required: true, message: '请选择部门', trigger: 'blur' }
-        // ]
+        customer_resources: [
+          { required: true, message:'请选择资源', trigger: 'blur' }
+        ],
+        customer_name: [
+          { required: true, message:'请填写客户名称', trigger: 'blur' }
+        ],
+        customer_contacts: [
+          { required: true, message: '请填写联系人', trigger: 'blur' }
+        ],
+        customer_phone: [
+          { required: true, message: '请填写联系方式', trigger: 'blur' }
+        ]
       },
       pickerOptions: {
-        disabledDate(time) {
-          return time.getTime() > Date.now();
-        },
+        // disabledDate(time) {
+        //   return time.getTime() < Date.now();
+        // },
         shortcuts: [{
           text: '今天',
           onClick(picker) {
@@ -188,6 +214,34 @@ export default {
             date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
             picker.$emit('pick', date);
           }
+        },{
+          text: '一周后',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() + 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', date);
+          }
+        },{
+          text: '十天后',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() + 3600 * 1000 * 24 * 10);
+            picker.$emit('pick', date);
+          }
+        },{
+          text: '二十天后',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() + 3600 * 1000 * 24 * 20);
+            picker.$emit('pick', date);
+          }
+        },{
+          text: '三十天后',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() + 3600 * 1000 * 24 * 30);
+            picker.$emit('pick', date);
+          }
         }]
       }
 
@@ -197,11 +251,6 @@ export default {
     visible (now) {
       if(now && this.action === 'edit') {
         this.form = {...this.receiveForm}
-        if(this.form.isSuperAdmin) {
-          this.form.isSuperAdmin = true
-        } else {
-          this.form.isSuperAdmin = false
-        }
       }
     }
   },
@@ -211,7 +260,7 @@ export default {
     },
   },
   mounted () {
-    // this.getDepartment()
+    this.getUser()
   },
   methods: {
     closeModel () {
@@ -221,13 +270,13 @@ export default {
     resetForm() {
       this.form = {...defaultForm}
     },
-    getDepartment () {
-      axios.get('/config/getDepartment')
+    getUser() {
+      axios.get('/config/getUser?page=1&size=500&keyword=')
       .then(data => {
         if(data.status==200){
-          this.selDepartment = []
-          data.data.forEach(el => {
-            this.selDepartment.push(el.name)
+          this.selUser = []
+          data.data.data.forEach(el => {
+            this.selUser.push(el.name)
           })
         }
         this.loading = false
@@ -238,14 +287,15 @@ export default {
     },
     submitForm (form) {
       this.form.action = this.action
-      if(this.form.isSuperAdmin) {
-        this.form.isSuperAdmin = 1
-      } else {
-        this.form.isSuperAdmin = 0
-      }
+      let nowDate = new Date()
+      this.form.inputDate = nowDate.getFullYear() + '-' + (nowDate.getMonth()+1) + '-' + nowDate.getDate()
+      if(this.form.user_name == '') {
+        this.form.user_name = sessionStorage.getItem('username')
+      } 
+      console.log(this.form)
       this.$refs[form].validate((valid) => {
         if(valid) {
-          axios.post('/config/updateUser',this.form)
+          axios.post('/config/updateCustomer',this.form)
           .then(data => {
             if(data && data.data.status == 200 && data.status == 200){
               this.closeModel()

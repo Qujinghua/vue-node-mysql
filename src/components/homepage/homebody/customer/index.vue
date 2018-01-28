@@ -38,8 +38,10 @@
                 label="编号">
               </el-table-column>
               <el-table-column
-                prop="customer_name"
                 label="客户名称">
+                <template slot-scope="scope">
+                  <el-button type="text" size="small" @click="addEdit('edit',scope.row)">{{scope.row.customer_name}}</el-button>
+                </template>
               </el-table-column>
               <el-table-column
                 prop="customer_contacts"
@@ -47,22 +49,27 @@
               </el-table-column>
               <el-table-column
                 prop="customer_phone"
-                label="所属部门">
+                label="联系方式">
               </el-table-column>
               <el-table-column
-                prop="customer_inputperson"
-                label="门店/录入人员">
+                prop="moveDate"
+                label="迁入日期">
               </el-table-column>
               <el-table-column
-                prop="customer_inputdata"
+                prop="user_name"
+                label="录入人员">
+              </el-table-column>
+              <el-table-column
+                prop="inputDate"
                 label="录入日期">
               </el-table-column>
               <el-table-column
                 fixed="right"
                 label="操作"
-                width="150">
-                <template slot-scope="scope" v-if="!scope.row.inoperable">
-                  <el-button type="text" size="small" @click="addEdit('edit',scope.row)">编辑</el-button>
+                width="170">
+                <template slot-scope="scope">
+                  <el-button type="text" size="small" @click="addEdit('edit',scope.row)">报价</el-button>
+                  <el-button type="text" size="small" @click="addEdit('edit',scope.row)">销售开单</el-button>
                   <el-button @click="deleteOne(scope.row)" type="text" size="small">删除</el-button>
                 </template>
               </el-table-column>
@@ -72,8 +79,8 @@
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
                 :current-page="getTerm.page"
-                :page-sizes="[5, 10, 20, 50]"
-                :page-size="100"
+                :page-sizes="[10, 20, 30, 50, 100]"
+                :page-size="10"
                 layout="total, sizes, prev, pager, next"
                 :total="tableData.total">
               </el-pagination>
@@ -93,18 +100,12 @@ export default {
   data () {
     return {
       loading: false,
-      tableData: {
-        data: [
-          {customer_id:1000, customer_name: '张三', customer_contacts: '张先生', customer_phone: '15000002332', customer_inputperson: '红星真北店 / 张三', customer_inputdata: '2018-1-26'},
-          {customer_id:1001, customer_name: '韩梅梅', customer_contacts: '韩女士', customer_phone: '15000002332', customer_inputperson: '红星真北店 / 李四', customer_inputdata: '2018-1-25'},
-        ],
-        total: 20
-      },
+      tableData: {},
       selectArr: [],
       searchInput: '',
       getTerm: {
         page: 1,
-        size: 5,
+        size: 10,
         keyword: ''
       },
       formModel: {
@@ -129,29 +130,14 @@ export default {
       this.formModel.receiveForm = {}
       if(action == 'edit') {
         this.formModel.receiveForm = params
-        if(this.formModel.receiveForm.isSuperAdmin == '普通管理员') {
-          this.formModel.receiveForm.isSuperAdmin = 0
-        } else {
-          this.formModel.receiveForm.isSuperAdmin = 1
-        }
       }
       this.formModel.visible = true
     },
-    getUser () {
-      axios.get('/config/getUser?page=' + this.getTerm.page + '&size=' + this.getTerm.size+'&keyword=' + this.getTerm.keyword)
+    getCustomer () {
+      axios.get('/config/getCustomer?page=' + this.getTerm.page + '&size=' + this.getTerm.size+'&keyword=' + this.getTerm.keyword)
       .then(data => {
         if(data.status==200){
           this.tableData = data.data
-          this.tableData.data.forEach(el => {
-            if(el.isSuperAdmin) {
-              el.isSuperAdmin = '超级管理员'
-            } else {
-              el.isSuperAdmin = '普通管理员'
-            }
-            if(el.id == 1) {
-              el.inoperable = true
-            }
-          })
         }
         this.loading = false
       })
@@ -161,20 +147,20 @@ export default {
     },
     getList (action) {
       // console.log(action)
-      this.getUser()
+      this.getCustomer()
     },
     selectList (val) {
       this.selectArr = []
       val.forEach(el => {
-        this.selectArr.push(el.id)
+        this.selectArr.push(el.customer_id)
       })
     },
     deleteOp (delId) {
-      return axios.post('/config/delUser',{id:delId})
+      return axios.post('/config/delCustomer',{customer_id:delId})
     },
     deleteOne(row) {
-      let delId = row.id
-      this.$confirm('此操作将永久删除该用户信息, 是否继续?', '提示', {
+      let delId = row.customer_id
+      this.$confirm('此操作将永久删除该客户信息, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -192,8 +178,9 @@ export default {
               message: '删除失败!'
             })
           }
+          this.getCustomer()
         })
-        this.getUser()
+        
       }).catch(() => {
         this.$message({
           type: 'info',
@@ -208,7 +195,7 @@ export default {
           message: '请至少选择列表中的一个'
         })
       } else {
-        this.$confirm('此操作将永久删除已选中的用户信息, 是否继续?', '提示', {
+        this.$confirm('此操作将永久删除已选中的客户信息, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
@@ -228,36 +215,39 @@ export default {
                   message: '删除失败!'
                 })
               }
+              this.getCustomer()
             })
           })
-
-          this.getUser()
-        }).catch(() => {
+          
+        })
+        
+        .catch(() => {
           this.$message({
             type: 'info',
             message: '已取消删除'
           });
         });
+        
       }
     },
     handleSizeChange(val) {
       this.loading = true
       this.getTerm.size = val
-      this.getUser()
+      this.getCustomer()
     },
     handleCurrentChange(val) {
       this.loading = true
       this.getTerm.page = val
-      this.getUser()
+      this.getCustomer()
     },
     search () {
       this.loading = true
       this.getTerm.keyword = this.searchInput
-      this.getUser()
+      this.getCustomer()
     }
   },
   mounted () {
-    // this.getUser()
+    this.getCustomer()
   }
 }
 </script>
