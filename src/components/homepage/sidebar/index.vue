@@ -2,6 +2,7 @@
 <div class="container-sidebar">
   <el-col :span="8">
     <el-menu
+      :default-active="activeIndex"
       class="el-menu-vertical-demo"
       :router="true"
       @open="handleOpen"
@@ -59,16 +60,24 @@
 export default {
   data () {
     return {
-      superAdmin: false
+      superAdmin: false,
+      activeIndex: ''
     }
+  },
+  created () {
+    this.getMenu()
   },
   mounted () {
     this.getIsSuperAdmin()
   },
   computed: {
-    
+
   },
   methods: {
+    getMenu () {
+      let hashArr = location.hash.split('/').reverse()
+      this.activeIndex = '/'+hashArr[1]+'/'+hashArr[0]
+    },
     getIsSuperAdmin () {
       let sessionIsSuperAdmin = sessionStorage.getItem('isSuperAdmin')
       if(sessionIsSuperAdmin!=0) {

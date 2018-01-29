@@ -3,6 +3,7 @@
     <div class="header-logo">欢迎{{ username }}</div>
     <div class="header-topmenu">
       <el-menu
+        :default-active="activeIndex"
         class="el-menu-demo"
         mode="horizontal"
         @select="handleSelect"
@@ -30,7 +31,7 @@
 export default {
   data () {
     return {
-
+      activeIndex: ''
     }
   },
   computed: {
@@ -38,12 +39,19 @@ export default {
       return sessionStorage.getItem('username')
     }
   },
+  created () {
+    this.getMenu()
+  },
   mounted () {
     
   },
   methods: {
     handleSelect (key, keyPath) {
       
+    },
+    getMenu () {
+      let hashArr = location.hash.split('/').reverse()
+      this.activeIndex = '/'+hashArr[1]+'/'+hashArr[0]
     },
     dropdown (str) {
       switch(str) {
