@@ -2,7 +2,6 @@
 <div class="container-sidebar">
   <el-col :span="8">
     <el-menu
-      default-active="2"
       class="el-menu-vertical-demo"
       :router="true"
       @open="handleOpen"
@@ -65,6 +64,9 @@ export default {
   },
   mounted () {
     this.getIsSuperAdmin()
+  },
+  computed: {
+    
   },
   methods: {
     getIsSuperAdmin () {

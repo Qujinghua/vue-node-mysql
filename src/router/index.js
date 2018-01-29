@@ -95,6 +95,17 @@ const router = new Router({
             requireAuth: true
           }
         },
+        {
+          path: 'exhibition',
+          component(resolve) {
+            require.ensure(['@/components/homepage/homebody/exhibition/index.vue'], () => {
+              resolve(require('@/components/homepage/homebody/exhibition/index.vue'))
+            })
+          },
+          meta: {
+            requireAuth: true
+          }
+        },
       ],
       meta: {
         requireAuth: true

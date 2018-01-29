@@ -24,5 +24,7 @@ const mutations = {
   [types.breadCrumbTwo]: (state, data) => {
     state.breadCrumbTwo = data.breadCrumbTwo
   }
+
+  
 }
 export default mutations

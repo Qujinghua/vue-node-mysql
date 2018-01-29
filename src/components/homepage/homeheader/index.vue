@@ -3,14 +3,14 @@
     <div class="header-logo">欢迎{{ username }}</div>
     <div class="header-topmenu">
       <el-menu
-        :default-active="activeIndex2"
         class="el-menu-demo"
         mode="horizontal"
-        @select="handleSelect">
-        <el-menu-item index="1">处理中心</el-menu-item>
+        @select="handleSelect"
+        :router="true">
+        <el-menu-item index="/home-page/exhibition">网上展厅</el-menu-item>
         <el-menu-item index="2">处理中心</el-menu-item>
         <!-- <el-menu-item index="3"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item> -->
-        <el-menu-item>退出登录</el-menu-item>
+        <!-- <el-menu-item index="3">退出登录</el-menu-item> -->
       </el-menu>
       
     </div>
@@ -38,7 +38,13 @@ export default {
       return sessionStorage.getItem('username')
     }
   },
+  mounted () {
+    
+  },
   methods: {
+    handleSelect (key, keyPath) {
+      
+    },
     dropdown (str) {
       switch(str) {
         case 'userLogout': 
