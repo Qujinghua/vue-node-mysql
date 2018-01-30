@@ -2,7 +2,7 @@
 <div class="container-sidebar">
   <el-col :span="8">
     <el-menu
-      :default-active="activeIndex"
+      :default-active="activeIndex==''?activeIndex2:activeIndex"
       class="el-menu-vertical-demo"
       :router="true"
       @open="handleOpen"
@@ -61,7 +61,7 @@ export default {
   data () {
     return {
       superAdmin: false,
-      activeIndex: ''
+      activeIndex2: ''
     }
   },
   created () {
@@ -70,13 +70,24 @@ export default {
   mounted () {
     this.getIsSuperAdmin()
   },
+  watch: {
+    // activeIndex2 (now) {
+    //   let hashArr = location.hash.split('/').reverse()
+    //   this.activeIndex = '/'+hashArr[1]+'/'+hashArr[0]
+    // }
+  },
   computed: {
-
+    activeIndex () {
+      return this.$store.state.topSideMenu
+    },
+    // activeIndex2 () {
+    //   return this.activeIndex
+    // }
   },
   methods: {
     getMenu () {
       let hashArr = location.hash.split('/').reverse()
-      this.activeIndex = '/'+hashArr[1]+'/'+hashArr[0]
+      this.activeIndex2 = '/'+hashArr[1]+'/'+hashArr[0]
     },
     getIsSuperAdmin () {
       let sessionIsSuperAdmin = sessionStorage.getItem('isSuperAdmin')
@@ -93,6 +104,7 @@ export default {
       // console.log(key, keyPath);
     },
     selectMenu(key, keyPath) {
+      this.$store.dispatch({type:'topSideMenu', topSideMenu: key})
       // this.$router.push(keyPath[1])
       // let menuObj = {
       //   classA: ['工作计划管理','客户管理','销售订单管理','财务管理/报表','系统管理'],

@@ -3,17 +3,17 @@
     <div class="header-logo">欢迎{{ username }}</div>
     <div class="header-topmenu">
       <el-menu
-        :default-active="activeIndex"
+        :default-active="activeIndex==''?activeIndex2:activeIndex"
         class="el-menu-demo"
         mode="horizontal"
         @select="handleSelect"
         :router="true">
         <el-menu-item index="/home-page/exhibition">网上展厅</el-menu-item>
-        <el-menu-item index="2">处理中心</el-menu-item>
+        <el-menu-item index="/home-page/customer">客户管理</el-menu-item>
         <!-- <el-menu-item index="3"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item> -->
         <!-- <el-menu-item index="3">退出登录</el-menu-item> -->
       </el-menu>
-      
+
     </div>
     <div class="header-right">
       <el-dropdown @command="dropdown">
@@ -31,31 +31,43 @@
 export default {
   data () {
     return {
-      activeIndex: ''
+      activeIndex2: ''
     }
   },
   computed: {
     username () {
       return sessionStorage.getItem('username')
-    }
+    },
+    activeIndex () {
+      return this.$store.state.topSideMenu
+    },
+    // activeIndex2 () {
+    //   return this.activeIndex
+    // }
+  },
+  watch: {
+    // activeIndex2 (now) {
+    //   let hashArr = location.hash.split('/').reverse()
+    //   this.activeIndex = '/'+hashArr[1]+'/'+hashArr[0]
+    // }
   },
   created () {
     this.getMenu()
   },
   mounted () {
-    
+
   },
   methods: {
     handleSelect (key, keyPath) {
-      
+      this.$store.dispatch({type:'topSideMenu', topSideMenu: key})
     },
     getMenu () {
       let hashArr = location.hash.split('/').reverse()
-      this.activeIndex = '/'+hashArr[1]+'/'+hashArr[0]
+      this.activeIndex2 = '/'+hashArr[1]+'/'+hashArr[0]
     },
     dropdown (str) {
       switch(str) {
-        case 'userLogout': 
+        case 'userLogout':
         this.$store.dispatch({type:'UserLogout'})
         this.$message({
           message: '退出成功',

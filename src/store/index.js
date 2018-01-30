@@ -12,7 +12,8 @@ const state = {
   username: '',
   nowMenu: '1-1',
   breadCrumbOne: '工作计划管理',
-  breadCrumbTwo: '新添工作计划'
+  breadCrumbTwo: '新添工作计划',
+  topSideMenu: ''
 }
 
 export default new Vuex.Store({

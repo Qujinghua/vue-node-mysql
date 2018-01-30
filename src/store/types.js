@@ -10,3 +10,5 @@ export const breadCrumbOne = 'breadCrumbOne'
 
 export const breadCrumbTwo = 'breadCrumbTwo'
 
+export const topSideMenu = 'topSideMenu'
+

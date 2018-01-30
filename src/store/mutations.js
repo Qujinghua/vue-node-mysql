@@ -23,8 +23,12 @@ const mutations = {
   },
   [types.breadCrumbTwo]: (state, data) => {
     state.breadCrumbTwo = data.breadCrumbTwo
+  },
+  [types.topSideMenu]: (state, data) => {
+    state.topSideMenu = data.topSideMenu
   }
 
-  
+
+
 }
 export default mutations

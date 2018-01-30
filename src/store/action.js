@@ -21,6 +21,10 @@ export default {
   },
   breadCrumbTwo({commit}, data) {
     commit(types.breadCrumbTwo, data)
-  }
-  
+  },
+  topSideMenu({commit}, data) {
+    commit(types.topSideMenu, data)
+  },
+
+
 }
