@@ -20,7 +20,8 @@
         <span class="el-dropdown-link">
           欢迎{{ username }}<i class="el-icon-arrow-down el-icon--right"></i>
         </span>
-        <el-dropdown-menu slot="dropdown">
+        <el-dropdown-menu slot="dropdown" style="text-align:center">
+          <el-dropdown-item command="userLogout">修改个人信息</el-dropdown-item>
           <el-dropdown-item command="userLogout">退出登录</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -69,6 +70,7 @@ export default {
       switch(str) {
         case 'userLogout':
         this.$store.dispatch({type:'UserLogout'})
+        this.$store.dispatch({type:'topSideMenu', topSideMenu: ''})
         this.$message({
           message: '退出成功',
           type: 'success'

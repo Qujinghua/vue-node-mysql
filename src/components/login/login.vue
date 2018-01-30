@@ -55,7 +55,7 @@ export default {
                 type: 'success'
               })
               this.$store.dispatch({type:'UserSession', userSession:data.data})
-              this.$router.push('/home-page')
+              this.$router.push('/home-page/exhibition')
             } else {
               this.$message({
                 message: data.data.message,
