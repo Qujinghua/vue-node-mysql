@@ -1,6 +1,6 @@
-# Vue全家桶+elementUI+node+mysql完成一个订单管理系统（前端部分）
+# Vue全家桶+elementUI+laravel+mysql完成一个订单管理系统（前端部分）
 
-> ## [后台（传送门）](https://github.com/Qujinghua/node-order)
+> ## [后台（传送门）](https://github.com/Qujinghua/laravel-manage)
 
 ## Build Setup
 
