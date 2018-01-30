@@ -131,6 +131,7 @@ export default {
 .container-sidebar{
   float: left;
   position: fixed;
+  max-width: 201px;
   top: 51px;
   height: 100%;
   overflow: auto;
