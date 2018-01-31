@@ -1,39 +1,52 @@
 <template>
   <div class="header">
-    <div class="header-logo">欢迎{{ username }}</div>
-    <div class="header-topmenu">
-      <el-menu
-        :default-active="activeIndex==''?activeIndex2:activeIndex"
-        class="el-menu-demo"
-        mode="horizontal"
-        @select="handleSelect"
-        :router="true">
-        <el-menu-item index="/home-page/exhibition">网上展厅</el-menu-item>
-        <el-menu-item index="/home-page/customer">客户管理</el-menu-item>
-        <!-- <el-menu-item index="3"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item> -->
-        <!-- <el-menu-item index="3">退出登录</el-menu-item> -->
-      </el-menu>
+    <div class="header-content">
+      <div class="header-content-logo">欢迎{{ username }}</div>
+      <div class="header-content-topmenu">
+        <el-menu
+          :default-active="activeIndex==''?activeIndex2:activeIndex"
+          class="el-menu-demo"
+          mode="horizontal"
+          @select="handleSelect"
+          :router="true">
+          <el-menu-item index="/home-page/exhibition">网上展厅</el-menu-item>
+          <el-menu-item index="/home-page/customer">客户管理</el-menu-item>
+          <!-- <el-menu-item index="3"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item> -->
+          <!-- <el-menu-item index="3">退出登录</el-menu-item> -->
+        </el-menu>
 
+      </div>
+      <div class="header-content-right">
+        <el-dropdown @command="dropdown">
+          <span class="el-dropdown-link">
+            欢迎{{ username }}<i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
+          <el-dropdown-menu slot="dropdown" style="text-align:center">
+            <el-dropdown-item command="modifyInfo">修改个人信息</el-dropdown-item>
+            <el-dropdown-item command="userLogout">退出登录</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </div>
     </div>
-    <div class="header-right">
-      <el-dropdown @command="dropdown">
-        <span class="el-dropdown-link">
-          欢迎{{ username }}<i class="el-icon-arrow-down el-icon--right"></i>
-        </span>
-        <el-dropdown-menu slot="dropdown" style="text-align:center">
-          <el-dropdown-item command="userLogout">修改个人信息</el-dropdown-item>
-          <el-dropdown-item command="userLogout">退出登录</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-    </div>
+    <modify-info :visible.sync="formModel.visible" :action="formModel.action" :receiveForm="formModel.receiveForm" @modifyInfo="modifyInfo"></modify-info>
   </div>
 </template>
 <script>
+import axios from '../../../axios'
+import modifyInfo from './modifyInfo.vue'
 export default {
   data () {
     return {
-      activeIndex2: ''
+      activeIndex2: '',
+      formModel: {
+        visible: false,
+        receiveForm: {},
+        action: 'modifyInfo'
+      }
     }
+  },
+  components: {
+    modifyInfo
   },
   computed: {
     username () {
@@ -77,16 +90,39 @@ export default {
         })
         this.$router.push('/login')
         break
+        case 'modifyInfo':
+        // const loading = this.$loading({
+        //   lock: true,
+        //   text: 'Loading',
+        //   spinner: 'el-icon-loading',
+        //   background: 'rgba(0, 0, 0, 0.7)'
+        // });
+        // setTimeout(() => {
+          
+        // }, 2000);
+        axios.post('/config/personalInfo',{username:sessionStorage.getItem('username')})
+        .then(data => {
+          // loading.close();
+          this.formModel.receiveForm = data.data[0]
+          console.log(data.data[0])
+          
+          this.formModel.visible = true
+        })
+        break
         default:
         break
       }
+    },
+    modifyInfo () {
+
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-.header {
+.header-content {
   position: fixed;
+  // z-index: 2011;
   overflow: hidden;
   width: 100%;
   height: 50px;

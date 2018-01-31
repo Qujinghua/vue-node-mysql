@@ -256,7 +256,7 @@ export default {
   },
   computed: {
     title () {
-      return this.action == 'add' ? '新增员工' : '编辑员工'
+      return this.action == 'add' ? '新增客户' : '编辑客户'
     },
   },
   mounted () {
