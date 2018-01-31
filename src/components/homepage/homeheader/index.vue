@@ -22,7 +22,8 @@
             欢迎{{ username }}<i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown" style="text-align:center">
-            <el-dropdown-item command="modifyInfo">修改个人信息</el-dropdown-item>
+            <el-dropdown-item command="modifyInfo">个人信息</el-dropdown-item>
+            <el-dropdown-item command="modifyInfoPass">修改密码</el-dropdown-item>
             <el-dropdown-item command="userLogout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -41,7 +42,7 @@ export default {
       formModel: {
         visible: false,
         receiveForm: {},
-        action: 'modifyInfo'
+        action: ''
       }
     }
   },
@@ -91,23 +92,29 @@ export default {
         this.$router.push('/login')
         break
         case 'modifyInfo':
-        // const loading = this.$loading({
-        //   lock: true,
-        //   text: 'Loading',
-        //   spinner: 'el-icon-loading',
-        //   background: 'rgba(0, 0, 0, 0.7)'
-        // });
-        // setTimeout(() => {
-          
-        // }, 2000);
+        const loading = this.$loading({
+          lock: true,
+          text: 'Loading',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        });
         axios.post('/config/personalInfo',{username:sessionStorage.getItem('username')})
         .then(data => {
-          // loading.close();
-          this.formModel.receiveForm = data.data[0]
-          console.log(data.data[0])
-          
+          loading.close();
+          // console.log(data.data.data[0])
+          this.formModel.action = 'modifyInfo'
+          this.formModel.receiveForm = data.data.data[0]
+          this.formModel.receiveForm.newPwd = ''
+          this.formModel.receiveForm.checkNewPwd = ''
           this.formModel.visible = true
         })
+        break
+        case 'modifyInfoPass':
+        this.formModel.action = 'modifyInfoPass'
+        this.formModel.receiveForm.id = sessionStorage.getItem('userid')
+        this.formModel.receiveForm.newPwd = ''
+        this.formModel.receiveForm.checkNewPwd = ''
+        this.formModel.visible = true
         break
         default:
         break

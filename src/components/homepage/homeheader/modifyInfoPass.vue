@@ -97,7 +97,7 @@ export default {
   },
   computed: {
     title () {
-      return '个人信息'
+      return '修改密码'
     },
   },
   // beforeUpdate () {

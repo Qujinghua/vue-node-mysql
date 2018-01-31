@@ -99,7 +99,7 @@ import addModel from './addModel'
 export default {
   data () {
     return {
-      loading: false,
+      loading: true,
       tableData: {},
       selectArr: [],
       searchInput: '',
@@ -180,7 +180,7 @@ export default {
           }
           this.getCustomer()
         })
-        
+
       }).catch(() => {
         this.$message({
           type: 'info',
@@ -218,16 +218,16 @@ export default {
               this.getCustomer()
             })
           })
-          
+
         })
-        
+
         .catch(() => {
           this.$message({
             type: 'info',
             message: '已取消删除'
           });
         });
-        
+
       }
     },
     handleSizeChange(val) {

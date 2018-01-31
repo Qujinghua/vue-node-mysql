@@ -13,6 +13,7 @@ const mutations = {
   [types.USERSESSION]: (state, data) => {
     sessionStorage.setItem('username', data.userSession.username)
     sessionStorage.setItem('isSuperAdmin', data.userSession.isSuperAdmin)
+    sessionStorage.setItem('userid', data.userSession.userid)
   },
 
   [types.nowMenu]: (state, data) => {

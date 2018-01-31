@@ -48,7 +48,6 @@ export default {
         if (valid) {
           axios.post('/config/userLogin',this.form)
           .then(data => {
-            console.log(data)
             if (data && data.status == 200 && data.data.status == 200) {
               this.$message({
                 message: '恭喜你，登录成功！',
