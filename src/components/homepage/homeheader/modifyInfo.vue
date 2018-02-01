@@ -1,6 +1,6 @@
 <template>
   <el-dialog :title="title" :visible="visible" @close="closeModel" width="600px">
-    <el-form :model="form" ref="form" :rules="rules2" label-width="110px">
+    <el-form :model="form" ref="form" :rules="rules2" label-width="50px">
       <el-form-item label="姓名" prop="name" >
         <el-input v-model="form.name" size="mini" :disabled="true"></el-input>
       </el-form-item>
@@ -10,21 +10,15 @@
       <el-form-item label="邮箱" prop="email" >
         <el-input v-model="form.email" size="mini"></el-input>
       </el-form-item>
-      <el-form-item label="新密码" prop="newPwd" >
-        <el-input type="password" v-model="form.newPwd" size="mini"></el-input>
-      </el-form-item>
-      <el-form-item label="请再次输入密码" prop="checkNewPwd">
-        <el-input type="password" v-model="form.checkNewPwd" size="mini"></el-input>
-      </el-form-item>
       <el-alert
-        title="您可以通过设置的电话/邮箱作为用户名登录本系统。"
+        title="您可以通过电话/邮箱作为用户名登录本系统。如果您想要修改电话或者邮箱，请在编辑后点击下方提交按钮。"
         type="info"
         show-icon>
       </el-alert>
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click="closeModel" size="small">取 消</el-button>
-      <el-button type="primary" @click="submitForm('form')" size="small">确 定</el-button>
+      <el-button type="primary" @click="submitForm('form')" size="small">提 交</el-button>
     </div>
   </el-dialog>
 </template>
@@ -35,8 +29,6 @@ const defaultForm = {
   name: '',
   phone: '',
   email: '',
-  newPwd: '',
-  checkNewPwd: ''
 }
 export default {
   props: {
@@ -82,13 +74,7 @@ export default {
         ],
         email: [
           { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }
-        ],
-        newPwd: [
-          { validator: validatePass, trigger: 'blur' }
-        ],
-        checkNewPwd: [
-          { validator: validatePass2, trigger: 'blur' }
-        ],
+        ]
       }
     }
   },
@@ -131,7 +117,7 @@ export default {
                 message: data.data.message,
                 type: 'success'
               })
-              this.$router.push('/login')
+              // this.$router.push('/login')
               // this.$emit('modifyInfo', this.action)
             }
           })

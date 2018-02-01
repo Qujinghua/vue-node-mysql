@@ -1,15 +1,6 @@
 <template>
   <el-dialog :title="title" :visible="visible" @close="closeModel" width="600px">
     <el-form :model="form" ref="form" :rules="rules2" label-width="110px">
-      <el-form-item label="姓名" prop="name" >
-        <el-input v-model="form.name" size="mini" :disabled="true"></el-input>
-      </el-form-item>
-      <el-form-item label="电话" prop="phone" >
-        <el-input v-model="form.phone" size="mini"></el-input>
-      </el-form-item>
-      <el-form-item label="邮箱" prop="email" >
-        <el-input v-model="form.email" size="mini"></el-input>
-      </el-form-item>
       <el-form-item label="新密码" prop="newPwd" >
         <el-input type="password" v-model="form.newPwd" size="mini"></el-input>
       </el-form-item>
@@ -17,7 +8,7 @@
         <el-input type="password" v-model="form.checkNewPwd" size="mini"></el-input>
       </el-form-item>
       <el-alert
-        title="您可以通过设置的电话/邮箱作为用户名登录本系统。"
+        title="密码修改后需要重新登录，请您牢记修改后的密码。"
         type="info"
         show-icon>
       </el-alert>
@@ -32,9 +23,6 @@
 import axios from '../../../axios'
 const defaultForm = {
   id: '',
-  name: '',
-  phone: '',
-  email: '',
   newPwd: '',
   checkNewPwd: ''
 }
@@ -45,12 +33,12 @@ export default {
     receiveForm: {}
   },
   data () {
-    var checkPhone = (rule, value, callback) => {
-      if (!(/^1[3|4|5|6|8|9][0-9]\d{8}$/.test(value))) {
-        return callback(new Error('请输入正确的手机号码'));
-      }
-      callback()
-    };
+    // var checkPhone = (rule, value, callback) => {
+    //   if (!(/^1[3|4|5|6|8|9][0-9]\d{8}$/.test(value))) {
+    //     return callback(new Error('请输入正确的手机号码'));
+    //   }
+    //   callback()
+    // };
     var validatePass = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入密码'));
@@ -77,12 +65,6 @@ export default {
       form: {},
       selDepartment: [],
       rules2: {
-        phone: [
-          { validator:checkPhone, trigger: 'blur' }
-        ],
-        email: [
-          { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }
-        ],
         newPwd: [
           { validator: validatePass, trigger: 'blur' }
         ],

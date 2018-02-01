@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <div class="header-content">
-      <div class="header-content-logo">欢迎{{ username }}</div>
+      <div class="header-content-logo"><span>未来办公</span></div>
       <div class="header-content-topmenu">
         <el-menu
           :default-active="activeIndex==''?activeIndex2:activeIndex"
@@ -19,7 +19,7 @@
       <div class="header-content-right">
         <el-dropdown @command="dropdown">
           <span class="el-dropdown-link">
-            欢迎{{ username }}<i class="el-icon-arrow-down el-icon--right"></i>
+            {{ username }}<i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown" style="text-align:center">
             <el-dropdown-item command="modifyInfo">个人信息</el-dropdown-item>
@@ -30,11 +30,13 @@
       </div>
     </div>
     <modify-info :visible.sync="formModel.visible" :action="formModel.action" :receiveForm="formModel.receiveForm" @modifyInfo="modifyInfo"></modify-info>
+    <modify-infopass :visible.sync="formModel2.visible" :action="formModel2.action" :receiveForm="formModel2.receiveForm" @modifyInfopass="modifyInfopass"></modify-infopass>
   </div>
 </template>
 <script>
 import axios from '../../../axios'
 import modifyInfo from './modifyInfo.vue'
+import modifyInfopass from './modifyInfoPass.vue'
 export default {
   data () {
     return {
@@ -43,11 +45,17 @@ export default {
         visible: false,
         receiveForm: {},
         action: ''
+      },
+      formModel2: {
+        visible: false,
+        receiveForm: {},
+        action: ''
       }
     }
   },
   components: {
-    modifyInfo
+    modifyInfo,
+    modifyInfopass
   },
   computed: {
     username () {
@@ -102,25 +110,26 @@ export default {
         .then(data => {
           loading.close();
           // console.log(data.data.data[0])
-          this.formModel.action = 'modifyInfo'
+          this.formModel.action = 'personalInfo'
           this.formModel.receiveForm = data.data.data[0]
-          this.formModel.receiveForm.newPwd = ''
-          this.formModel.receiveForm.checkNewPwd = ''
           this.formModel.visible = true
         })
         break
         case 'modifyInfoPass':
-        this.formModel.action = 'modifyInfoPass'
-        this.formModel.receiveForm.id = sessionStorage.getItem('userid')
-        this.formModel.receiveForm.newPwd = ''
-        this.formModel.receiveForm.checkNewPwd = ''
-        this.formModel.visible = true
+        this.formModel2.action = 'personalInfoPass'
+        this.formModel2.receiveForm.id = sessionStorage.getItem('userid')
+        this.formModel2.receiveForm.newPwd = ''
+        this.formModel2.receiveForm.checkNewPwd = ''
+        this.formModel2.visible = true
         break
         default:
         break
       }
     },
     modifyInfo () {
+
+    },
+    modifyInfopass () {
 
     }
   }
@@ -129,7 +138,6 @@ export default {
 <style lang="scss" scoped>
 .header-content {
   position: fixed;
-  // z-index: 2011;
   overflow: hidden;
   width: 100%;
   height: 50px;
@@ -139,6 +147,15 @@ export default {
     width: 200px;
     height: 100%;
     float: left;
+    background: url('../../../assets/logo.png') no-repeat;
+    background-size: 50px 50px;
+    background-position: 20px 0;
+    & span {
+      color: #409EFF;
+      margin-left: 90px;
+      // font-weight: bold;
+      font-size: 18px;
+    }
   }
   &-topmenu {
     float: left;
