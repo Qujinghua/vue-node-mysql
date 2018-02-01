@@ -102,7 +102,6 @@ export default {
     },
     submitForm (form) {
       this.form.action = this.action
-      console.log(this.form)
       this.$refs[form].validate((valid) => {
         if(valid) {
           axios.post('/config/updatePersonalInfo',this.form)
@@ -114,7 +113,11 @@ export default {
                 type: 'success'
               })
               this.$router.push('/login')
-              // this.$emit('modifyInfo', this.action)
+            } else {
+              this.$message({
+                message: data.data.message,
+                type: 'info'
+              })
             }
           })
         } else {

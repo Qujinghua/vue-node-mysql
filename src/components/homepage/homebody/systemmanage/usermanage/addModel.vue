@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :title="title" :visible="visible" @close="closeModel" width="500px">
+  <el-dialog :title="title" :visible="visible" @close="closeModel" width="600px">
     <el-form :model="form" ref="form" :rules="rules2" label-width="90px" v-loading="loading">
       <el-form-item label="姓名" prop="name" >
         <el-input v-model="form.name" size="mini"></el-input>
@@ -28,6 +28,11 @@
           <i class="el-icon-question" style="font-size:18px;margin-left:10px;"></i>
         </el-tooltip>
       </el-form-item>
+      <el-alert
+        title="电话和邮箱不再是必填项，员工可以登陆后在个人信息下自行添加和修改。"
+        type="info"
+        show-icon>
+      </el-alert>
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click="closeModel" size="small">取 消</el-button>
@@ -53,7 +58,7 @@ export default {
   data () {
     var checkPhone = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error('请输入手机号码'));
+        return callback();
       } else {
         if (!(/^1[3|4|5|6|8|9][0-9]\d{8}$/.test(value))) {
           return callback(new Error('请输入正确的手机号码'));
@@ -77,10 +82,10 @@ export default {
           { required: true, message:'请输入姓名', trigger: 'blur' }
         ],
         phone: [
-          { required: true, validator:checkPhone, trigger: 'blur' }
+          { validator:checkPhone, trigger: 'blur' }
         ],
         email: [
-          { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+          // { required: true, message: '请输入邮箱地址', trigger: 'blur' },
           { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }
         ],
         department: [

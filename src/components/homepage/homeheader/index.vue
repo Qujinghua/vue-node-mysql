@@ -138,6 +138,8 @@ export default {
 <style lang="scss" scoped>
 .header-content {
   position: fixed;
+  background: #FFFFFF;
+  z-index: 4;
   overflow: hidden;
   width: 100%;
   height: 50px;

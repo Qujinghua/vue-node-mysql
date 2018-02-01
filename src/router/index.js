@@ -32,6 +32,9 @@ const router = new Router({
         require.ensure(['@/components/login/login.vue'], () => {
           resolve(require('@/components/login/login.vue'))
         })
+      },
+      meta: {
+        title: '登录'
       }
     },
     {
@@ -41,6 +44,9 @@ const router = new Router({
         require.ensure(['@/components/404/404.vue'], () => {
           resolve(require('@/components/404/404.vue'))
         })
+      },
+      meta: {
+        title: '404'
       }
     },
     {
@@ -50,6 +56,9 @@ const router = new Router({
         require.ensure(['@/components/login/login.vue'], () => {
           resolve(require('@/components/login/login.vue'))
         })
+      },
+      meta: {
+        title: '登录'
       }
     },
 
@@ -70,7 +79,8 @@ const router = new Router({
             })
           },
           meta: {
-            requireAuth: true
+            requireAuth: true,
+            title: '客户管理'
           }
         },
         {
@@ -81,7 +91,8 @@ const router = new Router({
             })
           },
           meta: {
-            requireAuth: true
+            requireAuth: true,
+            title: '用户管理'
           }
         },
         {
@@ -92,7 +103,8 @@ const router = new Router({
             })
           },
           meta: {
-            requireAuth: true
+            requireAuth: true,
+            title: '部门管理'
           }
         },
         {
@@ -103,7 +115,8 @@ const router = new Router({
             })
           },
           meta: {
-            requireAuth: true
+            requireAuth: true,
+            title: '网上展厅'
           }
         },
       ],
@@ -117,13 +130,12 @@ const router = new Router({
 
 // 验证 session，存在才跳转
 router.beforeEach((to, from, next) => {
-
+  window.document.title = to.meta.title;
   if(to.matched.length === 0) {
     next({
       path: '/404',
     })
   }else {
-
     let username = sessionStorage.getItem('username')
     if(to.meta.requireAuth) {
       if(username) {

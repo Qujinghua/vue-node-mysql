@@ -67,6 +67,7 @@ export default {
     return {
       loading: false,
       form: {},
+      checkForm: {},
       selDepartment: [],
       rules2: {
         phone: [
@@ -102,15 +103,14 @@ export default {
     },
     setForm () {
       this.form = this.receiveForm
-      console.log(this.form)
     },
     submitForm (form) {
       this.form.action = this.action
-      console.log(this.form)
       this.$refs[form].validate((valid) => {
         if(valid) {
           axios.post('/config/updatePersonalInfo',this.form)
           .then(data => {
+            // console.log(data)
             if(data && data.data.status == 200 && data.status == 200){
               this.closeModel()
               this.$message({
@@ -119,6 +119,11 @@ export default {
               })
               // this.$router.push('/login')
               // this.$emit('modifyInfo', this.action)
+            } else {
+              this.$message({
+                message: data.data.message,
+                type: 'info'
+              })
             }
           })
         } else {
