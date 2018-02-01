@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import store from '../store/index.js'
+import { Message } from 'element-ui'
 
 Vue.use(Router)
 
@@ -143,7 +144,7 @@ router.beforeEach((to, from, next) => {
       } else {
         next({
           path: '/login',
-          query: { redirect: to.fullPath }
+          // query: { redirect: to.fullPath }
         })
       }
     } else {

@@ -8,10 +8,12 @@ import * as types from './store/types'
 //超时时间
 axios.default.timeout = 5000
 //全局请求headers配置
-// axios.defaults.headers.post['Content-Type'] = 'application/json'
+// axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name=csrf-token]').getAttribute('content')
 
-// var instance = axios.create();
-// instance.defaults.headers.post['Content-Type'] = 'application/json'
+axios.defaults.headers.post['Content-Type'] = 'application/json'
+
+var instance = axios.create();
+instance.defaults.headers.post['Content-Type'] = 'application/json'
 
 //添加一个请求拦截器
 // axios.interceptors.request.use = instance.interceptors.request.use
@@ -26,11 +28,20 @@ axios.default.timeout = 5000
 // })
 
 // axios.interceptors.request.use = instance.interceptors.request.use
-axios.interceptors.request.use(config => {
-  return config
-},err => {
-  return Promise.reject(err)
-})
+// instance.interceptors.request.use(config => {
+//   if(!(sessionStorage.getItem('username'))){
+//     Message.info({
+//       message: '登录失效！请重新登录'
+//     })
+//     router.replace({
+//       path: '/login',
+//       query: {redirect: router.currentRoute.fullPath}
+//     })
+//   }
+//   return config
+// },err => {
+//   return Promise.reject(err)
+// })
 
 //axios响应拦截器
 axios.interceptors.response.use(function(response){
