@@ -50,7 +50,7 @@
         </template>
         <el-menu-item index="/home-page/usermanage">员工管理</el-menu-item>
         <el-menu-item index="/home-page/departmentmanage">部门管理</el-menu-item>
-        <el-menu-item index="/home-page/">选项3</el-menu-item>
+        <el-menu-item index="/home-page/exhibitionmenu">展厅菜单管理</el-menu-item>
       </el-submenu>
     </el-menu>
   </el-col>

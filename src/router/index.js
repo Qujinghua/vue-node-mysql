@@ -109,6 +109,18 @@ const router = new Router({
           }
         },
         {
+          path: 'exhibitionmenu',
+          component(resolve) {
+            require.ensure(['@/components/homepage/homebody/systemmanage/exhibitionmenu/index.vue'], () => {
+              resolve(require('@/components/homepage/homebody/systemmanage/exhibitionmenu/index.vue'))
+            })
+          },
+          meta: {
+            requireAuth: true,
+            title: '网上展厅菜单管理'
+          }
+        },
+        {
           path: 'exhibition',
           component(resolve) {
             require.ensure(['@/components/homepage/homebody/exhibition/index.vue'], () => {
