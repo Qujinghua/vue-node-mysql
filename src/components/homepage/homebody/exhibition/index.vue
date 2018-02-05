@@ -107,6 +107,21 @@ export default {
 .caseChangeClick {
 
 }
+.ex {
+  &-menu {
+    &-classify {
+      &-content {
+        & ul li {
+          list-style-type: none;
+          float: left;
+        }
+        &-bigC {
+
+        }
+      }
+    }
+  }
+}
 </style>
 
 
