@@ -12,7 +12,7 @@
             <div class="ex-menu-classify-content-bigC">
               <span>产品大类</span>
               <ul>
-                <li @click="bigCList('0')" :class="{caseChangeClick:choose.big_name==0}">不限</li>
+                <li @click="bigCList(0,'')" :class="{caseChangeClick:choose.big_name==0}">不限</li>
                 <li v-for="(item,index) in bigCLists" :class="{caseChangeClick:choose.big_name==item.id}" @click="bigCList(item.id, item.big_name)">{{item.big_name}}</li>
               </ul>
             </div>
@@ -20,7 +20,7 @@
             <div class="ex-menu-classify-content-smallC">
               <span>产品小类</span>
               <ul>
-                <li @click="smallCList('0')" :class="{caseChangeClick:choose.big_name==0}">不限</li>
+                <li @click="smallCList(0,'')" :class="{caseChangeClick:choose.small_name==0}">不限</li>
                 <li v-for="(item,index) in smallCLists" :class="{caseChangeClick:choose.small_name==item.id}" @click="smallCList(item.id, item.small_name)">{{item.small_name}}</li>
               </ul>
             </div>
@@ -28,7 +28,7 @@
             <div class="ex-menu-classify-content-brand">
               <span>产品系列</span>
               <ul>
-                <li @click="brandLists('0')" :class="{caseChangeClick:choose.brand_name==0}">不限</li>
+                <li @click="brandList(0,'')" :class="{caseChangeClick:choose.brand_name==0}">不限</li>
                 <li v-for="(item,index) in brandLists" :class="{caseChangeClick:choose.brand_name==item.id}" @click="brandList(item.id, item.brand_name)">{{item.brand_name}}</li>
               </ul>
             </div>
@@ -118,16 +118,21 @@ export default {
       this.chooseShow.brand_name = name
     },
     deleteBigC () {
-
+      this.choose.big_name = 0
+      this.chooseShow.big_name = ''
     },
     deleteSmallC () {
-
+      this.choose.small_name = 0
+      this.chooseShow.small_name = ''
     },
     deleteBrand () {
-
+      this.choose.brand_name = 0
+      this.chooseShow.brand_name = ''
     },
     emptyChoose () {
-
+      this.deleteBigC()
+      this.deleteSmallC()
+      this.deleteBrand()
     }
 
   }
@@ -245,17 +250,17 @@ export default {
             display: inline-block;
             float: left;
             &:nth-child(1) {
-              height: 24px;
-              line-height: 24px;
+              height: 22px;
+              line-height: 22px;
               padding-left: 5px;
               padding-right: 5px;
             }
             &:nth-child(2) {
               cursor: pointer;
-              width: 24px;
+              width: 22px;
               text-align: center;
-              height: 24px;
-              line-height: 24px;
+              height: 22px;
+              line-height: 22px;
               background: #409EFF;
               & i {
                 color: #FFFFFF;
