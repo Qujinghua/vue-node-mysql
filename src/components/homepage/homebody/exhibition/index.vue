@@ -12,34 +12,34 @@
             <div class="ex-menu-classify-content-bigC">
               <span>产品大类</span>
               <ul>
-                <li @click="bigCList(0,'')" :class="{caseChangeClick:choose.big_name==0}">不限</li>
-                <li v-for="(item,index) in bigCLists" :class="{caseChangeClick:choose.big_name==item.id}" @click="bigCList(item.id, item.big_name)">{{item.big_name}}</li>
+                <li @click="bigCList('')" :class="{caseChangeClick:choose.big_name==''}">不限</li>
+                <li v-for="(item,index) in bigCLists" :class="{caseChangeClick:choose.big_name==item.big_name}" @click="bigCList(item.big_name)">{{item.big_name}}</li>
               </ul>
             </div>
             <div class="ex-menu-classify-content-dashed"></div>
             <div class="ex-menu-classify-content-smallC">
               <span>产品小类</span>
               <ul>
-                <li @click="smallCList(0,'')" :class="{caseChangeClick:choose.small_name==0}">不限</li>
-                <li v-for="(item,index) in smallCLists" :class="{caseChangeClick:choose.small_name==item.id}" @click="smallCList(item.id, item.small_name)">{{item.small_name}}</li>
+                <li @click="smallCList('')" :class="{caseChangeClick:choose.small_name==''}">不限</li>
+                <li v-for="(item,index) in smallCLists" :class="{caseChangeClick:choose.small_name==item.small_name}" @click="smallCList(item.small_name)">{{item.small_name}}</li>
               </ul>
             </div>
             <div class="ex-menu-classify-content-dashed"></div>
             <div class="ex-menu-classify-content-brand">
               <span>产品系列</span>
               <ul>
-                <li @click="brandList(0,'')" :class="{caseChangeClick:choose.brand_name==0}">不限</li>
-                <li v-for="(item,index) in brandLists" :class="{caseChangeClick:choose.brand_name==item.id}" @click="brandList(item.id, item.brand_name)">{{item.brand_name}}</li>
+                <li @click="brandList('')" :class="{caseChangeClick:choose.brand_name==''}">不限</li>
+                <li v-for="(item,index) in brandLists" :class="{caseChangeClick:choose.brand_name==item.brand_name}" @click="brandList(item.brand_name)">{{item.brand_name}}</li>
               </ul>
             </div>
           </div>
         </div>
-        <div class="ex-menu-choose" v-if="choose.big_name!=0||choose.small_name!=0||choose.brand_name!=0">
+        <div class="ex-menu-choose" v-if="choose.big_name!=''||choose.small_name!=''||choose.brand_name!=''">
           <span>已选条件</span>
           <ul>
-            <li v-if="choose.big_name!=0"><span>{{chooseShow.big_name}}</span><span @click="deleteBigC"><i class="el-icon-close"></i></span></li>
-            <li v-if="choose.small_name!=0"><span>{{chooseShow.small_name}}</span><span @click="deleteSmallC"><i class="el-icon-close"></i></span></li>
-            <li v-if="choose.brand_name!=0"><span>{{chooseShow.brand_name}}</span><span @click="deleteBrand"><i class="el-icon-close"></i></span></li>
+            <li v-if="choose.big_name!=''"><span>{{choose.big_name}}</span><span @click="deleteBigC"><i class="el-icon-close"></i></span></li>
+            <li v-if="choose.small_name!=''"><span>{{choose.small_name}}</span><span @click="deleteSmallC"><i class="el-icon-close"></i></span></li>
+            <li v-if="choose.brand_name!=''"><span>{{choose.brand_name}}</span><span @click="deleteBrand"><i class="el-icon-close"></i></span></li>
           </ul>
           <span @click="emptyChoose"><i class="el-icon-delete"></i><span>清空条件</span></span>
         </div>
@@ -97,37 +97,30 @@ export default {
         {id:1,brand_name:'KANO'},
         {id:2,brand_name:'YESCOCO'}
       ],
-      choose: {big_name: 0, small_name: 0, brand_name: 0, city: ''},
-      chooseShow: {big_name: '', small_name: '', brand_name: '', city: ''},
+      choose: {big_name: '', small_name: '', brand_name: ''},
     }
   },
   mounted () {
 
   },
   methods: {
-    bigCList (id, name) {
-      this.choose.big_name = id
-      this.chooseShow.big_name = name
+    bigCList (name) {
+      this.choose.big_name = name
     },
-    smallCList (id, name) {
-      this.choose.small_name = id
-      this.chooseShow.small_name = name
+    smallCList (name) {
+      this.choose.small_name = name
     },
-    brandList (id, name) {
-      this.choose.brand_name = id
-      this.chooseShow.brand_name = name
+    brandList (name) {
+      this.choose.brand_name = name
     },
     deleteBigC () {
-      this.choose.big_name = 0
-      this.chooseShow.big_name = ''
+      this.choose.big_name = ''
     },
     deleteSmallC () {
-      this.choose.small_name = 0
-      this.chooseShow.small_name = ''
+      this.choose.small_name = ''
     },
     deleteBrand () {
-      this.choose.brand_name = 0
-      this.chooseShow.brand_name = ''
+      this.choose.brand_name = ''
     },
     emptyChoose () {
       this.deleteBigC()
