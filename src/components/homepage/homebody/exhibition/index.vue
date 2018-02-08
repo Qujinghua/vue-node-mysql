@@ -94,10 +94,10 @@ export default {
         {id:28,small_name:'休闲椅'},
       ],
       brandLists:[
-        {id:1,brand_name:'KANO'},
-        {id:2,brand_name:'YESCOCO'}
+        {id: 1, brand_name: 'KANO'},
+        {id: 2, brand_name: 'YESCOCO'}
       ],
-      choose: {big_name: '', small_name: '', brand_name: ''},
+      choose: { big_name: '', small_name: '', brand_name: '' },
     }
   },
   mounted () {
