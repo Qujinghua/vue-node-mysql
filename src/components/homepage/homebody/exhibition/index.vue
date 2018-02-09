@@ -44,7 +44,23 @@
           <span @click="emptyChoose"><i class="el-icon-delete"></i><span>清空条件</span></span>
         </div>
       </div>
-      <div class="ex-"></div>
+      <div class="ex-goods">
+        <el-row>
+          <el-col :span="5" v-for="(o, index) in 4" :key="o" >
+            <el-card :body-style="{ padding: '0px' }">
+              <img src="http://element.eleme.io/static/hamburger.50e4091.png" class="ex-goods-image">
+              <div style="padding: 14px;">
+                <span>好吃的汉堡</span>
+                <div class="ex-goods-bottom ex-goods-clearfix">
+                  <time class="ex-goods-bottom-time">2018-2-9</time>
+                  <el-button type="text" class="ex-goods-bottom-button">操作按钮</el-button>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+        </el-row>
+
+      </div>
     </div>
   </div>
 </template>
@@ -263,6 +279,42 @@ export default {
         }
       }
     }
+  }
+  &-goods {
+    &-image {
+      width: 100%;
+      display: block;
+    }
+    &-bottom {
+      margin-top: 13px;
+      line-height: 12px;
+      &-time {
+        font-size: 13px;
+        color: #999;
+      }
+      .clearfix:before,
+      .clearfix:after {
+          display: table;
+          content: "";
+      }
+
+      .clearfix:after {
+          clear: both
+      }
+      .button {
+        padding: 0;
+        float: right;
+      }
+    }
+
+
+
+
+
+
+
+
+
   }
 }
 </style>
