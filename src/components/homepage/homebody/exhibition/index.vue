@@ -46,7 +46,7 @@
       </div>
       <div class="ex-goods">
         <el-row>
-          <el-col :span="5" v-for="(o, index) in 4" :key="o" >
+          <el-col :span="5" v-for="(o, index) in 4" :key="o"   >
             <el-card :body-style="{ padding: '0px' }">
               <img src="http://element.eleme.io/static/hamburger.50e4091.png" class="ex-goods-image">
               <div style="padding: 14px;">
