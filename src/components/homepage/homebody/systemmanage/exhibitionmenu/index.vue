@@ -7,20 +7,123 @@
     </div>
     <div class="content-tabs">
       <el-tabs type="border-card">
-        <el-tab-pane label="产品大类">产品大类</el-tab-pane>
-        <el-tab-pane label="产品子类">产品子类</el-tab-pane>
-        <el-tab-pane label="产品系列">产品系列</el-tab-pane>
-        <el-tab-pane label="交付周期">交付周期</el-tab-pane>
-        <el-tab-pane label="仓库名称">仓库名称</el-tab-pane>
+        <el-tab-pane label="产品大类">
+          <div class="content-tabs-bigC-btn">
+            <el-button type="primary" plain size="mini" icon="el-icon-plus" @click="addEditBig('addBig')">新增大类</el-button>
+          </div>
+          <template>
+            <el-table
+              v-loading="bigC.loading"
+              :data="bigC.tableData"
+              stripe
+              size="mini"
+              style="width: 100%">
+              <el-table-column
+                fixed
+                prop="name"
+                label="大类名称">
+              </el-table-column>
+              <el-table-column
+                fixed="right"
+                label="操作"
+                width="150">
+                <template slot-scope="scope">
+                  <el-button type="text" size="small" @click="addEditBig('editBig',scope.row)">编辑</el-button>
+                  <el-button @click="deleteOne(scope.row)" type="text" size="small">删除</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+          </template>
+        </el-tab-pane>
+        <el-tab-pane label="产品子类">
+          <div class="content-tabs-bigC-btn">
+            <el-button type="primary" plain size="mini" icon="el-icon-plus" @click="addEditBig('addSmall')">新增子类</el-button>
+          </div>
+          <template>
+            <el-table
+              v-loading="bigC.loading"
+              :data="bigC.tableData"
+              stripe
+              size="mini"
+              style="width: 100%">
+              <el-table-column
+                fixed
+                prop="name"
+                label="大类名称">
+              </el-table-column>
+              <el-table-column
+                fixed="right"
+                label="操作"
+                width="150">
+                <template slot-scope="scope">
+                  <el-button type="text" size="small" @click="addEditBig('editSmall',scope.row)">编辑</el-button>
+                  <el-button @click="deleteOne(scope.row)" type="text" size="small">删除</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+          </template>
+        </el-tab-pane>
+        <el-tab-pane label="产品系列">
+          <div class="content-tabs-bigC-btn">
+            <el-button type="primary" plain size="mini" icon="el-icon-plus" @click="addEditBig('addBig')">新增大类</el-button>
+          </div>
+          <template>
+            <el-table
+              v-loading="bigC.loading"
+              :data="bigC.tableData"
+              stripe
+              size="mini"
+              style="width: 100%">
+              <el-table-column
+                fixed
+                prop="name"
+                label="大类名称">
+              </el-table-column>
+              <el-table-column
+                fixed="right"
+                label="操作"
+                width="150">
+                <template slot-scope="scope">
+                  <el-button type="text" size="small" @click="addEditBig('editBig',scope.row)">编辑</el-button>
+                  <el-button @click="deleteOne(scope.row)" type="text" size="small">删除</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+          </template>
+        </el-tab-pane>
       </el-tabs>
     </div>
+    <add-model :visible.sync="formModel.visible" :action="formModel.action" :receiveForm="formModel.receiveForm" @getList="getList"></add-model>
   </div>
 </template>
 
 <script>
+import addModel from './addModel'
 export default {
   data () {
     return {
+      formModel: {
+        visible: false,
+        receiveForm: {},
+        action: ''
+      },
+      bigC: {
+        loading: 'true',
+        tableDate: []
+      }
+    }
+  },
+  components: {
+    addModel
+  },
+  methods: {
+    addEditBig (str,params) {
+      this.formModel.visible = true
+    },
+    deleteOne () {
+
+    },
+    getList () {
 
     }
   }

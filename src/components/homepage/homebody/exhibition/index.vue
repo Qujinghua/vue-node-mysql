@@ -46,17 +46,17 @@
       </div>
       <div class="ex-goods">
         <el-row>
-          <el-col :span="5" v-for="(o, index) in 4" :key="o"   >
-            <el-card :body-style="{ padding: '0px' }">
-              <img src="http://element.eleme.io/static/hamburger.50e4091.png" class="ex-goods-image">
+          <el-col :span="6" v-for="(o, index) in 4" :key="o"   >
+            <div class="ex-goods-list">
+              <img src="http://element.eleme.io/static/hamburger.50e4091.png" class="ex-goods-list-image">
               <div style="padding: 14px;">
                 <span>好吃的汉堡</span>
-                <div class="ex-goods-bottom ex-goods-clearfix">
-                  <time class="ex-goods-bottom-time">2018-2-9</time>
-                  <el-button type="text" class="ex-goods-bottom-button">操作按钮</el-button>
+                <div class="ex-goods-list-bottom ex-goods-list-clearfix">
+                  <time class="ex-goods-list-bottom-time">2018-2-9</time>
+                  <el-button type="text" class="ex-goods--list-bottom-button">操作按钮</el-button>
                 </div>
               </div>
-            </el-card>
+            </div>
           </el-col>
         </el-row>
 
@@ -280,30 +280,39 @@ export default {
       }
     }
   }
-  &-goods {
-    &-image {
-      width: 100%;
-      display: block;
-    }
-    &-bottom {
-      margin-top: 13px;
-      line-height: 12px;
-      &-time {
-        font-size: 13px;
-        color: #999;
+  &-goods{
+    margin-top: 15px;
+    &-list{
+      padding: 5px;
+      border: 1px solid #fff;
+      &:hover {
+        border: 1px solid #e6e6e6;
+        transition: 0.3s;
       }
-      .clearfix:before,
-      .clearfix:after {
+      &-image {
+        width: 100%;
+        display: block;
+      }
+      &-bottom {
+        margin-top: 13px;
+        line-height: 12px;
+        &-time {
+          font-size: 13px;
+          color: #999;
+        }
+        .clearfix:before,
+        .clearfix:after {
           display: table;
           content: "";
-      }
+        }
 
-      .clearfix:after {
+        .clearfix:after {
           clear: both
-      }
-      .button {
-        padding: 0;
-        float: right;
+        }
+        .button {
+          padding: 0;
+          float: right;
+        }
       }
     }
 
