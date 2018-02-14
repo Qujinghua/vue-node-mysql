@@ -4,7 +4,7 @@
 
     </div>
     <div class="login-form">
-      <el-form :model="form" ref="form"  label-width="100px">
+      <el-form :model="form" ref="form"  label-width="80px">
         <el-form-item label="用户名" prop="username" :rules="rules.username">
           <el-input type="text" size="mini" v-model="form.username" placeholder="姓名/手机号/邮箱"></el-input>
         </el-form-item>
@@ -15,6 +15,11 @@
           <el-button type="primary" size="mini" @click="submitForm('form')">登录</el-button>
           <el-button size="mini" @click="resetForm('form')">重置</el-button>
         </el-form-item>
+        <el-alert
+          title="游客请使用用户名admin密码12345678进行登录"
+          type="info"
+          show-icon>
+        </el-alert>
       </el-form>
     </div>
 

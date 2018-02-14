@@ -6,7 +6,7 @@
       <span>展厅管理</span>
     </div>
     <div class="content-tabs">
-      <el-tabs type="border-card">
+      <el-tabs type="border-card" @tab-click="tabClick">
         <el-tab-pane label="产品大类">
           <div class="content-tabs-bigC-btn">
             <el-button type="primary" plain size="mini" icon="el-icon-plus" @click="addEditBig('addBig')">新增大类</el-button>
@@ -98,6 +98,7 @@
 </template>
 
 <script>
+import axios from '../../../../../axios'
 import addModel from './addModel'
 export default {
   data () {
@@ -108,7 +109,7 @@ export default {
         action: ''
       },
       bigC: {
-        loading: 'true',
+        loading: true,
         tableDate: []
       }
     }
@@ -116,9 +117,29 @@ export default {
   components: {
     addModel
   },
+  mounted () {
+    this.getBigC()
+  },
   methods: {
+    tabClick (tab) {
+      console.log(tab)
+      console.log(tab.label)
+    },
+    getBigC () {
+      axios.get('/config/getBigC')
+      .then(data => {
+        if(data.status==200){
+          this.bigC.tableData = data.data
+        }
+        this.bigC.loading = false
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    },
     addEditBig (str,params) {
       this.formModel.visible = true
+      this.formModel.action = 'addBig'
     },
     deleteOne () {
 

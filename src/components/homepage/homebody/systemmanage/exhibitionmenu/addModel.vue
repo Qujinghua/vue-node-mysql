@@ -1,11 +1,8 @@
 <template>
   <el-dialog :title="title" :visible="visible" @close="closeModel" width="500px">
     <el-form :model="form" ref="form" :rules="rules2" label-width="80px">
-      <el-form-item label="部门名称" prop="name" >
-        <el-input v-model="form.name" size="mini"></el-input>
-      </el-form-item>
-      <el-form-item label="部门地址" prop="address">
-        <el-input v-model="form.address" size="mini"></el-input>
+      <el-form-item label="大类名称" prop="name" >
+        <el-input v-model="form.big_name" size="mini"></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
