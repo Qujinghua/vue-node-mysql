@@ -52,7 +52,7 @@
               <div style="padding: 14px;">
                 <span>好吃的汉堡</span>
                 <div class="ex-goods-list-bottom ex-goods-list-clearfix">
-                  <time class="ex-goods-list-bottom-time">2018-2-9</time>
+                  <time class="ex-goods-list-bottom-time">2018-3-1</time>
                   <el-button type="text" class="ex-goods--list-bottom-button">操作按钮</el-button>
                 </div>
               </div>
