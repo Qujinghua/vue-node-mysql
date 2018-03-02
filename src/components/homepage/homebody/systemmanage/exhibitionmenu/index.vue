@@ -139,7 +139,7 @@ export default {
     },
     addEditBig (str,params) {
       this.formModel.visible = true
-      this.formModel.action = 'addBig'
+      this.formModel.action = str
     },
     deleteOne () {
 

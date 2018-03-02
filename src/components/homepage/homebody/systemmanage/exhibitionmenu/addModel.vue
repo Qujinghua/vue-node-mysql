@@ -49,6 +49,9 @@ export default {
         case 'addBig':
         return '新增大类'
         break
+        case 'addSmall':
+        return '新增子类'
+        break
         default:
         return
         break
