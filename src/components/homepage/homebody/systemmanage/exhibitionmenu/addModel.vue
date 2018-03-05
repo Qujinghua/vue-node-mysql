@@ -53,7 +53,7 @@ export default {
         return '新增子类'
         break
         case 'add':
-        return '新增产品系列'
+        return '新增产品'
         break
         default:
         return
