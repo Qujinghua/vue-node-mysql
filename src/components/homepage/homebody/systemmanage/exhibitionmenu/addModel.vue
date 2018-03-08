@@ -1,8 +1,11 @@
 <template>
-  <el-dialog :title="title" :visible="visible" @close="closeModel" width="500px">
+  <el-dialog v-if="action=='addBig'||action=='editBig'" :title="title" :visible="visible" @close="closeModel" width="500px">
     <el-form :model="form" ref="form" :rules="rules2" label-width="80px">
-      <el-form-item label="大类名称" prop="name" >
+      <el-form-item label="大类名称" prop="big_name" >
         <el-input v-model="form.big_name" size="mini"></el-input>
+      </el-form-item>
+      <el-form-item label="大类名称" prop="big_notes" >
+        <el-input v-model="form.big_notes" size="mini"></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -14,8 +17,8 @@
 <script>
 import axios from '../../../../../axios'
 const defaultForm = {
-  name: '',
-  address: ''
+  big_name: '',
+  big_notes: ''
 }
 export default {
   props: {
@@ -26,11 +29,11 @@ export default {
   data () {
     return {
       form: {
-        name: '',
-        address: ''
+        big_name: '',
+        big_notes: ''
       },
       rules2: {
-        name: [
+        big_name: [
           { required: true, message:'部门名称不能为空', trigger: 'blur' }
         ]
       }
@@ -38,7 +41,7 @@ export default {
   },
   watch: {
     visible (now) {
-      if(now && this.action === 'edit') {
+      if(now && this.action === 'editBig') {
         this.form = {...this.receiveForm}
       }
     }
@@ -48,6 +51,9 @@ export default {
       switch(this.action) {
         case 'addBig':
         return '新增大类'
+        break
+        case 'editBig':
+        return '编辑大类'
         break
         case 'addSmall':
         return '新增子类'
@@ -72,23 +78,23 @@ export default {
     },
     submitForm (form) {
       this.form.action = this.action
-      // this.$refs[form].validate((valid) => {
-      //   if(valid) {
-      //     axios.post('/config/updateDepartment',this.form)
-      //     .then(data => {
-      //       if(data && data.data.status == 200 && data.status == 200){
-      //         this.closeModel()
-      //         this.$message({
-      //           message: '成功！',
-      //           type: 'success'
-      //         })
-      //         this.$emit('getList', this.action)
-      //       }
-      //     })
-      //   } else {
-      //     return false
-      //   }
-      // })
+      this.$refs[form].validate((valid) => {
+        if(valid) {
+          axios.post('/config/updateMenu',this.form)
+          .then(data => {
+            if(data && data.data.status == 200 && data.status == 200){
+              this.closeModel()
+              this.$message({
+                message: data.data.message || '成功！',
+                type: 'success'
+              })
+              this.$emit('getList', this.action)
+            }
+          })
+        } else {
+          return false
+        }
+      })
 
     },
   }

@@ -19,12 +19,14 @@
               size="mini"
               style="width: 100%">
               <el-table-column
-                fixed
-                prop="name"
+                prop="big_name"
                 label="大类名称">
               </el-table-column>
               <el-table-column
-                fixed="right"
+                prop="big_notes"
+                label="大类介绍">
+              </el-table-column>
+              <el-table-column
                 label="操作"
                 width="150">
                 <template slot-scope="scope">
@@ -35,7 +37,7 @@
             </el-table>
           </template>
         </el-tab-pane>
-        <el-tab-pane label="产品子类">
+        <!-- <el-tab-pane label="产品子类">
           <div class="content-tabs-bigC-btn">
             <el-button type="primary" plain size="mini" icon="el-icon-plus" @click="addEditBig('addSmall')">新增子类</el-button>
           </div>
@@ -75,9 +77,12 @@
               size="mini"
               style="width: 100%">
               <el-table-column
-                fixed
-                prop="name"
+                prop="big_name"
                 label="大类名称">
+              </el-table-column>
+              <el-table-column
+                prop="big_notes"
+                label="大类介绍">
               </el-table-column>
               <el-table-column
                 fixed="right"
@@ -90,7 +95,7 @@
               </el-table-column>
             </el-table>
           </template>
-        </el-tab-pane>
+        </el-tab-pane> -->
       </el-tabs>
     </div>
     <add-model :visible.sync="formModel.visible" :action="formModel.action" :receiveForm="formModel.receiveForm" @getList="getList"></add-model>
@@ -129,6 +134,7 @@ export default {
       axios.get('/config/getBigC')
       .then(data => {
         if(data.status==200){
+          console.log(data)
           this.bigC.tableData = data.data
         }
         this.bigC.loading = false
@@ -140,12 +146,26 @@ export default {
     addEditBig (str,params) {
       this.formModel.visible = true
       this.formModel.action = str
+      switch (str) {
+        case 'editBig':
+        this.formModel.receiveForm = params
+        break
+        default:
+        break
+      }
     },
     deleteOne () {
 
     },
-    getList () {
-
+    getList (str) {
+      switch (str) {
+        case 'editBig':
+        case 'addBig':
+        this.getBigC()
+        break
+        default:
+        break
+      }
     }
   }
 }
