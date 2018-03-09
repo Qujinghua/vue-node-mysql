@@ -31,7 +31,7 @@
                 width="150">
                 <template slot-scope="scope">
                   <el-button type="text" size="small" @click="addEditBig('editBig',scope.row)">编辑</el-button>
-                  <el-button @click="deleteOne(scope.row)" type="text" size="small">删除</el-button>
+                  <el-button @click="deleteOne('delBig', scope.row)" type="text" size="small">删除</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -115,7 +115,7 @@ export default {
       },
       bigC: {
         loading: true,
-        tableDate: []
+        tableData: []
       }
     }
   },
@@ -134,7 +134,6 @@ export default {
       axios.get('/config/getBigC')
       .then(data => {
         if(data.status==200){
-          console.log(data)
           this.bigC.tableData = data.data
         }
         this.bigC.loading = false
@@ -154,8 +153,28 @@ export default {
         break
       }
     },
-    deleteOne () {
+    deleteOne (str, params) {
+      let delData = {
+        action: str,
+        big_id: params.big_id
+      }
+      axios.post('/config/delMenu',delData)
+      .then(data => {
+        if(data.status == 200) {
+          this.$message({
+            message: data.data.message || '成功!',
+            type: 'success'
+          });
+          this.getBigC()
+        } else {
+          this.$message({
+            message: data.data.message || '失败!',
+            type: 'error'
+          });
+          this.getBigC()
+        }
 
+      })
     },
     getList (str) {
       switch (str) {
