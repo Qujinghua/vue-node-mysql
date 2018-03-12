@@ -37,21 +37,21 @@
             </el-table>
           </template>
         </el-tab-pane>
-        <!-- <el-tab-pane label="产品子类">
+        <el-tab-pane label="产品子类">
           <div class="content-tabs-bigC-btn">
             <el-button type="primary" plain size="mini" icon="el-icon-plus" @click="addEditBig('addSmall')">新增子类</el-button>
           </div>
           <template>
             <el-table
-              v-loading="bigC.loading"
-              :data="bigC.tableData"
+              v-loading="smallC.loading"
+              :data="smallC.tableData"
               stripe
               size="mini"
               style="width: 100%">
               <el-table-column
                 fixed
                 prop="name"
-                label="大类名称">
+                label="子类名称">
               </el-table-column>
               <el-table-column
                 fixed="right"
@@ -59,13 +59,13 @@
                 width="150">
                 <template slot-scope="scope">
                   <el-button type="text" size="small" @click="addEditBig('editSmall',scope.row)">编辑</el-button>
-                  <el-button @click="deleteOne(scope.row)" type="text" size="small">删除</el-button>
+                  <el-button @click="deleteOne('delSmall', scope.row)" type="text" size="small">删除</el-button>
                 </template>
               </el-table-column>
             </el-table>
           </template>
         </el-tab-pane>
-        <el-tab-pane label="产品系列">
+        <!-- <el-tab-pane label="产品系列">
           <div class="content-tabs-bigC-btn">
             <el-button type="primary" plain size="mini" icon="el-icon-plus" @click="addEditBig('addBig')">新增大类</el-button>
           </div>
@@ -114,6 +114,10 @@ export default {
         action: ''
       },
       bigC: {
+        loading: true,
+        tableData: []
+      },
+      smallC: {
         loading: true,
         tableData: []
       }

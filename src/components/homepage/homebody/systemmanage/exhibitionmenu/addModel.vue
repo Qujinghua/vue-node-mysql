@@ -16,9 +16,14 @@
 </template>
 <script>
 import axios from '../../../../../axios'
-const defaultForm = {
+const defaultBigForm = {
   big_name: '',
   big_notes: ''
+}
+const defaultSmallForm = {
+  small_name: '',
+  big_name: '',
+  small_notes: ''
 }
 export default {
   props: {
@@ -74,7 +79,7 @@ export default {
       this.$emit('update:visible', false)
     },
     resetForm() {
-      this.form = {...defaultForm}
+      this.form = {...defaultBigForm}
     },
     submitForm (form) {
       this.form.action = this.action
