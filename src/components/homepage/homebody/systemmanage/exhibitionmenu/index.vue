@@ -50,8 +50,17 @@
               style="width: 100%">
               <el-table-column
                 fixed
-                prop="name"
+                prop="small_name"
                 label="子类名称">
+              </el-table-column>
+              <el-table-column
+                fixed
+                prop="big_name"
+                label="所属大类">
+              </el-table-column>
+              <el-table-column
+                prop="small_notes"
+                label="子类介绍">
               </el-table-column>
               <el-table-column
                 fixed="right"
@@ -98,7 +107,7 @@
         </el-tab-pane> -->
       </el-tabs>
     </div>
-    <add-model :visible.sync="formModel.visible" :action="formModel.action" :receiveForm="formModel.receiveForm" @getList="getList"></add-model>
+    <add-model :visible.sync="formModel.visible" :action="formModel.action" :receiveForm="formModel.receiveForm" :bigCLists="bigC.tableData" :smallCLists="smallC.tableData" @getList="getList"></add-model>
   </div>
 </template>
 
@@ -131,8 +140,18 @@ export default {
   },
   methods: {
     tabClick (tab) {
-      console.log(tab)
       console.log(tab.label)
+      switch (tab.label) {
+        case '产品大类':
+        this.getBigC()
+        break
+        case '产品子类':
+        this.getSmallC()
+        break
+        default:
+        break
+
+      }
     },
     getBigC () {
       axios.get('/config/getBigC')
@@ -141,6 +160,18 @@ export default {
           this.bigC.tableData = data.data
         }
         this.bigC.loading = false
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    },
+    getSmallC () {
+      axios.get('/config/getSmallC')
+      .then(data => {
+        if(data.status==200){
+          this.smallC.tableData = data.data
+        }
+        this.smallC.loading = false
       })
       .catch(error => {
         console.log(error)
