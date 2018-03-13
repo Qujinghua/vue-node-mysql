@@ -90,7 +90,7 @@ export default {
       } else if(this.action === 'editSmall') {
         this.smallForm = {...this.receiveForm}
       }
-      console.log(this.bigCLists)
+      // console.log(this.bigCLists)
     }
   },
   computed: {
@@ -128,7 +128,7 @@ export default {
       this.form = {...defaultBigForm}
     },
     resetFormSmall(str) {
-      this.form = {...defaultSmallForm}
+      this.smallForm = {...defaultSmallForm}
     },
     submitForm (form) {
       this.form.action = this.action
@@ -138,6 +138,27 @@ export default {
           .then(data => {
             if(data && data.data.status == 200 && data.status == 200){
               this.closeModel('big')
+              this.$message({
+                message: data.data.message || '成功！',
+                type: 'success'
+              })
+              this.$emit('getList', this.action)
+            }
+          })
+        } else {
+          return false
+        }
+      })
+
+    },
+    submitFormSmall (smallForm) {
+      this.smallForm.action = this.action
+      this.$refs[smallForm].validate((valid) => {
+        if(valid) {
+          axios.post('/config/updateMenu',this.smallForm)
+          .then(data => {
+            if(data && data.data.status == 200 && data.status == 200){
+              this.closeModel('small')
               this.$message({
                 message: data.data.message || '成功！',
                 type: 'success'

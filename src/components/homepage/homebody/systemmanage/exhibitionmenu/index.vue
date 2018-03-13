@@ -184,14 +184,30 @@ export default {
         case 'editBig':
         this.formModel.receiveForm = params
         break
+        case 'editSmall':
+        this.formModel.receiveForm = params
+        break
         default:
         break
       }
     },
     deleteOne (str, params) {
-      let delData = {
-        action: str,
-        big_id: params.big_id
+      let delData = {}
+      switch (str) {
+        case 'delBig':
+        delData = {
+          action: str,
+          big_id: params.big_id
+        }
+        break
+        case 'delSmall':
+        delData = {
+          action: str,
+          small_id: params.small_id
+        }
+        break
+        default:
+        break
       }
       axios.post('/config/delMenu',delData)
       .then(data => {
@@ -200,22 +216,45 @@ export default {
             message: data.data.message || '成功!',
             type: 'success'
           });
-          this.getBigC()
+          switch (str) {
+            case 'delBig':
+            this.getBigC()
+            break
+            case 'delSmall':
+            this.getSmallC()
+            break
+            default:
+            break
+          }
+
         } else {
           this.$message({
             message: data.data.message || '失败!',
             type: 'error'
           });
-          this.getBigC()
+          switch (str) {
+            case 'delBig':
+            this.getBigC()
+            break
+            case 'delSmall':
+            this.getSmallC()
+            break
+            default:
+            break
+          }
         }
 
       })
     },
     getList (str) {
       switch (str) {
-        case 'editBig':
         case 'addBig':
+        case 'editBig':
         this.getBigC()
+        break
+        case 'addSmall':
+        case 'editSmall':
+        this.getSmallC()
         break
         default:
         break
