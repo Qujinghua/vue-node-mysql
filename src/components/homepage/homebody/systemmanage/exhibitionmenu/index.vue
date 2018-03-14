@@ -74,23 +74,23 @@
             </el-table>
           </template>
         </el-tab-pane>
-        <!-- <el-tab-pane label="产品系列">
-          <div class="content-tabs-bigC-btn">
-            <el-button type="primary" plain size="mini" icon="el-icon-plus" @click="addEditBig('addBig')">新增大类</el-button>
+        <el-tab-pane label="产品系列">
+          <div class="content-tabs-brandC-btn">
+            <el-button type="primary" plain size="mini" icon="el-icon-plus" @click="addEditBig('addBrand')">新增大类</el-button>
           </div>
           <template>
             <el-table
-              v-loading="bigC.loading"
-              :data="bigC.tableData"
+              v-loading="brandC.loading"
+              :data="brandC.tableData"
               stripe
               size="mini"
               style="width: 100%">
               <el-table-column
-                prop="big_name"
+                prop="brand_name"
                 label="大类名称">
               </el-table-column>
               <el-table-column
-                prop="big_notes"
+                prop="brand_notes"
                 label="大类介绍">
               </el-table-column>
               <el-table-column
@@ -98,13 +98,13 @@
                 label="操作"
                 width="150">
                 <template slot-scope="scope">
-                  <el-button type="text" size="small" @click="addEditBig('editBig',scope.row)">编辑</el-button>
+                  <el-button type="text" size="small" @click="addEditBig('editBrand',scope.row)">编辑</el-button>
                   <el-button @click="deleteOne(scope.row)" type="text" size="small">删除</el-button>
                 </template>
               </el-table-column>
             </el-table>
           </template>
-        </el-tab-pane> -->
+        </el-tab-pane>
       </el-tabs>
     </div>
     <add-model :visible.sync="formModel.visible" :action="formModel.action" :receiveForm="formModel.receiveForm" :bigCLists="bigC.tableData" :smallCLists="smallC.tableData" @getList="getList"></add-model>
@@ -129,6 +129,10 @@ export default {
       smallC: {
         loading: true,
         tableData: []
+      },
+      brandC: {
+        loading: true,
+        tableData: []
       }
     }
   },
@@ -148,6 +152,9 @@ export default {
         case '产品子类':
         this.getSmallC()
         break
+        case '产品系列':
+        this.getBrandC()
+        break
         default:
         break
 
@@ -156,7 +163,7 @@ export default {
     getBigC () {
       axios.get('/config/getBigC')
       .then(data => {
-        if(data.status==200){
+        if(data && data.status==200){
           this.bigC.tableData = data.data
         }
         this.bigC.loading = false
@@ -168,10 +175,22 @@ export default {
     getSmallC () {
       axios.get('/config/getSmallC')
       .then(data => {
-        if(data.status==200){
+        if(data && data.status==200){
           this.smallC.tableData = data.data
         }
         this.smallC.loading = false
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    },
+    getBrandC () {
+      axios.get('/config/getBrandC')
+      .then(data => {
+        if(data && data.status==200){
+          this.brandC.tableData = data.data
+        }
+        this.brandC.loading = false
       })
       .catch(error => {
         console.log(error)
