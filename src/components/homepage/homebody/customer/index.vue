@@ -15,7 +15,7 @@
             <el-button type="primary" plain size="mini" icon="el-icon-plus" @click="addEdit('add')">新增客户</el-button>
             <el-button type="primary" plain size="mini" icon="el-icon-delete" @click="deleteList">批量删除</el-button>
             <div class="content-detail-body-btn-search">
-              <el-input placeholder="姓名/所属部门" v-model="searchInput" v-on:keyup.enter="search" size="mini" width="100px" class="content-detail-body-btn-search-input"></el-input>
+              <el-input placeholder="姓名/所属部门" v-model="searchInput" @keyup.enter.native="search" size="mini" width="100px" class="content-detail-body-btn-search-input"></el-input>
               <el-button slot="append" @click="search" size="mini" icon="el-icon-search" class="content-detail-body-btn-search-btn"></el-button>
             </div>
           </div>

@@ -206,6 +206,9 @@ export default {
         case 'editSmall':
         this.formModel.receiveForm = params
         break
+        case 'editBrand':
+        this.formModel.receiveForm = params
+        break
         default:
         break
       }
@@ -223,6 +226,12 @@ export default {
         delData = {
           action: str,
           small_id: params.small_id
+        }
+        break
+        case 'delBrand':
+        delData = {
+          action: str,
+          brand_id: params.brand_id
         }
         break
         default:
