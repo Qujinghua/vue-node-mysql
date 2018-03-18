@@ -175,6 +175,7 @@ export default {
   }
 }
 </script>
+
 <style lang="scss" scoped>
 .dialog-footer {
   text-align: center;
