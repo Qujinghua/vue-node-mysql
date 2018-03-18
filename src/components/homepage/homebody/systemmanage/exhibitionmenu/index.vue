@@ -284,6 +284,10 @@ export default {
         case 'editSmall':
         this.getSmallC()
         break
+        case 'addBrand':
+        case 'editBrand':
+        this.getBrandC()
+        break
         default:
         break
       }
