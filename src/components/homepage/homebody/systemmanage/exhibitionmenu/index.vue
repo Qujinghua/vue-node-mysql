@@ -76,7 +76,7 @@
         </el-tab-pane>
         <el-tab-pane label="产品系列">
           <div class="content-tabs-brandC-btn">
-            <el-button type="primary" plain size="mini" icon="el-icon-plus" @click="addEditBig('addBrand')">新增大类</el-button>
+            <el-button type="primary" plain size="mini" icon="el-icon-plus" @click="addEditBig('addBrand')">新增系列</el-button>
           </div>
           <template>
             <el-table
@@ -87,11 +87,19 @@
               style="width: 100%">
               <el-table-column
                 prop="brand_name"
-                label="大类名称">
+                label="系列名称">
+              </el-table-column>
+              <el-table-column
+                prop="big_name"
+                label="所属大类">
+              </el-table-column>
+              <el-table-column
+                prop="small_name"
+                label="所属子类">
               </el-table-column>
               <el-table-column
                 prop="brand_notes"
-                label="大类介绍">
+                label="系列介绍">
               </el-table-column>
               <el-table-column
                 fixed="right"

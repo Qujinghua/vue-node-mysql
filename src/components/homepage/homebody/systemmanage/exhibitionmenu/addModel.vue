@@ -40,6 +40,32 @@
       <el-button type="primary" @click="submitFormSmall('smallForm')" size="small">确 定</el-button>
     </div>
   </el-dialog>
+  <!-- 系列 -->
+  <el-dialog v-else-if="action=='addBrand'||action=='editBrand'" :title="title" :visible="visible" @close="closeModel('brand')" width="500px">
+    <el-form :model="brandForm" ref="smallForm" :rules="rulesBrand" label-width="80px">
+      <el-form-item label="系列名称" prop="small_name" >
+        <el-input v-model="BrandForm.brand_name" size="mini"></el-input>
+      </el-form-item>
+      <el-form-item label="所属大类" prop="big_name" >
+        <!-- <el-input v-model="smallForm.big_name" size="mini"></el-input> -->
+        <el-select v-model="brandForm.big_name" placeholder="请选择" size="mini">
+          <el-option
+            v-for="item in bigCLists"
+            :key="item.big_name"
+            :label="item.big_name"
+            :value="item.big_name">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="系列备注" prop="brand_notes" >
+        <el-input v-model="brandForm.brand_notes" size="mini"></el-input>
+      </el-form-item>
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="closeModel('brand')" size="small">取 消</el-button>
+      <el-button type="primary" @click="submitFormSmall('brandForm')" size="small">确 定</el-button>
+    </div>
+  </el-dialog>
 </template>
 <script>
 import axios from '../../../../../axios'
@@ -105,8 +131,8 @@ export default {
         case 'addSmall':
         return '新增子类'
         break
-        case 'add':
-        return '新增产品'
+        case 'addBrand':
+        return '新增产品系列'
         break
         default:
         return
