@@ -44,7 +44,7 @@
   <el-dialog v-else-if="action=='addBrand'||action=='editBrand'" :title="title" :visible="visible" @close="closeModel('brand')" width="500px">
     <el-form :model="brandForm" ref="smallForm" :rules="rulesBrand" label-width="80px">
       <el-form-item label="系列名称" prop="small_name" >
-        <el-input v-model="BrandForm.brand_name" size="mini"></el-input>
+        <el-input v-model="brandForm.brand_name" size="mini"></el-input>
       </el-form-item>
       <el-form-item label="所属大类" prop="big_name" >
         <!-- <el-input v-model="smallForm.big_name" size="mini"></el-input> -->
@@ -54,6 +54,17 @@
             :key="item.big_name"
             :label="item.big_name"
             :value="item.big_name">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="所属子类" prop="big_name" >
+        <!-- <el-input v-model="smallForm.big_name" size="mini"></el-input> -->
+        <el-select v-model="brandForm.small_name" placeholder="请选择" size="mini">
+          <el-option
+            v-for="item in bigCLists"
+            :key="item.small_name"
+            :label="item.small_name"
+            :value="item.small_name">
           </el-option>
         </el-select>
       </el-form-item>
@@ -78,6 +89,12 @@ const defaultSmallForm = {
   big_name: '',
   small_notes: ''
 }
+const defaultBrandForm = {
+  brand_name: '',
+  small_name: '',
+  big_name: '',
+  brand_notes: ''
+}
 export default {
   props: {
     visible: '',
@@ -97,6 +114,12 @@ export default {
         big_name: '',
         small_notes: ''
       },
+      brandForm: {
+        brand_name: '',
+        small_name: '',
+        big_name: '',
+        brand_notes: ''
+      },
       rulesBig: {
         big_name: [
           { required: true, message:'大类名称不能为空', trigger: 'blur' }
@@ -105,6 +128,11 @@ export default {
       rulesSmall: {
         small_name: [
           { required: true, message:'子类名称不能为空', trigger: 'blur' }
+        ]
+      },
+      rulesBrand: {
+        brand_name: [
+          { required: true, message:'系列名称不能为空', trigger: 'blur' }
         ]
       }
     }
@@ -115,6 +143,8 @@ export default {
         this.form = {...this.receiveForm}
       } else if(this.action === 'editSmall') {
         this.smallForm = {...this.receiveForm}
+      } else if(this.action === 'editBrand') {
+        this.brandForm = {...this.receiveForm}
       }
       // console.log(this.bigCLists)
     }
@@ -147,6 +177,8 @@ export default {
         this.resetFormBig()
       } else if(str == 'small'){
         this.resetFormSmall()
+      } else if(str == 'brand'){
+        this.resetFormBrand()
       }
       this.$emit('update:visible', false)
     },
@@ -155,6 +187,9 @@ export default {
     },
     resetFormSmall(str) {
       this.smallForm = {...defaultSmallForm}
+    },
+    resetFormBrand(str) {
+      this.brandForm = {...defaultBrandForm}
     },
     submitForm (form) {
       this.form.action = this.action
