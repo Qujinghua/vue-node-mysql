@@ -177,7 +177,11 @@ export default {
         this.bigC.loading = false
       })
       .catch(error => {
-        console.log(error)
+        this.bigC.loading = false
+        this.$message({
+          message: '获取列表失败！',
+          type: 'error'
+        });
       })
     },
     getSmallC () {
@@ -189,7 +193,11 @@ export default {
         this.smallC.loading = false
       })
       .catch(error => {
-        console.log(error)
+        this.smallC.loading = false
+        this.$message({
+          message: '获取列表失败！',
+          type: 'error'
+        });
       })
     },
     getBrandC () {
@@ -201,7 +209,11 @@ export default {
         this.brandC.loading = false
       })
       .catch(error => {
-        console.log(error)
+        this.brandC.loading = false
+        this.$message({
+          message: '获取列表失败！',
+          type: 'error'
+        });
       })
     },
     addEditBig (str,params) {
