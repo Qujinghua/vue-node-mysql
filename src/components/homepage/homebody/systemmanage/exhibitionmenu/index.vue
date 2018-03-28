@@ -185,6 +185,13 @@ export default {
       .then(data => {
         if(data && data.status==200){
           this.smallC.tableData = data.data
+          this.smallC.tableData.forEach(el => {
+            this.bigC.tableData.forEach(el2 => {
+              if(el.big_id == el2.big_id) {
+                el.big_name = el2.big_name
+              }
+            })
+          })
         }
         this.smallC.loading = false
       })
@@ -212,6 +219,7 @@ export default {
         this.formModel.receiveForm = params
         break
         case 'editSmall':
+        console.log(params)
         this.formModel.receiveForm = params
         break
         case 'editBrand':

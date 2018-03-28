@@ -22,12 +22,12 @@
       </el-form-item>
       <el-form-item label="所属大类" prop="big_name" >
         <!-- <el-input v-model="smallForm.big_name" size="mini"></el-input> -->
-        <el-select v-model="smallForm.big_name" placeholder="请选择" size="mini">
+        <el-select v-model="smallForm.big_id" placeholder="请选择" size="mini">
           <el-option
             v-for="item in bigCLists"
-            :key="item.big_name"
+            :key="item.big_id"
             :label="item.big_name"
-            :value="item.big_name">
+            :value="item.big_id">
           </el-option>
         </el-select>
       </el-form-item>
@@ -59,7 +59,7 @@
       </el-form-item>
       <el-form-item label="所属子类" prop="big_name" >
         <!-- <el-input v-model="smallForm.big_name" size="mini"></el-input> -->
-        <el-select v-model="brandForm.small_name" placeholder="请选择" size="mini">
+        <el-select v-model="brandForm.small_id" placeholder="请选择" size="mini">
           <el-option
             v-for="item in bigCLists"
             :key="item.small_name"
@@ -86,7 +86,7 @@ const defaultBigForm = {
 }
 const defaultSmallForm = {
   small_name: '',
-  big_name: '',
+  big_id: '',
   small_notes: ''
 }
 const defaultBrandForm = {
@@ -111,7 +111,7 @@ export default {
       },
       smallForm: {
         small_name: '',
-        big_name: '',
+        big_id: '',
         small_notes: ''
       },
       brandForm: {
@@ -139,12 +139,20 @@ export default {
   },
   watch: {
     visible (now) {
+      console.log(this.bigCLists)
       if(now && this.action === 'editBig') {
         this.form = {...this.receiveForm}
       } else if(this.action === 'editSmall') {
         this.smallForm = {...this.receiveForm}
       } else if(this.action === 'editBrand') {
         this.brandForm = {...this.receiveForm}
+      }
+      if(now && this.action === 'addBig') {
+        this.form = {...this.defaultBigForm}
+      } else if(this.action === 'addSmall') {
+        this.smallForm = {...this.defaultSmallForm}
+      } else if(this.action === 'addBrand') {
+        this.brandForm = {...this.defaultBrandForm}
       }
       // console.log(this.bigCLists)
     }
@@ -214,6 +222,8 @@ export default {
     },
     submitFormSmall (smallForm) {
       this.smallForm.action = this.action
+      console.log(this.smallForm)
+      debugger
       this.$refs[smallForm].validate((valid) => {
         if(valid) {
           axios.post('/config/updateMenu',this.smallForm)
