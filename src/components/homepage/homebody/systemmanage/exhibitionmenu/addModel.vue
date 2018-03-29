@@ -48,23 +48,23 @@
       </el-form-item>
       <el-form-item label="所属大类" prop="big_name" >
         <!-- <el-input v-model="smallForm.big_name" size="mini"></el-input> -->
-        <el-select v-model="brandForm.big_name" placeholder="请选择" size="mini">
+        <el-select v-model="brandForm.big_id" multiple placeholder="请选择" size="mini">
           <el-option
             v-for="item in bigCLists"
-            :key="item.big_name"
+            :key="item.big_id"
             :label="item.big_name"
-            :value="item.big_name">
+            :value="item.big_id">
           </el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="所属子类" prop="big_name" >
         <!-- <el-input v-model="smallForm.big_name" size="mini"></el-input> -->
-        <el-select v-model="brandForm.small_id" placeholder="请选择" size="mini">
+        <el-select v-model="brandForm.small_id" multiple placeholder="请选择" size="mini">
           <el-option
-            v-for="item in bigCLists"
-            :key="item.small_name"
+            v-for="item in smallCLists"
+            :key="item.small_id"
             :label="item.small_name"
-            :value="item.small_name">
+            :value="item.small_id">
           </el-option>
         </el-select>
       </el-form-item>
@@ -91,8 +91,8 @@ const defaultSmallForm = {
 }
 const defaultBrandForm = {
   brand_name: '',
-  small_name: '',
-  big_name: '',
+  small_id: [],
+  big_id: [],
   brand_notes: ''
 }
 export default {
@@ -116,23 +116,23 @@ export default {
       },
       brandForm: {
         brand_name: '',
-        small_name: '',
-        big_name: '',
+        small_id: [],
+        big_id: [],
         brand_notes: ''
       },
       rulesBig: {
         big_name: [
-          { required: true, message:'大类名称不能为空', trigger: 'blur' }
+          { required: true, message:'大类名称不能为空', trigger: 'change' }
         ]
       },
       rulesSmall: {
         small_name: [
-          { required: true, message:'子类名称不能为空', trigger: 'blur' }
+          { required: true, message:'子类名称不能为空', trigger: 'change' }
         ]
       },
       rulesBrand: {
         brand_name: [
-          { required: true, message:'系列名称不能为空', trigger: 'blur' }
+          { required: true, message:'系列名称不能为空', trigger: 'change' }
         ]
       }
     }
@@ -222,8 +222,12 @@ export default {
     },
     submitFormSmall (smallForm) {
       this.smallForm.action = this.action
-      console.log(this.smallForm)
-      debugger
+      this.bigCLists.forEach(el => {
+        if(el.big_name == this.smallForm.big_id) {
+          this.smallForm.big_id = el.big_id
+        }
+      })
+      // console.log(this.smallForm)
       this.$refs[smallForm].validate((valid) => {
         if(valid) {
           axios.post('/config/updateMenu',this.smallForm)
@@ -235,6 +239,12 @@ export default {
                 type: 'success'
               })
               this.$emit('getList', this.action)
+            } else {
+              this.closeModel('small')
+              this.$message({
+                message: data.data.message || '失败！',
+                type: 'error'
+              })
             }
           })
         } else {
