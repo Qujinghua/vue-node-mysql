@@ -150,6 +150,7 @@ export default {
   mounted () {
     this.getBigC()
     this.getSmallC()
+    this.getBrandC()
   },
   methods: {
     tabClick (tab) {
@@ -240,6 +241,9 @@ export default {
         this.formModel.receiveForm = params
         break
         case 'editBrand':
+        // this.smallC.tableData.forEach(el => {
+        //   el.big_id = parseInt(el.big_id)
+        // })
         this.formModel.receiveForm = params
         break
         default:

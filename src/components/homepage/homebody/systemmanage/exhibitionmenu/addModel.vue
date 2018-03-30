@@ -43,10 +43,10 @@
   <!-- 系列 -->
   <el-dialog v-else-if="action=='addBrand'||action=='editBrand'" :title="title" :visible="visible" @close="closeModel('brand')" width="500px">
     <el-form :model="brandForm" ref="smallForm" :rules="rulesBrand" label-width="80px">
-      <el-form-item label="系列名称" prop="small_name" >
+      <el-form-item label="系列名称" prop="brand_name" >
         <el-input v-model="brandForm.brand_name" size="mini"></el-input>
       </el-form-item>
-      <el-form-item label="所属大类" prop="big_name" >
+      <el-form-item label="所属大类" prop="big_id" >
         <!-- <el-input v-model="smallForm.big_name" size="mini"></el-input> -->
         <el-select v-model="brandForm.big_id" multiple placeholder="请选择" size="mini">
           <el-option
@@ -57,7 +57,7 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="所属子类" prop="big_name" >
+      <el-form-item label="所属子类" prop="small_id" >
         <!-- <el-input v-model="smallForm.big_name" size="mini"></el-input> -->
         <el-select v-model="brandForm.small_id" multiple placeholder="请选择" size="mini">
           <el-option
@@ -74,7 +74,7 @@
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click="closeModel('brand')" size="small">取 消</el-button>
-      <el-button type="primary" @click="submitFormSmall('brandForm')" size="small">确 定</el-button>
+      <el-button type="primary" @click="submitFormBrand('brandForm')" size="small">确 定</el-button>
     </div>
   </el-dialog>
 </template>
@@ -139,7 +139,8 @@ export default {
   },
   watch: {
     visible (now) {
-      console.log(this.bigCLists)
+      // console.log(this.bigCLists)
+      // console.log(this.smallCLists)
       if(now && this.action === 'editBig') {
         this.form = {...this.receiveForm}
       } else if(this.action === 'editSmall') {
@@ -147,13 +148,13 @@ export default {
       } else if(this.action === 'editBrand') {
         this.brandForm = {...this.receiveForm}
       }
-      if(now && this.action === 'addBig') {
-        this.form = {...this.defaultBigForm}
-      } else if(this.action === 'addSmall') {
-        this.smallForm = {...this.defaultSmallForm}
-      } else if(this.action === 'addBrand') {
-        this.brandForm = {...this.defaultBrandForm}
-      }
+      // if(now && this.action === 'addBig') {
+      //   this.form = {...this.defaultBigForm}
+      // } else if(this.action === 'addSmall') {
+      //   this.smallForm = {...this.defaultSmallForm}
+      // } else if(this.action === 'addBrand') {
+      //   this.brandForm = {...this.defaultBrandForm}
+      // }
       // console.log(this.bigCLists)
     }
   },
@@ -241,6 +242,37 @@ export default {
               this.$emit('getList', this.action)
             } else {
               this.closeModel('small')
+              this.$message({
+                message: data.data.message || '失败！',
+                type: 'error'
+              })
+            }
+          })
+        } else {
+          return false
+        }
+      })
+
+    },
+    submitFormBrand (brandForm) {
+      this.brandForm.action = this.action
+      this.brandForm.bigIdArr = this.brandForm.big_id.join(',')
+      this.brandForm.smallIdArr = this.brandForm.small_id.join(',')
+      // console.log(this.brandForm)
+      debugger
+      this.$refs[brandForm].validate((valid) => {
+        if(valid) {
+          axios.post('/config/updateMenu',this.brandForm)
+          .then(data => {
+            if(data && data.data.status == 200 && data.status == 200){
+              this.closeModel('brand')
+              this.$message({
+                message: data.data.message || '成功！',
+                type: 'success'
+              })
+              this.$emit('getList', this.action)
+            } else {
+              this.closeModel('brand')
               this.$message({
                 message: data.data.message || '失败！',
                 type: 'error'
