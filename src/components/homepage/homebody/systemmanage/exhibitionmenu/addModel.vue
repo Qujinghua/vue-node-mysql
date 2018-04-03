@@ -42,7 +42,7 @@
   </el-dialog>
   <!-- 系列 -->
   <el-dialog v-else-if="action=='addBrand'||action=='editBrand'" :title="title" :visible="visible" @close="closeModel('brand')" width="500px">
-    <el-form :model="brandForm" ref="smallForm" :rules="rulesBrand" label-width="80px">
+    <el-form :model="brandForm" ref="brandForm" :rules="rulesBrand" label-width="80px">
       <el-form-item label="系列名称" prop="brand_name" >
         <el-input v-model="brandForm.brand_name" size="mini"></el-input>
       </el-form-item>
@@ -258,8 +258,8 @@ export default {
       this.brandForm.action = this.action
       this.brandForm.bigIdArr = this.brandForm.big_id.join(',')
       this.brandForm.smallIdArr = this.brandForm.small_id.join(',')
-      // console.log(this.brandForm)
-      debugger
+      console.log(this.brandForm)
+      // debugger
       this.$refs[brandForm].validate((valid) => {
         if(valid) {
           axios.post('/config/updateMenu',this.brandForm)
