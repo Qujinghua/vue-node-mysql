@@ -90,11 +90,11 @@
                 label="系列名称">
               </el-table-column>
               <el-table-column
-                prop="big_name"
+                prop="bigName"
                 label="所属大类">
               </el-table-column>
               <el-table-column
-                prop="small_name"
+                prop="smallName"
                 label="所属子类">
               </el-table-column>
               <el-table-column
@@ -147,9 +147,12 @@ export default {
   components: {
     addModel
   },
-  mounted () {
+  created () {
     this.getBigC()
     this.getSmallC()
+
+  },
+  mounted () {
     this.getBrandC()
   },
   methods: {
@@ -213,7 +216,31 @@ export default {
       axios.get('/config/getBrandC')
       .then(data => {
         if(data && data.status==200){
+          console.log(data.data)
           this.brandC.tableData = data.data
+          this.brandC.tableData.forEach(el => {
+            let bigIdArr = el.big_id.split(',')
+            let smallIdArr = el.small_id.split(',')
+            let bigNameArr = []
+            let smallNameArr = []
+            bigIdArr.forEach(el2 => {
+              this.bigC.tableData.forEach(el3 => {
+                if(el2 == el3.big_id) {
+                  bigNameArr.push(el3.big_name)
+                }
+              })
+            })
+            smallIdArr.forEach(el4 => {
+              this.smallC.tableData.forEach(el5 => {
+                if(el4 == el5.small_id) {
+                  smallNameArr.push(el5.small_name)
+                }
+              })
+            })
+            el.bigName = bigNameArr.join(',')
+            el.smallName = smallNameArr.join(',')
+          })
+
         }
         this.brandC.loading = false
       })
@@ -244,7 +271,10 @@ export default {
         // this.smallC.tableData.forEach(el => {
         //   el.big_id = parseInt(el.big_id)
         // })
+        console.log(params)
         this.formModel.receiveForm = params
+        this.formModel.receiveForm.big_id = this.formModel.receiveForm.bigName.split(',')
+        this.formModel.receiveForm.small_id = this.formModel.receiveForm.smallName.split(',')
         break
         default:
         break
