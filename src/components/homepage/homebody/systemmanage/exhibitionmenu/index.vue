@@ -273,8 +273,8 @@ export default {
         // })
         console.log(params)
         this.formModel.receiveForm = params
-        this.formModel.receiveForm.big_id = this.formModel.receiveForm.bigName.split(',')
-        this.formModel.receiveForm.small_id = this.formModel.receiveForm.smallName.split(',')
+        this.formModel.receiveForm.big_id = []
+        this.formModel.receiveForm.small_id = []
         break
         default:
         break
