@@ -107,7 +107,7 @@
                 width="150">
                 <template slot-scope="scope">
                   <el-button type="text" size="small" @click="addEditBig('editBrand',scope.row)">编辑</el-button>
-                  <el-button @click="deleteOne(scope.row)" type="text" size="small">删除</el-button>
+                  <el-button @click="deleteOne('delBrand', scope.row)" type="text" size="small">删除</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -318,6 +318,9 @@ export default {
             case 'delSmall':
             this.getSmallC()
             break
+            case 'delBrand':
+            this.getBrandC()
+            break
             default:
             break
           }
@@ -333,6 +336,9 @@ export default {
             break
             case 'delSmall':
             this.getSmallC()
+            break
+            case 'delBrand':
+            this.getBrandC()
             break
             default:
             break
