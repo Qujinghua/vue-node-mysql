@@ -201,6 +201,8 @@ export default {
               }
             })
           })
+        } else {
+          console.log('ssss')
         }
         this.smallC.loading = false
       })
@@ -271,10 +273,10 @@ export default {
         // this.smallC.tableData.forEach(el => {
         //   el.big_id = parseInt(el.big_id)
         // })
-        console.log(params)
+        // console.log(params)
         this.formModel.receiveForm = params
-        this.formModel.receiveForm.big_id = []
-        this.formModel.receiveForm.small_id = []
+        this.formModel.receiveForm.big_id = params.big_id.split(',').map(el => +el)
+        this.formModel.receiveForm.small_id = params.small_id.split(',').map(el => +el)
         break
         default:
         break
