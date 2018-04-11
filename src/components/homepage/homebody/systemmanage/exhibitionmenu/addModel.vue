@@ -170,11 +170,11 @@ export default {
       // console.log(this.bigCLists)
     },
     bigChange (now) {
-      console.log(now)
+      console.log(this.brandForm.big_id)
       // this.brandForm.small_id = []
         now.forEach(el => {
           this.smallCLists.forEach(el2 => {
-            if(el == el2.big_id) {
+            if(el == el2.big_id && this.brandForm.small_id.indexOf(el2.small_id)!=-1) {
               this.brandForm.small_id.remove(el2.small_id)
             }
           })
