@@ -57,7 +57,7 @@
         </el-select>
       </el-form-item> -->
       <el-form-item label="所属大类" prop="big_id" >
-        <el-checkbox :indeterminate="isIndeterminateBig" v-model="checkAllBig" @change="handleCheckAllChangeBig">全选</el-checkbox>
+        <el-checkbox v-model="checkAllBig" @change="handleCheckAllChangeBig">全选</el-checkbox>
         <el-checkbox-group v-model="brandForm.big_id" @change="handleCheckedCitiesChangeBig">
           <el-checkbox v-for="item in bigCLists" :label="item.big_id" :key="item.big_id">{{item.big_name}}</el-checkbox>
         </el-checkbox-group>
@@ -71,7 +71,8 @@
             :value="item.small_id">
           </el-option>
         </el-select> -->
-        <el-checkbox :indeterminate="isIndeterminateSmall" v-model="checkAllSmall" :disabled="brandForm.big_id.length>0" @change="handleCheckAllChangeSmall">全选</el-checkbox>
+        <!-- :disabled="brandForm.big_id.length>0" -->
+        <el-checkbox v-model="checkAllSmall" @change="handleCheckAllChangeSmall">全选</el-checkbox>
         <el-checkbox-group v-model="brandForm.small_id" @change="handleCheckedCitiesChangeSmall">
           <el-checkbox v-for="item in smallCLists" :label="item.small_id" :disabled="brandForm.big_id.indexOf(parseInt(item.big_id)) == -1" :key="item.small_id">{{item.small_name}}</el-checkbox>
         </el-checkbox-group>
@@ -151,8 +152,6 @@ export default {
   },
   watch: {
     visible (now) {
-      // console.log(this.bigCLists)
-      // console.log(this.smallCLists)
       if(now && this.action === 'editBig') {
         this.form = {...this.receiveForm}
       } else if(this.action === 'editSmall') {
@@ -167,18 +166,39 @@ export default {
       // } else if(this.action === 'addBrand') {
       //   this.brandForm = {...this.defaultBrandForm}
       // }
-      // console.log(this.bigCLists)
+
     },
     bigChange (now) {
-      console.log(this.brandForm.big_id)
       // this.brandForm.small_id = []
-        now.forEach(el => {
-          this.smallCLists.forEach(el2 => {
-            if(el == el2.big_id && this.brandForm.small_id.indexOf(el2.small_id)!=-1) {
-              this.brandForm.small_id.remove(el2.small_id)
+      // now.forEach(el => {
+      //   this.smallCLists.forEach(el2 => {
+      //     // if(el == el2.big_id && this.brandForm.small_id.indexOf(el2.small_id)!=-1) {
+      //     if(el == el2.big_id && this.brandForm.small_id.indexOf(el2.small_id)!=-1) {
+      //       for(let i = 0; i < this.brandForm.small_id.length; i++) {
+      //         if(this.brandForm.small_id[i] == el2.small_id) {
+      //           this.brandForm.small_id.splice(i,1)
+      //         }
+      //       }
+      //     }
+      //   })
+      // })
+      this.bigCLists.forEach(el => {
+        this.smallCLists.forEach(el2 => {
+          // if(el == el2.big_id && this.brandForm.small_id.indexOf(el2.small_id)!=-1) {
+          if(now.indexOf(el.big_id)==-1 && this.brandForm.small_id.indexOf(el2.small_id)!=-1) {
+            for(let i = 0; i < this.brandForm.small_id.length; i++) {
+              if(this.brandForm.small_id[i] == el2.small_id) {
+                this.brandForm.small_id.splice(i,1)
+              }
             }
-          })
+          }
         })
+      })
+    },
+    smallChange(now) {
+      if(now.length == 0) {
+        this.checkAllSmall = false;
+      }
     }
 
   },
@@ -205,6 +225,9 @@ export default {
     },
     bigChange () {
       return this.brandForm.big_id
+    },
+    smallChange () {
+      return this.brandForm.small_id
     }
   },
   methods: {
@@ -255,7 +278,6 @@ export default {
           this.smallForm.big_id = el.big_id
         }
       })
-      // console.log(this.smallForm)
       this.$refs[smallForm].validate((valid) => {
         if(valid) {
           axios.post('/config/updateMenu',this.smallForm)
@@ -283,20 +305,19 @@ export default {
     },
     handleCheckAllChangeBig(val) {
       this.brandForm.big_id = val ? this.bigCLists.map(el => el.big_id) : [];
-      this.isIndeterminateBig = false;
+      // this.isIndeterminateBig = false;
     },
     handleCheckedCitiesChangeBig(value) {
-      // console.log(this.brandForm.big_id)
       let checkedCount = value.length;
       this.checkAllBig = checkedCount === this.bigCLists.length;
-      this.isIndeterminateBig = checkedCount > 0 && checkedCount < this.bigCLists.length;
+      // this.isIndeterminateBig = checkedCount > 0 && checkedCount < this.bigCLists.length;
     },
     handleCheckAllChangeSmall(val) {
       if(val) {
         this.brandForm.small_id = []
         this.brandForm.big_id.forEach(el => {
           this.smallCLists.forEach(el2 => {
-            if(el != el2.big_id) {
+            if(el == el2.big_id) {
               this.brandForm.small_id.push(el2.small_id)
             }
           })
@@ -305,10 +326,9 @@ export default {
         this.brandForm.small_id = []
       }
       // this.brandForm.small_id = val ? this.smallCLists.map(el => el.small_id) : [];
-      this.isIndeterminateSmall = false;
+      // this.isIndeterminateSmall = false;
     },
     handleCheckedCitiesChangeSmall(value) {
-      // console.log(value)
       let checkedCount = value.length;
       this.checkAllSmall = checkedCount === this.smallCLists.length;
       this.isIndeterminateSmall = checkedCount > 0 && checkedCount < this.smallCLists.length;
@@ -317,31 +337,29 @@ export default {
       this.brandForm.action = this.action
       this.brandForm.bigIdArr = this.brandForm.big_id.join(',')
       this.brandForm.smallIdArr = this.brandForm.small_id.join(',')
-      console.log(this.brandForm)
-      debugger
-      // this.$refs[brandForm].validate((valid) => {
-      //   if(valid) {
-      //     axios.post('/config/updateMenu',this.brandForm)
-      //     .then(data => {
-      //       if(data && data.data.status == 200 && data.status == 200){
-      //         this.closeModel('brand')
-      //         this.$message({
-      //           message: data.data.message || '成功！',
-      //           type: 'success'
-      //         })
-      //         this.$emit('getList', this.action)
-      //       } else {
-      //         this.closeModel('brand')
-      //         this.$message({
-      //           message: data.data.message || '失败！',
-      //           type: 'error'
-      //         })
-      //       }
-      //     })
-      //   } else {
-      //     return false
-      //   }
-      // })
+      this.$refs[brandForm].validate((valid) => {
+        if(valid) {
+          axios.post('/config/updateMenu',this.brandForm)
+          .then(data => {
+            if(data && data.data.status == 200 && data.status == 200){
+              this.closeModel('brand')
+              this.$message({
+                message: data.data.message || '成功！',
+                type: 'success'
+              })
+              this.$emit('getList', this.action)
+            } else {
+              this.closeModel('brand')
+              this.$message({
+                message: data.data.message || '失败！',
+                type: 'error'
+              })
+            }
+          })
+        } else {
+          return false
+        }
+      })
 
     },
   }

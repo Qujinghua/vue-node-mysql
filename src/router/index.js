@@ -121,6 +121,18 @@ const router = new Router({
           }
         },
         {
+          path: 'goods',
+          component(resolve) {
+            require.ensure(['@/components/homepage/homebody/systemmanage/goodsmanage/index.vue'], () => {
+              resolve(require('@/components/homepage/homebody/systemmanage/goodsmanage/index.vue'))
+            })
+          },
+          meta: {
+            requireAuth: true,
+            title: '商品管理'
+          }
+        },
+        {
           path: 'exhibition',
           component(resolve) {
             require.ensure(['@/components/homepage/homebody/exhibition/index.vue'], () => {
@@ -132,6 +144,7 @@ const router = new Router({
             title: '网上展厅'
           }
         },
+
       ],
       meta: {
         requireAuth: true
