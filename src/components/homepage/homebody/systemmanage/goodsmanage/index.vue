@@ -3,19 +3,19 @@
     <div class="breadcrumb">
       <span>系统管理</span>
       <i class="el-icon-arrow-right"></i>
-      <span>员工管理</span>
+      <span>商品管理</span>
     </div>
     <div class="content-detail">
       <el-card class="box-card" :body-style="{padding:'15px'}">
         <div slot="header" class="clearfix">
-          <span>员工管理</span>
+          <span>商品管理</span>
         </div>
         <div class="content-detail-body">
           <div class="content-detail-body-btn">
-            <el-button type="primary" plain size="mini" icon="el-icon-plus" @click="addEdit('add')">新增员工</el-button>
+            <el-button type="primary" plain size="mini" icon="el-icon-plus" @click="addEdit('add')">新增商品</el-button>
             <el-button type="primary" plain size="mini" icon="el-icon-delete" @click="deleteList">批量删除</el-button>
             <div class="content-detail-body-btn-search">
-              <el-input placeholder="姓名/所属部门" v-model="searchInput" @keyup.enter.native="search" size="mini" width="100px" class="content-detail-body-btn-search-input"></el-input>
+              <el-input placeholder="商品名" v-model="searchInput" @keyup.enter.native="search" size="mini" width="100px" class="content-detail-body-btn-search-input"></el-input>
               <el-button slot="append" @click="search" size="mini" icon="el-icon-search" class="content-detail-body-btn-search-btn"></el-button>
             </div>
           </div>
@@ -30,34 +30,41 @@
               style="width: 100%">
               <el-table-column
                 type="selection"
-                width="55"
-                :selectable="disableCheckBox">
+                width="55">
               </el-table-column>
               <el-table-column
                 fixed
                 prop="name"
-                label="姓名">
+                label="名称">
               </el-table-column>
               <el-table-column
-                prop="phone"
-                label="手机号">
+                prop="price"
+                label="报价">
               </el-table-column>
               <el-table-column
-                prop="email"
-                label="邮箱">
+                prop="spec"
+                label="规格">
               </el-table-column>
               <el-table-column
-                prop="department"
-                label="所属部门">
+                prop="color"
+                label="颜色">
               </el-table-column>
               <el-table-column
-                prop="isSuperAdmin"
-                label="职能">
+                prop="configure"
+                label="配置">
+              </el-table-column>
+              <el-table-column
+                prop="material"
+                label="材质">
+              </el-table-column>
+              <el-table-column
+                prop="stock"
+                label="库存">
               </el-table-column>
               <el-table-column
                 fixed="right"
                 label="操作"
-                width="150">
+                width="100">
                 <template slot-scope="scope" v-if="!scope.row.inoperable">
                   <el-button type="text" size="small" @click="addEdit('edit',scope.row)">编辑</el-button>
                   <el-button @click="deleteOne(scope.row)" type="text" size="small">删除</el-button>
@@ -90,7 +97,19 @@ export default {
   data () {
     return {
       loading: true,
-      tableData: {},
+      tableData: {
+        data: [
+          {
+            name: 'Kano-Yoo1 慕驰高管桌',
+            price: '34888-45888',
+            spec: '3200W*2550D*760H',
+            color: '灰色',
+            configure: '常规',
+            material: '木饰面',
+            stock: '7'
+          }
+        ]
+      },
       selectArr: [],
       searchInput: '',
       getTerm: {
@@ -112,9 +131,9 @@ export default {
     handleClick(row) {
       console.log(row);
     },
-    disableCheckBox (row, index) {
-      return index !== 0
-    },
+    // disableCheckBox (row, index) {
+    //   return index !== 0
+    // },
     addEdit (action, params) {
       this.formModel.action = action
       this.formModel.receiveForm = {}
@@ -132,17 +151,17 @@ export default {
       axios.get('/config/getUser?page=' + this.getTerm.page + '&size=' + this.getTerm.size+'&keyword=' + this.getTerm.keyword)
       .then(data => {
         if(data.status==200){
-          this.tableData = data.data
-          this.tableData.data.forEach(el => {
-            if(el.isSuperAdmin) {
-              el.isSuperAdmin = '超级管理员'
-            } else {
-              el.isSuperAdmin = '普通管理员'
-            }
-            if(el.id == 1) {
-              el.inoperable = true
-            }
-          })
+          // this.tableData = data.data
+          // this.tableData.data.forEach(el => {
+          //   if(el.isSuperAdmin) {
+          //     el.isSuperAdmin = '超级管理员'
+          //   } else {
+          //     el.isSuperAdmin = '普通管理员'
+          //   }
+          //   if(el.id == 1) {
+          //     el.inoperable = true
+          //   }
+          // })
         }
         this.loading = false
       })

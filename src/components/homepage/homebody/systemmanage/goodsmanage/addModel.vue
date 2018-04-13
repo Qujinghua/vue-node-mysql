@@ -1,38 +1,43 @@
 <template>
-  <el-dialog :title="title" :visible="visible" @close="closeModel" width="600px">
+  <el-dialog :title="title" :visible="visible" @close="closeModel" width="900px">
     <el-form :model="form" ref="form" :rules="rules2" label-width="90px" v-loading="loading">
-      <el-form-item label="姓名" prop="name" >
+      <el-form-item label="商品名" prop="name" >
         <el-input v-model="form.name" size="mini"></el-input>
       </el-form-item>
-      <el-form-item label="电话" prop="phone" >
-        <el-input v-model="form.phone" size="mini"></el-input>
+      <el-form-item label="价格" prop="price" >
+        <el-input v-model="form.price" size="mini"></el-input>
       </el-form-item>
-      <el-form-item label="邮箱" prop="email" >
-        <el-input v-model="form.email" size="mini"></el-input>
+      <el-form-item label="规格" prop="spec" >
+        <el-input v-model="form.spec" size="mini"></el-input>
       </el-form-item>
-      <el-form-item label="部门" prop="department" >
-        <el-select v-model="form.department" size="mini" placeholder="请选择">
-          <el-option
-            v-for="item in selDepartment"
-            :key="item"
-            :label="item"
-            :value="item">
-          </el-option>
-        </el-select>
+      <el-form-item label="颜色" prop="color" >
+        <el-input v-model="form.color" size="mini"></el-input>
       </el-form-item>
-      <el-form-item label="超级管理员" prop="isSuperAdmin">
-        <el-switch
-          v-model="form.isSuperAdmin">
-        </el-switch>
-        <el-tooltip class="item" effect="dark" content="打开开关，此员工将拥有超级管理员权限，请悉知" placement="right">
-          <i class="el-icon-question" style="font-size:18px;margin-left:10px;"></i>
-        </el-tooltip>
+      <el-form-item label="配置" prop="configure" >
+        <el-input v-model="form.configure" size="mini"></el-input>
       </el-form-item>
-      <el-alert
-        title="电话和邮箱不再是必填项，员工可以登陆后在个人信息下自行添加和修改。"
-        type="info"
-        show-icon>
-      </el-alert>
+      <el-form-item label="材质" prop="material" >
+        <el-input v-model="form.material" size="mini"></el-input>
+      </el-form-item>
+      <el-form-item label="库存" prop="stock" >
+        <el-input v-model="form.stock" size="mini"></el-input>
+      </el-form-item>
+      <el-form-item label="图片" prop="photo">
+        <el-upload
+          class="upload-demo"
+          action="/config/upload"
+          :on-preview="handlePreview"
+          :on-remove="handleRemove"
+          :before-remove="beforeRemove"
+          multiple
+          :limit="3"
+          :on-exceed="handleExceed"
+          :file-list="fileList">
+          <el-button size="small" type="primary">点击上传</el-button>
+          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+        </el-upload>
+      </el-form-item>
+
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click="closeModel" size="small">取 消</el-button>
@@ -44,10 +49,17 @@
 import axios from '../../../../../axios'
 const defaultForm = {
   name: '',
-  phone: '',
-  email: '',
-  department: '',
-  isSuperAdmin: false
+  price: '',
+  spec: '',
+  color: '',
+  configure: '',
+  material: '',
+  stock: null,
+  photo: '',
+  introduce: '',
+  big_id: null,
+  small_id: null,
+  brand_id: null
 }
 export default {
   props: {
@@ -77,6 +89,7 @@ export default {
         isSuperAdmin: 0
       },
       selDepartment: [],
+      fileList: [],
       rules2: {
         name: [
           { required: true, message:'请输入姓名', trigger: 'blur' }
@@ -108,7 +121,7 @@ export default {
   },
   computed: {
     title () {
-      return this.action == 'add' ? '新增员工' : '编辑员工'
+      return this.action == 'add' ? '新增商品' : '编辑商品'
     },
   },
   mounted () {
@@ -136,6 +149,27 @@ export default {
       .catch(error => {
         console.log(error)
       })
+    },
+    // 上传图片
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+      console.log(this.fileList);
+      axios.post('/config/deleteFile',{file: file.response.photo})
+      .then(data => {
+        console.log(data)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    },
+    handlePreview(file) {
+      console.log(file);
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+    },
+    beforeRemove(file, fileList) {
+      return this.$confirm(`确定移除 ${ file.name }？`);
     },
     submitForm (form) {
       this.form.action = this.action
