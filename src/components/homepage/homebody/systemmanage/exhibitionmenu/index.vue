@@ -218,7 +218,6 @@ export default {
       axios.get('/config/getBrandC')
       .then(data => {
         if(data && data.status==200){
-          console.log(data.data)
           this.brandC.tableData = data.data
           this.brandC.tableData.forEach(el => {
             let bigIdArr = el.big_id.split(',')

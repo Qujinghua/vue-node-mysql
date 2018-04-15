@@ -87,7 +87,7 @@
         </div>
       </el-card>
     </div>
-    <add-model :visible.sync="formModel.visible" :action="formModel.action" :receiveForm="formModel.receiveForm" @getList="getList"></add-model>
+    <add-model :visible.sync="formModel.visible" :action="formModel.action" :receiveForm="formModel.receiveForm" :bigC="bigC" :smallC="smallC" :brandC="brandC" @getList="getList"></add-model>
   </div>
 </template>
 <script>
@@ -121,7 +121,11 @@ export default {
         visible: false,
         receiveForm: {},
         action: 'add'
-      }
+      },
+      bigC: [],
+      smallC: [],
+      brandC: []
+
     }
   },
   components: {
@@ -147,10 +151,11 @@ export default {
       }
       this.formModel.visible = true
     },
-    getUser () {
-      axios.get('/config/getUser?page=' + this.getTerm.page + '&size=' + this.getTerm.size+'&keyword=' + this.getTerm.keyword)
+    getGoods () {
+      axios.get('/config/getGoods?page=' + this.getTerm.page + '&size=' + this.getTerm.size+'&keyword=' + this.getTerm.keyword)
       .then(data => {
         if(data.status==200){
+          
           // this.tableData = data.data
           // this.tableData.data.forEach(el => {
           //   if(el.isSuperAdmin) {
@@ -264,10 +269,60 @@ export default {
       this.loading = true
       this.getTerm.keyword = this.searchInput
       this.getUser()
+    },
+    getBigC () {
+      axios.get('/config/getBigC')
+      .then(data => {
+        if(data && data.status==200){
+          this.bigC = data.data
+          console.log(this.bigC)
+        }
+      })
+      .catch(error => {
+        this.$message({
+          message: '获取列表失败！',
+          type: 'error'
+        });
+      })
+    },
+    getSmallC () {
+      axios.get('/config/getSmallC')
+      .then(data => {
+        if(data && data.status==200){
+          this.smallC = data.data
+          console.log(this.smallC)
+        }
+      })
+      .catch(error => {
+        this.$message({
+          message: '获取列表失败！',
+          type: 'error'
+        });
+      })
+    },
+    getBrandC () {
+      axios.get('/config/getBrandC')
+      .then(data => {
+        if(data && data.status==200){
+          this.brandC = data.data
+          console.log(this.brandC)
+        }
+      })
+      .catch(error => {
+        this.$message({
+          message: '获取列表失败！',
+          type: 'error'
+        });
+      })
     }
+
   },
+  
   mounted () {
-    this.getUser()
+    this.getBigC()
+    this.getSmallC()
+    this.getBrandC()
+    this.getGoods()
   }
 }
 </script>
