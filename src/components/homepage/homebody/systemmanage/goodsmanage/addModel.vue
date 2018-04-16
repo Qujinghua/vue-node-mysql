@@ -33,7 +33,7 @@
           multiple
           :limit="5"
           :on-exceed="handleExceed"
-          :file-list="form.fileList">
+          :file-list="fileList">
           <el-button size="small" type="primary">点击上传</el-button>
           <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
         </el-upload>
@@ -73,7 +73,7 @@
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button @click="closeModel" size="small">取 消</el-button>
+      <el-button @click="$emit('update:visible', false)" size="small">取 消</el-button>
       <el-button type="primary" @click="submitForm('form')" size="small">确 定</el-button>
     </div>
   </el-dialog>
@@ -88,7 +88,9 @@ const defaultForm = {
   configure: '',
   material: '',
   stock: null,
-  photo: '',
+  photoName: '',
+  photoPath: '',
+  photoUrl: '',
   introduce: '',
   big_id: null,
   small_id: null,
@@ -101,7 +103,8 @@ export default {
     receiveForm: {},
     bigC: {},
     smallC: {},
-    brandC: {}
+    brandC: {},
+    editFile: {}
   },
   data () {
     var checkPhone = (rule, value, callback) => {
@@ -116,7 +119,7 @@ export default {
 
     };
     return {
-      loading: true,
+      loading: false,
       form: {
         name: '',
         price: '',
@@ -125,31 +128,23 @@ export default {
         configure: '',
         material: '',
         stock: null,
-        photo: '',
+        photoName: '',
+        photoPath: '',
+        photoUrl: '',
         introduce: '',
         big_id: null,
         small_id: null,
         brand_id: null
       },
       selDepartment: [],
-      
+      fileList: [],
       bigAndSmall: true,
       smallAndBrand: true,
       smallC2: [],
       brandC2: [],
       rules2: {
         name: [
-          { required: true, message:'请输入姓名', trigger: 'blur' }
-        ],
-        phone: [
-          { validator:checkPhone, trigger: 'blur' }
-        ],
-        email: [
-          // { required: true, message: '请输入邮箱地址', trigger: 'blur' },
-          { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }
-        ],
-        department: [
-          { required: true, message: '请选择部门', trigger: 'blur' }
+          { required: true, message:'请输入名称', trigger: 'blur' }
         ]
       }
     }
@@ -157,57 +152,66 @@ export default {
   watch: {
     visible (now) {
       if(now && this.action === 'edit') {
+        this.fileList = this.receiveForm.fileLists
         this.form = {...this.receiveForm}
-        if(this.form.isSuperAdmin) {
-          this.form.isSuperAdmin = true
-        } else {
-          this.form.isSuperAdmin = false
-        }
       }
     }
   },
   computed: {
     title () {
       return this.action == 'add' ? '新增商品' : '编辑商品'
+
     },
   },
   mounted () {
-    this.getDepartment()
+
   },
   methods: {
     closeModel () {
+      if(this.action == "add") {
+        if(this.form.photoPath!=''){
+          // console.log(this.form.photoPath.split(','))
+          this.form.photoPath.split(',').forEach(el => {
+            axios.post('/config/deleteFile',{file: el})
+            .then(data => {
+              console.log(data)
+            })
+          })
+        }
+      }
+
       this.resetForm()
       this.$emit('update:visible', false)
     },
     resetForm() {
+      this.fileList = []
       this.form = {...defaultForm}
-    },
-    getDepartment () {
-      axios.get('/config/getDepartment')
-      .then(data => {
-        if(data.status==200){
-          this.selDepartment = []
-          data.data.forEach(el => {
-            this.selDepartment.push(el.name)
-          })
-        }
-        this.loading = false
-      })
-      .catch(error => {
-        console.log(error)
-      })
     },
     // 上传图片
     handleRemove(file, fileList) {
-      console.log(file, fileList);
-      console.log(this.fileList);
-      axios.post('/config/deleteFile',{file: file.response.photo})
-      .then(data => {
-        console.log(data)
-      })
-      .catch(error => {
-        console.log(error)
-      })
+      // console.log(file, fileList);
+      // console.log(this.fileList);
+      if(this.action == 'add') {
+        axios.post('/config/deleteFile',{file: file.response.photo})
+        .then(data => {
+          console.log(data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      } else if(this.action == 'edit' && this.fileList != []) {
+        // this.fileList.forEach(el => {
+          // console.log(el)
+          axios.post('/config/deleteFile',{file: file.path})
+          .then(data => {
+            console.log(data)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+        // })
+      }
+
     },
     handlePreview(file) {
       console.log(file);
@@ -219,48 +223,56 @@ export default {
       return this.$confirm(`确定移除 ${ file.name }？`);
     },
     successUpload(response, file, fileList) {
-      console.log(response)
-      console.log(file)
+      // console.log(response)
+      // console.log(file)
+      // console.log(fileList)
       console.log(fileList)
-      let photoArr = []
-      photoArr = fileList.map(el => el.url)
-      this.form.photo = photoArr.join(',')
+      let photoNameArr = [], photoPathArr = [], photoUrlArr = []
+      photoNameArr = fileList.map(el => el.name)
+      photoPathArr = fileList.map(el => el.path ? el.path : el.response.photo)
+      photoUrlArr = fileList.map(el => el.url)
+      this.form.photoName = photoNameArr.join(',')
+      this.form.photoPath = photoPathArr.join(',')
+      this.form.photoUrl = photoUrlArr.join(',')
     },
     bigChange (val) {
       this.bigAndSmall = false
+      this.form.small_id = null
+      this.form.brand_id = null
       this.smallC2 = this.smallC.filter(el => el.big_id == val)
     },
     smallChange (val) {
       this.smallAndBrand = false
-      this.brandC2 = this.brandC
+      this.form.brand_id = null
       this.brandC2 = this.brandC.filter(el => {
         let numArr = el.small_id.split(',')
-        numArr.forEach(function(data,index,arr){  
-          numArr.push(+data);  
-        }); 
+        numArr.forEach(function(data,index,arr){
+          numArr.push(+data);
+        });
         return numArr.indexOf(val)!=-1
       })
     },
     submitForm (form) {
       this.form.action = this.action
-      console.log(this.form)
-      // this.$refs[form].validate((valid) => {
-      //   if(valid) {
-      //     axios.post('/config/updateUser',this.form)
-      //     .then(data => {
-      //       if(data && data.data.status == 200 && data.status == 200){
-      //         this.closeModel()
-      //         this.$message({
-      //           message: data.data.message,
-      //           type: 'success'
-      //         })
-      //         this.$emit('getList', this.action)
-      //       }
-      //     })
-      //   } else {
-      //     return false
-      //   }
-      // })
+      // console.log(this.form)
+      this.$refs[form].validate((valid) => {
+        if(valid) {
+          axios.post('/config/updateGoods',this.form)
+          .then(data => {
+            if(data && data.data.status == 200 && data.status == 200){
+              this.resetForm()
+              this.$emit('update:visible', false)
+              this.$message({
+                message: data.data.message,
+                type: 'success'
+              })
+              this.$emit('getList', this.action)
+            }
+          })
+        } else {
+          return false
+        }
+      })
 
     },
   }

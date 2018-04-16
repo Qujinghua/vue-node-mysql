@@ -13,7 +13,7 @@
         <div class="content-detail-body">
           <div class="content-detail-body-btn">
             <el-button type="primary" plain size="mini" icon="el-icon-plus" @click="addEdit('add')">新增商品</el-button>
-            <el-button type="primary" plain size="mini" icon="el-icon-delete" @click="deleteList">批量删除</el-button>
+            <!-- <el-button type="primary" plain size="mini" icon="el-icon-delete" @click="deleteList">批量删除</el-button> -->
             <div class="content-detail-body-btn-search">
               <el-input placeholder="商品名" v-model="searchInput" @keyup.enter.native="search" size="mini" width="100px" class="content-detail-body-btn-search-input"></el-input>
               <el-button slot="append" @click="search" size="mini" icon="el-icon-search" class="content-detail-body-btn-search-btn"></el-button>
@@ -99,15 +99,15 @@ export default {
       loading: true,
       tableData: {
         data: [
-          {
-            name: 'Kano-Yoo1 慕驰高管桌',
-            price: '34888-45888',
-            spec: '3200W*2550D*760H',
-            color: '灰色',
-            configure: '常规',
-            material: '木饰面',
-            stock: '7'
-          }
+          // {
+          //   name: 'Kano-Yoo1 慕驰高管桌',
+          //   price: '34888-45888',
+          //   spec: '3200W*2550D*760H',
+          //   color: '灰色',
+          //   configure: '常规',
+          //   material: '木饰面',
+          //   stock: '7'
+          // }
         ]
       },
       selectArr: [],
@@ -139,14 +139,21 @@ export default {
     //   return index !== 0
     // },
     addEdit (action, params) {
+      console.log(params)
       this.formModel.action = action
       this.formModel.receiveForm = {}
       if(action == 'edit') {
         this.formModel.receiveForm = params
-        if(this.formModel.receiveForm.isSuperAdmin == '普通管理员') {
-          this.formModel.receiveForm.isSuperAdmin = 0
-        } else {
-          this.formModel.receiveForm.isSuperAdmin = 1
+        this.formModel.receiveForm.fileLists = []
+        let nameArr = params.photoName.split(',')
+        let pathArr = params.photoPath.split(',')
+        let urlArr = params.photoUrl.split(',')
+        for(let i = 0;i<nameArr.length;i++){
+          let fileList = {}
+          fileList.name = nameArr[i]
+          fileList.url = urlArr[i]
+          fileList.path = pathArr[i]
+          this.formModel.receiveForm.fileLists.push(fileList)
         }
       }
       this.formModel.visible = true
@@ -155,8 +162,8 @@ export default {
       axios.get('/config/getGoods?page=' + this.getTerm.page + '&size=' + this.getTerm.size+'&keyword=' + this.getTerm.keyword)
       .then(data => {
         if(data.status==200){
-          
-          // this.tableData = data.data
+
+          this.tableData = data.data
           // this.tableData.data.forEach(el => {
           //   if(el.isSuperAdmin) {
           //     el.isSuperAdmin = '超级管理员'
@@ -176,7 +183,7 @@ export default {
     },
     getList (action) {
       // console.log(action)
-      this.getUser()
+      this.getGoods()
     },
     selectList (val) {
       this.selectArr = []
@@ -185,15 +192,30 @@ export default {
       })
     },
     deleteOp (delId) {
-      return axios.post('/config/delUser',{id:delId})
+      return axios.post('/config/delGoods',{id:delId})
+    },
+    deletePhoto (delFile) {
+      delFile.forEach(el => {
+        axios.post('/config/deleteFile',{file: el})
+        .then(data => {
+          console.log(data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      })
+      return
     },
     deleteOne(row) {
+      console.log(row)
       let delId = row.id
-      this.$confirm('此操作将永久删除该用户信息, 是否继续?', '提示', {
+      let photoArr = row.photoPath.split(',')
+      this.$confirm('此操作将永久删除该家具信息, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
+        this.deletePhoto(photoArr)
         this.deleteOp(delId)
         .then(data => {
           if(data.data.status == 200) {
@@ -208,7 +230,7 @@ export default {
             })
           }
         })
-        this.getUser()
+        this.getGoods()
       }).catch(() => {
         this.$message({
           type: 'info',
@@ -223,7 +245,7 @@ export default {
           message: '请至少选择列表中的一个'
         })
       } else {
-        this.$confirm('此操作将永久删除已选中的用户信息, 是否继续?', '提示', {
+        this.$confirm('此操作将永久删除已选中的商品信息, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
@@ -246,7 +268,7 @@ export default {
             })
           })
 
-          this.getUser()
+          this.getGoods()
         }).catch(() => {
           this.$message({
             type: 'info',
@@ -258,24 +280,24 @@ export default {
     handleSizeChange(val) {
       this.loading = true
       this.getTerm.size = val
-      this.getUser()
+      this.getGoods()
     },
     handleCurrentChange(val) {
       this.loading = true
       this.getTerm.page = val
-      this.getUser()
+      this.getGoods()
     },
     search () {
       this.loading = true
       this.getTerm.keyword = this.searchInput
-      this.getUser()
+      this.getGoods()
     },
     getBigC () {
       axios.get('/config/getBigC')
       .then(data => {
         if(data && data.status==200){
           this.bigC = data.data
-          console.log(this.bigC)
+          // console.log(this.bigC)
         }
       })
       .catch(error => {
@@ -290,7 +312,7 @@ export default {
       .then(data => {
         if(data && data.status==200){
           this.smallC = data.data
-          console.log(this.smallC)
+          // console.log(this.smallC)
         }
       })
       .catch(error => {
@@ -305,7 +327,7 @@ export default {
       .then(data => {
         if(data && data.status==200){
           this.brandC = data.data
-          console.log(this.brandC)
+          // console.log(this.brandC)
         }
       })
       .catch(error => {
@@ -317,7 +339,7 @@ export default {
     }
 
   },
-  
+
   mounted () {
     this.getBigC()
     this.getSmallC()
