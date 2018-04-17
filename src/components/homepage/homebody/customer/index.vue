@@ -68,8 +68,8 @@
                 label="操作"
                 width="170">
                 <template slot-scope="scope">
-                  <el-button type="text" size="small" @click="addEdit('edit',scope.row)">报价</el-button>
-                  <el-button type="text" size="small" @click="addEdit('edit',scope.row)">销售开单</el-button>
+                  <!-- <el-button type="text" size="small" @click="addEdit('edit',scope.row)">报价</el-button> -->
+                  <el-button type="text" size="small" @click="billing(scope.row)">销售开单</el-button>
                   <el-button @click="deleteOne(scope.row)" type="text" size="small">删除</el-button>
                 </template>
               </el-table-column>
@@ -91,11 +91,13 @@
       </el-card>
     </div>
     <add-model :visible.sync="formModel.visible" :action="formModel.action" :receiveForm="formModel.receiveForm" @getList="getList"></add-model>
+    <billing-model :visible.sync="billingModel.visible" :action="billingModel.action" :receiveForm="billingModel.receiveForm" @getList="getList"></billing-model>
   </div>
 </template>
 <script>
 import axios from '../../../../axios'
 import addModel from './addModel'
+import billingModel from './billingModel'
 export default {
   data () {
     return {
@@ -112,11 +114,17 @@ export default {
         visible: false,
         receiveForm: {},
         action: 'add'
+      },
+      billingModel: {
+        visible: false,
+        receiveForm: {},
+        action: 'bill'
       }
     }
   },
   components: {
-    addModel
+    addModel,
+    billingModel
   },
   methods: {
     handleClick(row) {
@@ -244,6 +252,11 @@ export default {
       this.loading = true
       this.getTerm.keyword = this.searchInput
       this.getCustomer()
+    },
+    billing (params) {
+      this.billingModel.receiveForm = params
+      this.billingModel.visible = true
+      // console.log(params)
     }
   },
   mounted () {

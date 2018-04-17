@@ -8,7 +8,7 @@
       @open="handleOpen"
       @close="handleClose"
       @select="selectMenu">
-      <el-submenu index="1">
+      <!-- <el-submenu index="1">
         <template slot="title">
           <i class="el-icon-edit"></i>
           <span>工作计划管理</span>
@@ -17,7 +17,7 @@
         <el-menu-item index="1-2">未完成工作计划</el-menu-item>
         <el-menu-item index="1-3">需要我协同计划</el-menu-item>
         <el-menu-item index="1-4">已完成工作计划</el-menu-item>
-      </el-submenu>
+      </el-submenu> -->
       <el-submenu index="2">
         <template slot="title">
           <i class="el-icon-location"></i>
