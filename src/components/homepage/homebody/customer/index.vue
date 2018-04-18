@@ -15,7 +15,7 @@
             <el-button type="primary" plain size="mini" icon="el-icon-plus" @click="addEdit('add')">新增客户</el-button>
             <el-button type="primary" plain size="mini" icon="el-icon-delete" @click="deleteList">批量删除</el-button>
             <div class="content-detail-body-btn-search">
-              <el-input placeholder="姓名/所属部门" v-model="searchInput" @keyup.enter.native="search" size="mini" width="100px" class="content-detail-body-btn-search-input"></el-input>
+              <el-input placeholder="客户 / 录入人员" v-model="searchInput" @keyup.enter.native="search" size="mini" width="100px" class="content-detail-body-btn-search-input"></el-input>
               <el-button slot="append" @click="search" size="mini" icon="el-icon-search" class="content-detail-body-btn-search-btn"></el-button>
             </div>
           </div>
@@ -69,7 +69,9 @@
                 width="170">
                 <template slot-scope="scope">
                   <!-- <el-button type="text" size="small" @click="addEdit('edit',scope.row)">报价</el-button> -->
-                  <el-button type="text" size="small" @click="billing(scope.row)">销售开单</el-button>
+                  <el-button type="text" size="small" @click="billing(scope.row)">
+                    {{ scope.row.bill_order_num =='' ? '销售开单' : '已开单（可修改）'}}
+                  </el-button>
                   <el-button @click="deleteOne(scope.row)" type="text" size="small">删除</el-button>
                 </template>
               </el-table-column>

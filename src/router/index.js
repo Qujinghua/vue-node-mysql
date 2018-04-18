@@ -85,6 +85,18 @@ const router = new Router({
           }
         },
         {
+          path: 'order',
+          component(resolve) {
+            require.ensure(['@/components/homepage/homebody/ordermanage/index.vue'], () => {
+              resolve(require('@/components/homepage/homebody/ordermanage/index.vue'))
+            })
+          },
+          meta: {
+            requireAuth: true,
+            title: '订单管理'
+          }
+        },
+        {
           path: 'usermanage',
           component(resolve) {
             require.ensure(['@/components/homepage/homebody/systemmanage/usermanage/index.vue'], () => {

@@ -31,9 +31,9 @@
           <i class="el-icon-tickets"></i>
           <span>销售订单管理</span>
         </template>
-        <el-menu-item index="3-1">进行中报价单</el-menu-item>
-        <el-menu-item index="3-2">已签销售订单</el-menu-item>
-        <el-menu-item index="3-3">已归档销售订单</el-menu-item>
+        <!-- <el-menu-item index="3-1">进行中报价单</el-menu-item> -->
+        <el-menu-item index="/home-page/order">已签销售订单</el-menu-item>
+        <!-- <el-menu-item index="3-3">已归档销售订单</el-menu-item> -->
       </el-submenu>
       <el-submenu index="4">
         <template slot="title">
@@ -41,7 +41,7 @@
           <span>财务管理/报表</span>
         </template>
         <el-menu-item index="4-1">业绩报表</el-menu-item>
-        <el-menu-item index="4-2">客户来源分析</el-menu-item>
+        <!-- <el-menu-item index="4-2">客户来源分析</el-menu-item> -->
       </el-submenu>
       <el-submenu index="5" v-if="superAdmin">
         <template slot="title">

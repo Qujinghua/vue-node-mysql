@@ -31,22 +31,22 @@
       </el-form-item>
       <el-form-item label="首款金额" prop="bill_sale_first_money" >
         <el-input v-model="form.bill_sale_first_money" size="mini" style="width:220px"></el-input>
-        <el-radio-group v-model="form.bill_sale_first_money_way">
-          <el-radio :label="1">刷卡</el-radio>
-          <el-radio :label="2">公司账户</el-radio>
-          <el-radio :label="3">微信/支付宝</el-radio>
-          <el-radio :label="4">商场账户</el-radio>
-          <el-radio :label="5">现金</el-radio>
-          <el-radio :label="6">其他</el-radio>
+        <el-radio-group v-model="form.bill_sale_first_money_method">
+          <el-radio label="刷卡"></el-radio>
+          <el-radio label="公司账户"></el-radio>
+          <el-radio label="微信/支付宝"></el-radio>
+          <el-radio label="商场账户"></el-radio>
+          <el-radio label="现金"></el-radio>
+          <el-radio label="其他"></el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="信息费用" prop="bill_info_fee" >
         <el-input v-model="form.bill_info_fee" size="mini" style="width:220px"></el-input>
         <br>
         <el-radio-group v-model="form.bill_info_fee_method">
-          <el-radio :label="1">待定</el-radio>
-          <el-radio :label="2">含税（开票）</el-radio>
-          <el-radio :label="3">不含税（不开票）</el-radio>
+          <el-radio label="待定"></el-radio>
+          <el-radio label="含税（开票）"></el-radio>
+          <el-radio label="不含税（不开票）"></el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="交货日期" prop="bill_deliery_date" >
@@ -63,10 +63,10 @@
       </el-form-item>
       <el-form-item label="付款方式" prop="bill_payment_method" >
         <el-radio-group v-model="form.bill_payment_method">
-          <el-radio :label="1">全款付清</el-radio>
-          <el-radio :label="2">预付首款，货到付清</el-radio>
-          <el-radio :label="3">货到付款</el-radio>
-          <el-radio :label="4">其他</el-radio>
+          <el-radio label="全款付清"></el-radio>
+          <el-radio label="预付首款，货到付清"></el-radio>
+          <el-radio label="货到付款"></el-radio>
+          <el-radio label="其他"></el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="公司开户银行" prop="company_open_bank" >
@@ -88,7 +88,7 @@ const defaultForm = {
   bill_order_num: '',
   bill_sale_date: '',
   bill_sale_money: '',
-  bill_sale_discount: '',
+  bill_sale_discount: 10,
   bill_sale_first_money: '',
   bill_sale_first_money_method: '',
 
@@ -204,10 +204,13 @@ export default {
   watch: {
     visible (now) {
       if(now && this.action === 'bill') {
-        this.form.customer_name = this.receiveForm.customer_name
-        this.form.customer_phone = this.receiveForm.customer_phone
-        this.form.company_open_bank = this.receiveForm.company_open_bank
-        this.form.customer_id = this.receiveForm.customer_id
+        // console.log(this.receiveForm)
+        this.form = this.receiveForm
+        this.form.bill_order_num = this.FormatDateTime()
+        // this.form.customer_name = this.receiveForm.customer_name
+        // this.form.customer_phone = this.receiveForm.customer_phone
+        // this.form.company_open_bank = this.receiveForm.company_open_bank
+        // this.form.customer_id = this.receiveForm.customer_id
       }
     }
   },
@@ -251,25 +254,42 @@ export default {
       if(this.form.user_name == '') {
         this.form.user_name = sessionStorage.getItem('username')
       }
-      console.log(this.form)
-      // this.$refs[form].validate((valid) => {
-      //   if(valid) {
-      //     axios.post('/config/updateCustomer',this.form)
-      //     .then(data => {
-      //       if(data && data.data.status == 200 && data.status == 200){
-      //         this.closeModel()
-      //         this.$message({
-      //           message: data.data.message,
-      //           type: 'success'
-      //         })
-      //         this.$emit('getList', this.action)
-      //       }
-      //     })
-      //   } else {
-      //     return false
-      //   }
-      // })
+      // console.log(this.form)
+      this.$refs[form].validate((valid) => {
+        if(valid) {
+          axios.post('/config/updateCustomer',this.form)
+          .then(data => {
+            if(data && data.data.status == 200 && data.status == 200){
+              this.closeModel()
+              this.$message({
+                message: data.data.message,
+                type: 'success'
+              })
+              this.$emit('getList', this.action)
+            }
+          })
+        } else {
+          return false
+        }
+      })
 
+    },
+    FormatDateTime() {
+      // var a = time.replace("/Date(", "").replace(")/", "");
+      // var date = new Date(parseInt(a));
+      var date = new Date()
+      var y = date.getFullYear();
+      var m = date.getMonth() + 1;
+      m = m < 10 ? ('0' + m) : m;
+      var d = date.getDate();
+      d = d < 10 ? ('0' + d) : d;
+      var h = date.getHours();
+      h = h < 10 ? ('0' + h) : h;
+      var minute = date.getMinutes();
+      var second = date.getSeconds();
+      minute = minute < 10 ? ('0' + minute) : minute;
+      second = second < 10 ? ('0' + second) : second;
+      return '' + y + m + d + 'H' + h + minute + second;
     },
   }
 }
