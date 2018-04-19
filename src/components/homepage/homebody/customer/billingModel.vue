@@ -220,7 +220,7 @@ export default {
     },
   },
   mounted () {
-    this.getUser()
+
   },
   methods: {
     closeModel () {
@@ -229,21 +229,6 @@ export default {
     },
     resetForm() {
       this.form = {...defaultForm}
-    },
-    getUser() {
-      axios.get('/config/getUser?page=1&size=500&keyword=')
-      .then(data => {
-        if(data.status==200){
-          this.selUser = []
-          data.data.data.forEach(el => {
-            this.selUser.push(el.name)
-          })
-        }
-        this.loading = false
-      })
-      .catch(error => {
-        console.log(error)
-      })
     },
     submitForm (form) {
       this.form.action = this.action

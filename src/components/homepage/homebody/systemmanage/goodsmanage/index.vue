@@ -139,7 +139,7 @@ export default {
     //   return index !== 0
     // },
     addEdit (action, params) {
-      console.log(params)
+      // console.log(params)
       this.formModel.action = action
       this.formModel.receiveForm = {}
       if(action == 'edit') {

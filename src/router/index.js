@@ -97,6 +97,18 @@ const router = new Router({
           }
         },
         {
+          path: 'report',
+          component(resolve) {
+            require.ensure(['@/components/homepage/homebody/report/index.vue'], () => {
+              resolve(require('@/components/homepage/homebody/report/index.vue'))
+            })
+          },
+          meta: {
+            requireAuth: true,
+            title: '业绩报表'
+          }
+        },
+        {
           path: 'usermanage',
           component(resolve) {
             require.ensure(['@/components/homepage/homebody/systemmanage/usermanage/index.vue'], () => {

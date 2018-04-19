@@ -12,6 +12,7 @@
           <el-menu-item index="/home-page/exhibition">网上展厅</el-menu-item>
           <el-menu-item index="/home-page/customer">客户管理</el-menu-item>
           <el-menu-item index="/home-page/order">已签销售订单</el-menu-item>
+          <el-menu-item index="/home-page/report">业绩报表</el-menu-item>
           <!-- <el-menu-item index="3"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item> -->
           <!-- <el-menu-item index="3">退出登录</el-menu-item> -->
         </el-menu>

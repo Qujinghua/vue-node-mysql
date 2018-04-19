@@ -224,16 +224,16 @@ export default {
 
   }
 }
-.pay {
-  display: block;
-  color: #fff;
-  width: 40px;
-  height: 30px;
-  border-radius: 3px;
-  &-all {
-    background: #67C23A;
-  }
-}
+// .pay {
+//   display: block;
+//   color: #fff;
+//   width: 40px;
+//   height: 30px;
+//   border-radius: 3px;
+//   &-all {
+//     background: #67C23A;
+//   }
+// }
 </style>
 
 

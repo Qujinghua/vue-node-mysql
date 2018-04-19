@@ -40,7 +40,7 @@
           <i class="el-icon-view"></i>
           <span>财务管理/报表</span>
         </template>
-        <el-menu-item index="4-1">业绩报表</el-menu-item>
+        <el-menu-item index="/home-page/report">业绩报表</el-menu-item>
         <!-- <el-menu-item index="4-2">客户来源分析</el-menu-item> -->
       </el-submenu>
       <el-submenu index="5" v-if="superAdmin">

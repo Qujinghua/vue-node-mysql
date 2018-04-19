@@ -25,24 +25,24 @@
       <el-form-item label="客户名称" prop="customer_name" >
         <el-input v-model="form.customer_name" size="mini" style="width:220px"></el-input>
       </el-form-item>
-      <el-form-item label="公司性质" prop="customer_companynature" >
+      <!-- <el-form-item label="公司性质" prop="customer_companynature" >
         <el-input v-model="form.customer_companynature" size="mini" style="width:220px"></el-input>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="联系人" prop="customer_contacts" >
         <el-input v-model="form.customer_contacts" size="mini" style="width:220px"></el-input>
       </el-form-item>
-      <el-form-item label="场所性质" prop="customer_placenature" >
+      <!-- <el-form-item label="场所性质" prop="customer_placenature" >
         <el-input v-model="form.customer_placenature" size="mini" style="width:220px"></el-input>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="联系方式" prop="customer_phone" >
         <el-input v-model="form.customer_phone" size="mini" style="width:220px"></el-input>
       </el-form-item>
       <el-form-item label="场所面积（平米）" prop="customer_area" >
         <el-input v-model="form.customer_area" size="mini" style="width:220px"></el-input>
       </el-form-item>
-      <el-form-item label="公司网址" prop="customer_website" >
+      <!-- <el-form-item label="公司网址" prop="customer_website" >
         <el-input v-model="form.customer_website" size="mini" style="width:220px"></el-input>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="email" prop="customer_email" >
         <el-input v-model="form.customer_email" size="mini" style="width:220px"></el-input>
       </el-form-item>
@@ -58,7 +58,7 @@
           :picker-options="pickerOptions">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="公司税号" prop="company_tax_num" >
+      <!-- <el-form-item label="公司税号" prop="company_tax_num" >
         <el-input v-model="form.company_tax_num" size="mini" style="width:220px"></el-input>
       </el-form-item>
       <el-form-item label="公司开户银行" prop="company_open_bank" >
@@ -66,11 +66,11 @@
       </el-form-item>
       <el-form-item label="公司开户账号" prop="company_open_account" >
         <el-input v-model="form.company_open_account" size="mini" style="width:220px"></el-input>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="公司地址" prop="company_address" >
         <el-input v-model="form.company_address" size="mini" style="width:588px"></el-input>
       </el-form-item>
-      <el-form-item label="接进人员或关键字" prop="receive_people" >
+      <!-- <el-form-item label="接进人员或关键字" prop="receive_people" >
         <el-input v-model="form.receive_people" size="mini" style="width:588px"></el-input>
       </el-form-item>
       <el-form-item label="项目负责人" prop="project_leader" >
@@ -81,8 +81,8 @@
       </el-form-item>
       <el-form-item label="负责人email" prop="project_leader_email" >
         <el-input v-model="form.project_leader_email" size="mini" style="width:220px"></el-input>
-      </el-form-item>
-      <br>
+      </el-form-item> -->
+      <!-- <br>
       <el-form-item label="设计公司名称" prop="design_company_name" >
         <el-input v-model="form.design_company_name" size="mini" style="width:220px"></el-input>
       </el-form-item>
@@ -100,7 +100,7 @@
       </el-form-item>
       <el-form-item label="需求调研" prop="demand_survey" >
         <el-input type="textarea" v-model="form.demand_survey" :rows="2" placeholder="请输入内容" style="width:588px"></el-input>
-      </el-form-item>
+      </el-form-item> -->
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click="closeModel" size="small">取 消</el-button>
@@ -115,33 +115,33 @@ const defaultForm = {
 
   customer_resources: '',
   customer_name: '',
-  customer_companynature: '',
+  // customer_companynature: '',
   customer_contacts: '',
 
-  customer_placenature: '',
+  // customer_placenature: '',
   customer_phone: '',
   customer_area: '',
   customer_email: '',
 
   moveDate: '',
-  company_tax_num: '',
-  company_open_bank: '',
-  company_open_account: '',
+  // company_tax_num: '',
+  // company_open_bank: '',
+  // company_open_account: '',
   company_address: '',
 
-  receive_people: '',
+  // receive_people: '',
 
-  project_leader: '',
-  project_leader_phone: '',
-  project_leader_email: '',
+  // project_leader: '',
+  // project_leader_phone: '',
+  // project_leader_email: '',
 
-  design_company_name: '',
-  design_people: '',
-  design_people_phone: '',
-  design_people_email: '',
+  // design_company_name: '',
+  // design_people: '',
+  // design_people_phone: '',
+  // design_people_email: '',
 
-  project_address: '',
-  demand_survey: ''
+  // project_address: '',
+  // demand_survey: ''
 
 }
 export default {
@@ -271,7 +271,7 @@ export default {
       this.form = {...defaultForm}
     },
     getUser() {
-      axios.get('/config/getUser?page=1&size=500&keyword=')
+      axios.get('/config/getUser')
       .then(data => {
         if(data.status==200){
           this.selUser = []
@@ -291,7 +291,7 @@ export default {
       this.form.inputDate = nowDate.getFullYear() + '-' + (nowDate.getMonth()+1) + '-' + nowDate.getDate()
       if(this.form.user_name == '') {
         this.form.user_name = sessionStorage.getItem('username')
-      } 
+      }
       console.log(this.form)
       this.$refs[form].validate((valid) => {
         if(valid) {
@@ -320,7 +320,7 @@ export default {
   text-align: center;
 }
 .el-form-item {
-  margin-bottom: 0px;
+  margin-bottom: 10px;
 }
 </style>
 

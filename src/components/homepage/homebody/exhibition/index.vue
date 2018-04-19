@@ -308,9 +308,9 @@ export default {
             background: #EBEEF5;
           }
         }
-        &-bigC {
+        // &-bigC {
 
-        }
+        // }
       }
     }
     &-choose {

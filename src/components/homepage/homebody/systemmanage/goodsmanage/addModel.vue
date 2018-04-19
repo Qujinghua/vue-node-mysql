@@ -226,7 +226,7 @@ export default {
       // console.log(response)
       // console.log(file)
       // console.log(fileList)
-      console.log(fileList)
+      // console.log(fileList)
       let photoNameArr = [], photoPathArr = [], photoUrlArr = []
       photoNameArr = fileList.map(el => el.name)
       photoPathArr = fileList.map(el => el.path ? el.path : el.response.photo)
