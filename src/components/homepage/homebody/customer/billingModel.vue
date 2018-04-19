@@ -206,7 +206,7 @@ export default {
       if(now && this.action === 'bill') {
         // console.log(this.receiveForm)
         this.form = this.receiveForm
-        this.form.bill_order_num = this.FormatDateTime()
+        // this.form.bill_order_num = this.FormatDateTime()
         // this.form.customer_name = this.receiveForm.customer_name
         // this.form.customer_phone = this.receiveForm.customer_phone
         // this.form.company_open_bank = this.receiveForm.company_open_bank
@@ -232,13 +232,13 @@ export default {
     },
     submitForm (form) {
       this.form.action = this.action
-      let nowDate = new Date()
-      if(this.action != 'bill') {
-        this.form.inputDate = nowDate.getFullYear() + '-' + (nowDate.getMonth()+1) + '-' + nowDate.getDate()
-      }
-      if(this.form.user_name == '') {
-        this.form.user_name = sessionStorage.getItem('username')
-      }
+      // let nowDate = new Date()
+      // if(this.action != 'bill') {
+      //   this.form.inputDate = nowDate.getFullYear() + '-' + (nowDate.getMonth()+1) + '-' + nowDate.getDate()
+      // }
+      // if(this.form.user_name == '') {
+      //   this.form.user_name = sessionStorage.getItem('username')
+      // }
       // console.log(this.form)
       this.$refs[form].validate((valid) => {
         if(valid) {

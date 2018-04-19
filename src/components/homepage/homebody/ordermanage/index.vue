@@ -80,7 +80,7 @@
                 width="110">
                 <template slot-scope="scope">
                   <el-button type="text" size="small" @click="addEdit('invoice',scope.row)">
-                    {{ scope.row.invoice_num == '' ? '开票' : '已开票（可修改）'}}
+                    {{ scope.row.invoice_num == null ? '开票' : '已开票（可修改）'}}
                   </el-button>
                   <!-- <el-button @click="deleteOne(scope.row)" type="text" size="small">删除</el-button> -->
                 </template>
@@ -143,7 +143,7 @@ export default {
       this.formModel.visible = true
     },
     getCustomer () {
-      axios.get('/config/getCustomer?page=' + this.getTerm.page + '&size=' + this.getTerm.size+'&keyword=' + this.getTerm.keyword)
+      axios.get('/config/getCustomer?page=' + this.getTerm.page + '&size=' + this.getTerm.size+'&keyword=' + this.getTerm.keyword + '&signed=yes')
       .then(data => {
         if(data.status==200){
           this.tableData = data.data

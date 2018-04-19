@@ -70,7 +70,7 @@
                 <template slot-scope="scope">
                   <!-- <el-button type="text" size="small" @click="addEdit('edit',scope.row)">报价</el-button> -->
                   <el-button type="text" size="small" @click="billing(scope.row)">
-                    {{ scope.row.bill_order_num =='' ? '销售开单' : '已开单（可修改）'}}
+                    {{ scope.row.bill_order_num == null ? '销售开单' : '已开单（可修改）'}}
                   </el-button>
                   <el-button @click="deleteOne(scope.row)" type="text" size="small">删除</el-button>
                 </template>
