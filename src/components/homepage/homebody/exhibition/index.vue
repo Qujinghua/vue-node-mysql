@@ -46,16 +46,16 @@
       </div>
       <div class="ex-goods">
         <el-row>
-          <el-col :span="6" v-for="(item, index) in goodsList.data">
+          <el-col :span="6" v-for="(item, index) in goodsList.data" :key="index">
             <div class="ex-goods-list">
-              <img :src="item.photoUrl.split(',')[0]" class="ex-goods-list-image">
+              <img :src="'http://localhost/laravel-manage/storage/app/uploads/'+item.photoPath.split(',')[0]" class="ex-goods-list-image">
               <div style="padding: 14px;">
                 <span>{{item.name}}</span>
                 <p>价格：{{item.price}}</p>
                 <p>库存：{{item.stock}}</p>
                 <div class="ex-goods-list-bottom ex-goods-list-clearfix">
                   <!-- <time class="ex-goods-list-bottom-time">2018-3-1</time> -->
-                  <el-button type="text" class="ex-goods--list-bottom-button">更多详情</el-button>
+                  <el-button type="text" class="ex-goods--list-bottom-button" @click="detailModel(item)">更多详情</el-button>
                 </div>
               </div>
             </div>
@@ -74,10 +74,12 @@
         </div>
       </div>
     </div>
+    <detail-model :visible.sync="formModel.visible" :action="formModel.action" :receiveForm="formModel.receiveForm"></detail-model>
   </div>
 </template>
 <script>
 import axios from '../../../../axios'
+import detailModel from './detailModel'
 export default {
   data () {
     return {
@@ -95,7 +97,15 @@ export default {
       brandLists2: [],
       goodsList: {},
       choose: { big_name: '', small_name: '', brand_name: '' },
+      formModel: {
+        visible: false,
+        receiveForm: {},
+        action: 'add'
+      }
     }
+  },
+  components: {
+    detailModel
   },
   mounted () {
     this.getBigC()
@@ -104,6 +114,10 @@ export default {
     this.getGoods()
   },
   methods: {
+    detailModel (item) {
+      this.formModel.visible = true
+      console.log(item)
+    },
     bigCList (id,name) {
       console.log(id+'---'+name)
       if(id) {

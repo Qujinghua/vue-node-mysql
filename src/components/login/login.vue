@@ -101,7 +101,8 @@ export default {
                 -4px -4px 8px rgba(155, 130, 130, 0.8);
     width: 90%;
     height: 85%;
-    background-image: url("../../assets/banner.jpg"); will-change: transform; transform: perspective(1000px) rotateX(-0.8deg) rotateY(-0.02deg) scale3d(1, 1, 1);
+    // background-image: url("../../assets/banner.jpg"); will-change: transform; transform: perspective(1000px) rotateX(-0.8deg) rotateY(-0.02deg) scale3d(1, 1, 1);
+    background-image: url("../../assets/banner.jpg"); 
     background-size: 100%;
     overflow: hidden;
     position: absolute;
