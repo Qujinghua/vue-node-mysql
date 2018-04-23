@@ -44,17 +44,25 @@ export default {
     }
   },
   created () {
-    this.getCustomer()
+
   },
   mounted () {
-    this.drawLine()
+    this.getCustomer()
   },
   methods: {
     getCustomer () {
-      axios.get('/config/getCustomer')
+      axios.get('/config/getCustomer?signed=yes')
       .then(data => {
         if(data.status==200){
-          console.log(data)
+          this.dateList = []
+          this.valueList = []
+          let list = data.data.data
+          list = list.sort((a, b) => new Date(a.bill_sale_date) - new Date(b.bill_sale_date))
+          list.forEach(el => {
+            this.dateList.push(el.bill_sale_date)
+            this.valueList.push(parseInt(el.bill_sale_money))
+          });
+          this.drawLine()
           // this.tableData = data.data
         }
         this.loading = false
@@ -69,34 +77,32 @@ export default {
       // 绘制图表
       myChart.setOption({
         visualMap: [{
-            show: false,
-            type: 'continuous',
-            seriesIndex: 0,
-            min: 0,
-            max: 400
+          show: false,
+          type: 'continuous',
+          seriesIndex: 0,
+          min: 0,
+          max: 400
         }],
-
-
         title: [{
-            left: 'center',
-            text: '近期业绩曲线图'
+          left: 'center',
+          text: '近期业绩曲线图'
         }],
         tooltip: {
-            trigger: 'axis'
+          trigger: 'axis'
         },
         xAxis: [{
-            data: this.dateList
+          data: this.dateList
         }],
         yAxis: [{
-            splitLine: {show: false}
+          splitLine: {show: false}
         }],
         grid: [{
-            bottom: '10%'
+          bottom: '10%'
         }],
         series: [{
-            type: 'line',
-            showSymbol: false,
-            data: this.valueList
+          type: 'line',
+          showSymbol: false,
+          data: this.valueList
         }]
       });
     }
