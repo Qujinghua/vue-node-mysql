@@ -398,7 +398,7 @@ export default {
       }
       &-image {
         width: 100%;
-        height: 260px;
+        height: 200px;
         // border: 1px solid #e6e6e6;
         display: block;
       }
