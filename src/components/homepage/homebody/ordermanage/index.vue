@@ -21,7 +21,7 @@
           <template>
             <el-table
               v-loading="loading"
-              :data="tableData.data"
+              :data="tableData.order"
               stripe
               size="mini"
               @selection-change="selectList"
@@ -50,16 +50,6 @@
                 label="金额">
               </el-table-column>
               <el-table-column
-                prop="bill_sale_discount"
-                label="折扣">
-              </el-table-column>
-              <el-table-column
-                label="首款">
-                <template slot-scope="scope">
-                  <span>￥{{scope.row.bill_sale_first_money}}（{{scope.row.bill_sale_first_money_method}}）</span>
-                </template>
-              </el-table-column>
-              <el-table-column
                 prop="bill_sale_date"
                 label="签约日期">
               </el-table-column>
@@ -68,19 +58,23 @@
                 label="交货日期">
               </el-table-column>
               <el-table-column
-                prop="order_state"
+                prop="bill_status"
                 label="状态">
                 <template slot-scope="scope">
-                  <div v-html="scope.row.order_state">{{scope.row.order_state}}</div>
+                  <div v-html="scope.row.bill_status_font">{{scope.row.bill_status_font}}</div>
                 </template>
               </el-table-column>
               <el-table-column
                 fixed="right"
                 label="操作"
-                width="110">
+                width="160">
                 <template slot-scope="scope">
+                  <el-button type="text" size="small" @click="billing(scope.row)">
+                    修改订单
+                  </el-button>
                   <el-button type="text" size="small" @click="addEdit('invoice',scope.row)">
-                    {{ scope.row.invoice_num == null ? '开票' : '已开票（可修改）'}}
+                    发票信息
+                    <!-- {{ scope.row.invoice_num == null ? '发票信息' : '已开票'}} -->
                   </el-button>
                   <!-- <el-button @click="deleteOne(scope.row)" type="text" size="small">删除</el-button> -->
                 </template>
@@ -103,16 +97,21 @@
       </el-card>
     </div>
     <invoice-model :visible.sync="formModel.visible" :action="formModel.action" :receiveForm="formModel.receiveForm" @getList="getList"></invoice-model>
+    <billing-model :visible.sync="billingModel.visible" :action="billingModel.action" :receiveForm="billingModel.receiveForm" @getList="getList"></billing-model>
   </div>
 </template>
 <script>
 import axios from '../../../../axios'
 import invoiceModel from './invoiceModel'
+import billingModel from './billingModel'
 export default {
   data () {
     return {
       loading: true,
-      tableData: {},
+      tableData: {
+        order: [],
+        total: 0
+      },
       selectArr: [],
       searchInput: '',
       getTerm: {
@@ -124,11 +123,17 @@ export default {
         visible: false,
         receiveForm: {},
         action: 'invoice'
+      },
+      billingModel: {
+        visible: false,
+        receiveForm: {},
+        action: 'bill'
       }
     }
   },
   components: {
-    invoiceModel
+    invoiceModel,
+    billingModel
   },
   methods: {
     handleClick(row) {
@@ -143,17 +148,33 @@ export default {
       this.formModel.visible = true
     },
     getCustomer () {
-      axios.get('/config/getCustomer?page=' + this.getTerm.page + '&size=' + this.getTerm.size+'&keyword=' + this.getTerm.keyword + '&signed=yes')
+      // axios.get('/config/getCustomer?page=' + this.getTerm.page + '&size=' + this.getTerm.size+'&keyword=' + this.getTerm.keyword + '&signed=yes')
+      axios.get('/config/getOrder?page=' + this.getTerm.page + '&size=' + this.getTerm.size+'&keyword=' + this.getTerm.keyword)
       .then(data => {
         if(data.status==200){
-          this.tableData = data.data
-          this.tableData.data.forEach(el => {
-            if(el.bill_payment_method == '全款付清') {
-              el.order_state = '<span style="display:block;width:64px;height:24px;line-height:24px;border-radius:12px;text-align:center;color:#FFF;background:#67C23A;">已收全款</span>'
-            } else if (el.bill_payment_method == '货到付款') {
-              el.order_state = '<span style="display:block;width:64px;height:24px;line-height:24px;border-radius:12px;text-align:center;color:#FFF;background:#F56C6C;">暂未付款</span>'
+          data.data.order.forEach(el => {
+            let orderList = el
+            data.data.customer.forEach(el2 => {
+              if(el.customer_id == el2.customer_id) {
+                orderList.user_name = el2.user_name
+                orderList.customer_name = el2.customer_name
+                orderList.customer_contacts = el2.customer_contacts
+                orderList.customer_phone = el2.customer_phone
+              }
+            })
+            this.tableData.order.push(orderList)
+          })
+          this.tableData.total = data.data.total
+          // console.log(data.data)
+          this.tableData.order.forEach(el => {
+            if(el.bill_status == '已付款') {
+              el.bill_status_font = '<span style="display:block;width:64px;height:24px;line-height:24px;border-radius:12px;text-align:center;color:#FFF;background:#67C23A;">已付款</span>'
+            } else if (el.bill_status == '未付款') {
+              el.bill_status_font = '<span style="display:block;width:64px;height:24px;line-height:24px;border-radius:12px;text-align:center;color:#FFF;background:#F56C6C;">未付款</span>'
+            } else if (el.bill_status == '货到付款') {
+              el.bill_status_font = '<span style="display:block;width:64px;height:24px;line-height:24px;border-radius:12px;text-align:center;color:#FFF;background:#E6A23C;">货到付款</span>'
             } else {
-              el.order_state = '<span style="display:block;width:64px;height:24px;line-height:24px;border-radius:12px;text-align:center;color:#FFF;background:#E6A23C;">待收尾款</span>'
+              el.bill_status_font = '<span style="display:block;width:64px;height:24px;line-height:24px;border-radius:12px;text-align:center;color:#FFF;background:#E6A23C;">其他</span>'
             }
           })
         }
@@ -187,6 +208,11 @@ export default {
       this.loading = true
       this.getTerm.keyword = this.searchInput
       this.getCustomer()
+    },
+    billing (params) {
+      this.billingModel.receiveForm = params
+      this.billingModel.visible = true
+      // console.log(params)
     }
   },
   mounted () {

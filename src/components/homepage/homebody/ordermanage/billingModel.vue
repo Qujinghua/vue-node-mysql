@@ -96,8 +96,16 @@ const defaultForm = {
   bill_order_num: '',
   bill_sale_date: '',
   bill_sale_money: '',
+  // bill_sale_discount: 10,
+  // bill_sale_first_money: '',
+  // bill_sale_first_money_method: '',
+
+  // bill_info_fee: '',
+  // bill_info_fee_method: '',
   bill_deliery_date: '',
   bill_status: ''
+  // bill_payment_method: '',
+  // company_open_bank: ''
 
 }
 export default {
@@ -132,12 +140,13 @@ export default {
         bill_sale_money: [
           { required: true, message: '请输入销售金额', trigger: 'blur' }
         ],
-        // bill_sale_discount: [
-        //   { required: true, message: '请填写折扣', trigger: 'blur' }
-        // ],
+        
         bill_deliery_date: [
           { required: true, message: '请选择交货日期', trigger: 'blur' }
-        ]
+        ],
+        bill_status: [
+          { required: true, message: '请选择订单状态', trigger: 'blur' }
+        ],
       },
       pickerOptions: {
         // disabledDate(time) {
@@ -243,7 +252,7 @@ export default {
       // console.log(this.form)
       this.$refs[form].validate((valid) => {
         if(valid) {
-          axios.post('/config/updateOrder',this.form)
+          axios.post('/config/updateCustomer',this.form)
           .then(data => {
             if(data && data.data.status == 200 && data.status == 200){
               this.closeModel()

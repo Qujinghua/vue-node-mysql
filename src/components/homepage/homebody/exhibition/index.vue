@@ -52,7 +52,7 @@
               <div style="padding: 14px;">
                 <span>{{item.name}}</span>
                 <p>价格：{{item.price}}</p>
-                <p>库存：{{item.stock}}</p>
+                <!-- <p>库存：{{item.stock}}</p> -->
                 <div class="ex-goods-list-bottom ex-goods-list-clearfix">
                   <!-- <time class="ex-goods-list-bottom-time">2018-3-1</time> -->
                   <el-button type="text" class="ex-goods--list-bottom-button" @click="detailModel(item)">更多详情</el-button>

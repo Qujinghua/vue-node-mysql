@@ -24,7 +24,7 @@
           <span>客户管理</span>
         </template>
         <!-- <el-menu-item index="2-1">新增客户信息</el-menu-item> -->
-        <el-menu-item index="/home-page/customer">我的客户列表</el-menu-item>
+        <el-menu-item index="/home-page/customer">客户管理</el-menu-item>
       </el-submenu>
       <el-submenu index="3">
         <template slot="title">
@@ -38,7 +38,7 @@
       <el-submenu index="4">
         <template slot="title">
           <i class="el-icon-view"></i>
-          <span>财务管理/报表</span>
+          <span>业绩报表</span>
         </template>
         <el-menu-item index="/home-page/report">业绩报表</el-menu-item>
         <!-- <el-menu-item index="4-2">客户来源分析</el-menu-item> -->

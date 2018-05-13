@@ -51,10 +51,10 @@
                 prop="customer_phone"
                 label="联系方式">
               </el-table-column>
-              <el-table-column
+              <!-- <el-table-column
                 prop="moveDate"
                 label="迁入日期">
-              </el-table-column>
+              </el-table-column> -->
               <el-table-column
                 prop="user_name"
                 label="录入人员">
@@ -66,12 +66,10 @@
               <el-table-column
                 fixed="right"
                 label="操作"
-                width="170">
+                width="150">
                 <template slot-scope="scope">
-                  <!-- <el-button type="text" size="small" @click="addEdit('edit',scope.row)">报价</el-button> -->
-                  <el-button type="text" size="small" @click="billing(scope.row)">
-                    {{ scope.row.bill_order_num == null ? '销售开单' : '已开单（可修改）'}}
-                  </el-button>
+                  <el-button type="text" size="small" @click="billing(scope.row)">销售开单</el-button>
+                  <el-button type="text" size="small" @click="addEdit('edit',scope.row)">编辑</el-button>
                   <el-button @click="deleteOne(scope.row)" type="text" size="small">删除</el-button>
                 </template>
               </el-table-column>

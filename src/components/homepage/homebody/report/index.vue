@@ -51,12 +51,12 @@ export default {
   },
   methods: {
     getCustomer () {
-      axios.get('/config/getCustomer?signed=yes')
+      axios.get('/config/getOrder?signed=yes')
       .then(data => {
         if(data.status==200){
           this.dateList = []
           this.valueList = []
-          let list = data.data.data
+          let list = data.data.order
           list = list.sort((a, b) => new Date(a.bill_sale_date) - new Date(b.bill_sale_date))
           list.forEach(el => {
             this.dateList.push(el.bill_sale_date)
